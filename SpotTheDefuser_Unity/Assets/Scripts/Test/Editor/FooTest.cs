@@ -8,10 +8,11 @@ public class FooTest {
         Foo foo = new Foo();
         Bar bar = Substitute.For<Bar>();
 
-        bar.IsReallyOk().Returns(true);
+        bar.IsReallyOk().Returns(false);
 
-        Assert.AreEqual(true, foo.IsOk());
-        Assert.AreEqual(true, bar.IsReallyOk());
+        Assert.That(foo.IsOk(), Is.True);
+        Assert.That(bar.IsReallyOk(), Is.False);
+        bar.Received().IsReallyOk();
 	}
 
 }
