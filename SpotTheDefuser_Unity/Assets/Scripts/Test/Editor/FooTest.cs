@@ -6,7 +6,7 @@ public class FooTest {
 	[Test]
 	public void IsOk_shouldReturnTrue() {
         Foo foo = new Foo();
-        IBar bar = Substitute.For<IBar>();
+        Bar bar = Substitute.For<Bar>();
 
         bar.IsReallyOk().Returns(true);
 
