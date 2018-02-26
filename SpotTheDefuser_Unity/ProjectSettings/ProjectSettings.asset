@@ -631,7 +631,7 @@ PlayerSettings:
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled: {}
   facebookSdkVersion: 7.9.4
-  apiCompatibilityLevel: 2
+  apiCompatibilityLevel: 3
   cloudProjectId: 33a76726-7a2a-4d27-94d5-357fddd8ac87
   projectName: SpotTheDefuser_Unity
   organizationId: teuteuf
