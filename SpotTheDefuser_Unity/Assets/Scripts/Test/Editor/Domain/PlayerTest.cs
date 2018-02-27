@@ -10,4 +10,6 @@ public class PlayerTest {
 		// Then
 		Assert.That(player.pseudo, Is.EqualTo("Test"));
 	}
+
+	
 }
