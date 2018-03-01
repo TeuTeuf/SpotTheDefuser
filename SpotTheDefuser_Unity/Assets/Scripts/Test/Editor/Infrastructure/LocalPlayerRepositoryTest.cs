@@ -8,7 +8,7 @@ namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.Infrastructure
     public class LocalPlayerRepositoryTest
     {
         [Test]
-        public void Get_ShouldReturnEmptyListWhenNoPlayerAdded()
+        public void GetAll_ShouldReturnEmptyListWhenNoPlayerAdded()
         {
             // Given
 			LocalPlayerRepository localPlayerRepository = new LocalPlayerRepository();
@@ -37,6 +37,27 @@ namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.Infrastructure
             Assert.That(players, Has.Exactly(1).EqualTo(player1));
             Assert.That(players, Has.Exactly(1).EqualTo(player2));
 			Assert.That(players.Count, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void Remove_ShouldRemovePlayerFromPlayersList()
+        {
+            // Given
+            LocalPlayerRepository localPlayerRepository = new LocalPlayerRepository();
+
+            Player player1 = new Player("Player1");
+			localPlayerRepository.Add(player1);
+
+            Player player2 = new Player("Player2");
+			localPlayerRepository.Add(player2);
+
+            // When 
+            localPlayerRepository.Remove(player1);
+
+            // Then
+            IReadOnlyCollection<Player> players = localPlayerRepository.GetAll();
+            Assert.That(players, Has.Exactly(1).EqualTo(player2));
+            Assert.That(players.Count, Is.EqualTo(1));
         }
     }
 }

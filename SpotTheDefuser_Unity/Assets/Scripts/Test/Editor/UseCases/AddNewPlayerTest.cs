@@ -21,7 +21,7 @@ namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.UseCases
             // Then
             playerRepository
                 .Received()
-                .Add(Arg.Is<Player>(receivedPlayer => receivedPlayer == player));
+                .Add(player);
         }
     }
 }

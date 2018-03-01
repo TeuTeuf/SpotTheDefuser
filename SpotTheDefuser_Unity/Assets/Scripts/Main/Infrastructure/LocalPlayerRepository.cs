@@ -14,9 +14,14 @@ namespace SpotTheDefuser_Unity.Assets.Scripts.Main.Infrastructure
             players.Add(player);
         }
 
-        public ReadOnlyCollection<Player> GetAll()
-        {
-            return players.AsReadOnly();
-        }
+		public void Remove(Player player)
+		{
+			players.Remove(player);
+		}
+
+		public ReadOnlyCollection<Player> GetAll()
+		{
+			return players.AsReadOnly();
+		}
     }
 }
