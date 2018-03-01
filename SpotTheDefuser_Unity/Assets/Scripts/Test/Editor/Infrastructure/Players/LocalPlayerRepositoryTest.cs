@@ -11,7 +11,7 @@ namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.Infrastructure
         public void GetAll_ShouldReturnEmptyListWhenNoPlayerAdded()
         {
             // Given
-			LocalPlayerRepository localPlayerRepository = new LocalPlayerRepository();
+			LocalPlayersRepository localPlayerRepository = new LocalPlayersRepository();
 
             // When 
             IReadOnlyCollection<Player> players = localPlayerRepository.GetAll();
@@ -24,7 +24,7 @@ namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.Infrastructure
         public void Add_ShouldAddPlayersToPlayersList()
         {
             // Given
-            LocalPlayerRepository localPlayerRepository = new LocalPlayerRepository();
+            LocalPlayersRepository localPlayerRepository = new LocalPlayersRepository();
             Player player1 = new Player("Player1");
             Player player2 = new Player("Player2");
 
@@ -43,7 +43,7 @@ namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.Infrastructure
         public void Remove_ShouldRemovePlayerFromPlayersList()
         {
             // Given
-            LocalPlayerRepository localPlayerRepository = new LocalPlayerRepository();
+            LocalPlayersRepository localPlayerRepository = new LocalPlayersRepository();
 
             Player player1 = new Player("Player1");
 			localPlayerRepository.Add(player1);

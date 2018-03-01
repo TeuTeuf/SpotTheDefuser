@@ -11,7 +11,7 @@ namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.UseCases
         public void ShouldAddPlayerToPlayerRepository()
         {
             // Given
-            IPlayerRepository playerRepository = Substitute.For<IPlayerRepository>();
+            IPlayersRepository playerRepository = Substitute.For<IPlayersRepository>();
             AddNewPlayer addNewPlayer = new AddNewPlayer(playerRepository);
             Player player = new Player("Test");
 

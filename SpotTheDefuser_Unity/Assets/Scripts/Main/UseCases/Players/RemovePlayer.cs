@@ -5,9 +5,9 @@ namespace SpotTheDefuser_Unity.Assets.Scripts.Main.UseCases
 {
     public class RemovePlayer
     {
-        private IPlayerRepository playerRepository;
+        private IPlayersRepository playerRepository;
 
-        public RemovePlayer(IPlayerRepository playerRepository)
+        public RemovePlayer(IPlayersRepository playerRepository)
         {
             this.playerRepository = playerRepository;
         }

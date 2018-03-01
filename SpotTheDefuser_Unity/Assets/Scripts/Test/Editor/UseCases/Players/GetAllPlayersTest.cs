@@ -14,7 +14,7 @@ namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.UseCases
         public void ShouldRemovePlayerFromPlayerRepository()
         {
             // Given
-            IPlayerRepository playerRepository = Substitute.For<IPlayerRepository>();
+            IPlayersRepository playerRepository = Substitute.For<IPlayersRepository>();
             GetAllPlayers getAllPlayers = new GetAllPlayers(playerRepository);
 
             List<Player> playersInRepository = new List<Player>();

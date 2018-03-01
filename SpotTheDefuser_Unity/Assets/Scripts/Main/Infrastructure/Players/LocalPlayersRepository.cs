@@ -5,7 +5,7 @@ using SpotTheDefuser_Unity.Assets.Scripts.Main.Domain;
 
 namespace SpotTheDefuser_Unity.Assets.Scripts.Main.Infrastructure
 {
-    public class LocalPlayerRepository : IPlayerRepository
+    public class LocalPlayersRepository : IPlayersRepository
     {
         List<Player> players = new List<Player>();
 

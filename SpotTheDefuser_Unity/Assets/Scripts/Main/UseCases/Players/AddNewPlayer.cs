@@ -4,9 +4,9 @@ namespace SpotTheDefuser_Unity.Assets.Scripts.Main.UseCases
 {
     public class AddNewPlayer
     {
-        IPlayerRepository playerRepository;
+        IPlayersRepository playerRepository;
 
-        public AddNewPlayer(IPlayerRepository playerRepository)
+        public AddNewPlayer(IPlayersRepository playerRepository)
         {
             this.playerRepository = playerRepository;
         }
