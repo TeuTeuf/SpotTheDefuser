@@ -5,41 +5,29 @@ using Zenject;
 
 public class PlayerController : MonoBehaviour {
 
-    public PlayerController prefabPlayer;
+    [Inject]
+    public AddNewPlayer addNewPlayer;
 
     [Inject]
-    readonly DiContainer container;
+    public RemovePlayer removePlayer;
 
     [Inject]
-    readonly AddNewPlayer addNewPlayer;
-
-    [Inject]
-    readonly RemovePlayer removePlayer;
-
-    [Inject]
-    readonly GetAllPlayers getAllPlayers;
+    public GetAllPlayers getAllPlayers;
 
     Player player;
 
-    void Start () 
+    public void Start () 
     {
-        player = new Player(gameObject.name);
+        player = new Player("Player");
         addNewPlayer.Execute(player);
 
-        Debug.Log("New Player Added! Nb players: " + getAllPlayers.Get().Count);
+        Debug.Log("New Player Added!");
 	}
 
-	void Update()
-	{
-        if(Input.GetMouseButtonDown(0)) {
-            container.InstantiatePrefab(prefabPlayer);
-        }
-	}
-
-	void OnDestroy()
+	public void OnDestroy()
     {
-        removePlayer.execute(player);
+        //removePlayer.execute(player);
 
-        Debug.Log("Player removed! Nb players: " + getAllPlayers.Get().Count);
+        //Debug.Log("Player removed! Nb players: " + getAllPlayers.Get().Count);
     }
 }

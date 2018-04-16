@@ -11,7 +11,7 @@ namespace SpotTheDefuser_Unity.Assets.Scripts.Main.UseCases
             this.playerRepository = playerRepository;
         }
 
-        public void Execute(Player player)
+        public virtual void Execute(Player player)
         {
             playerRepository.Add(player);
         }
