@@ -1,9 +1,9 @@
-﻿using NSubstitute;
+﻿using Main.Domain.Players;
+using Main.UseCases.Players;
+using NSubstitute;
 using NUnit.Framework;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.Domain;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.UseCases;
 
-namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.UseCases
+namespace Test.Editor.UseCases.Players
 {
     public class RemovePlayerTest
     {
@@ -11,12 +11,12 @@ namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.UseCases
         public void ShouldRemovePlayerFromPlayerRepository()
         {
             // Given
-            IPlayersRepository playerRepository = Substitute.For<IPlayersRepository>();
-            RemovePlayer removePlayer = new RemovePlayer(playerRepository);
-            Player player = new Player("Test");
+            var playerRepository = Substitute.For<IPlayersRepository>();
+            var removePlayer = new RemovePlayer(playerRepository);
+            var player = new Player("Test");
 
             // When
-            removePlayer.execute(player);
+            removePlayer.Execute(player);
 
             // Then
             playerRepository

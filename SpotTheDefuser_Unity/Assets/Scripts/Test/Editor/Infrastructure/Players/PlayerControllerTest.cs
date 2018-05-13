@@ -1,27 +1,32 @@
-﻿using NUnit.Framework;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.UseCases;
+﻿using Main.Domain.Players;
+using Main.Infrastructure.Players;
+using Main.UseCases.Players;
 using NSubstitute;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.Domain;
+using NUnit.Framework;
+using UnityEngine;
 
-public class PlayerControllerTest {
+namespace Test.Editor.Infrastructure.Players
+{
+    public class PlayerControllerTest {
 
-    [Test]
-    public void Start_shouldExecuteAddNewPlayerUseCaseWithNewPlayerObject()
-    {
-        // Given
-        IPlayersRepository playersRepository = Substitute.For<IPlayersRepository>();
-        AddNewPlayer mockAddNewPlayer = Substitute.For<AddNewPlayer>(playersRepository);
+        [Test]
+        public void Start_shouldExecuteAddNewPlayerUseCaseWithNewPlayerObject()
+        {
+            // Given
+            var playersRepository = Substitute.For<IPlayersRepository>();
+            var mockAddNewPlayer = Substitute.For<AddNewPlayer>(playersRepository);
 
-        PlayerController playerController = new PlayerController();
-        playerController.addNewPlayer = mockAddNewPlayer;
+            var playerController = new GameObject().AddComponent<PlayerController>();
+            playerController.AddNewPlayer = mockAddNewPlayer;
 
-        // When
-        playerController.Start();
+            // When
+            playerController.Start();
 
-        // Then
-        mockAddNewPlayer
-            .Received()
-            .Execute(Arg.Is<Player>(player => player.pseudo == "Player"));
+            // Then
+            mockAddNewPlayer
+                .Received()
+                .Execute(Arg.Is<Player>(player => player.Pseudo == "Player"));
+        }
+
     }
-
 }

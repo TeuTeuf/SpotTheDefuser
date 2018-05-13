@@ -1,9 +1,9 @@
-﻿using NSubstitute;
+﻿using Main.Domain.Players;
+using Main.UseCases.Players;
+using NSubstitute;
 using NUnit.Framework;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.Domain;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.UseCases;
 
-namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.UseCases
+namespace Test.Editor.UseCases.Players
 {
     public class AddNewPlayerTest
     {
@@ -11,9 +11,9 @@ namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.UseCases
         public void ShouldAddPlayerToPlayerRepository()
         {
             // Given
-            IPlayersRepository playerRepository = Substitute.For<IPlayersRepository>();
-            AddNewPlayer addNewPlayer = new AddNewPlayer(playerRepository);
-            Player player = new Player("Test");
+            var playerRepository = Substitute.For<IPlayersRepository>();
+            var addNewPlayer = new AddNewPlayer(playerRepository);
+            var player = new Player("Test");
 
             // When
             addNewPlayer.Execute(player);

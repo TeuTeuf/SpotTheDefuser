@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace SpotTheDefuser_Unity.Assets.Scripts.Main.Domain
+namespace Main.Domain.Players
 {
     public interface IPlayersRepository
     {

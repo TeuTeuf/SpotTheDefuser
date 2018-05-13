@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using Main.Domain.Players;
+using Main.UseCases.Players;
 using NSubstitute;
 using NUnit.Framework;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.Domain;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.UseCases;
 
-namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.UseCases
+namespace Test.Editor.UseCases.Players
 {
     public class GetAllPlayersTest
     {
@@ -14,13 +12,13 @@ namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.UseCases
         public void ShouldRemovePlayerFromPlayerRepository()
         {
             // Given
-            IPlayersRepository playerRepository = Substitute.For<IPlayersRepository>();
-            GetAllPlayers getAllPlayers = new GetAllPlayers(playerRepository);
+            var playerRepository = Substitute.For<IPlayersRepository>();
+            var getAllPlayers = new GetAllPlayers(playerRepository);
 
-            List<Player> playersInRepository = new List<Player>();
-            Player player1 = new Player("Test1");
+            var playersInRepository = new List<Player>();
+            var player1 = new Player("Test1");
             playersInRepository.Add(player1);
-            Player player2 = new Player("Test2");
+            var player2 = new Player("Test2");
 			playersInRepository.Add(player2);
 
             playerRepository.GetAll()
@@ -28,7 +26,7 @@ namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.UseCases
 
 
             // When
-            ReadOnlyCollection<Player> players = getAllPlayers.Get();
+            var players = getAllPlayers.Get();
 
             // Then
             Assert.That(players, Has.Exactly(1).EqualTo(player1));

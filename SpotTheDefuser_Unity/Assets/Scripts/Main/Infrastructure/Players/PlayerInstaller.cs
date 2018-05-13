@@ -1,17 +1,19 @@
-using SpotTheDefuser_Unity.Assets.Scripts.Main.Domain;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.Infrastructure;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.UseCases;
+using Main.Domain.Players;
+using Main.UseCases.Players;
 using Zenject;
 
-public class PlayerInstaller : MonoInstaller<PlayerInstaller>
+namespace Main.Infrastructure.Players
 {
-    public override void InstallBindings()
+    public class PlayerInstaller : MonoInstaller<PlayerInstaller>
     {
-        Container.Bind<IPlayersRepository>().To<LocalPlayersRepository>().AsSingle();
+        public override void InstallBindings()
+        {
+            Container.Bind<IPlayersRepository>().To<LocalPlayersRepository>().AsSingle();
 
-        // Use Cases
-        Container.Bind<AddNewPlayer>().AsSingle();
-        Container.Bind<GetAllPlayers>().AsSingle();
-        Container.Bind<RemovePlayer>().AsSingle();
+            // Use Cases
+            Container.Bind<AddNewPlayer>().AsSingle();
+            Container.Bind<GetAllPlayers>().AsSingle();
+            Container.Bind<RemovePlayer>().AsSingle();
+        }
     }
 }

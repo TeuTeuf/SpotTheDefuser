@@ -1,19 +1,19 @@
-﻿using SpotTheDefuser_Unity.Assets.Scripts.Main.Domain;
+﻿using Main.Domain.Players;
 
-namespace SpotTheDefuser_Unity.Assets.Scripts.Main.UseCases
+namespace Main.UseCases.Players
 {
     public class AddNewPlayer
     {
-        IPlayersRepository playerRepository;
+        private readonly IPlayersRepository _playerRepository;
 
         public AddNewPlayer(IPlayersRepository playerRepository)
         {
-            this.playerRepository = playerRepository;
+            _playerRepository = playerRepository;
         }
 
         public virtual void Execute(Player player)
         {
-            playerRepository.Add(player);
+            _playerRepository.Add(player);
         }
     }
 }

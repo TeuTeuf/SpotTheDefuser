@@ -1,20 +1,19 @@
-﻿using System;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.Domain;
+﻿using Main.Domain.Players;
 
-namespace SpotTheDefuser_Unity.Assets.Scripts.Main.UseCases
+namespace Main.UseCases.Players
 {
     public class RemovePlayer
     {
-        private IPlayersRepository playerRepository;
+        private readonly IPlayersRepository _playerRepository;
 
         public RemovePlayer(IPlayersRepository playerRepository)
         {
-            this.playerRepository = playerRepository;
+            _playerRepository = playerRepository;
         }
 
-        public void execute(Player player)
+        public void Execute(Player player)
         {
-            playerRepository.Remove(player);
+            _playerRepository.Remove(player);
         }
     }
 }

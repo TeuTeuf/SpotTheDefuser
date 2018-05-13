@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.Domain;
+﻿using System.Collections.ObjectModel;
+using Main.Domain.Players;
 
-namespace SpotTheDefuser_Unity.Assets.Scripts.Main.UseCases
+namespace Main.UseCases.Players
 {
     public class GetAllPlayers
     {
-        private IPlayersRepository playerRepository;
+        private readonly IPlayersRepository _playerRepository;
 
         public GetAllPlayers(IPlayersRepository playerRepository)
         {
-            this.playerRepository = playerRepository;
+            _playerRepository = playerRepository;
         }
 
         public ReadOnlyCollection<Player> Get()
         {
-            return playerRepository.GetAll();
+            return _playerRepository.GetAll();
         }
     }
 }

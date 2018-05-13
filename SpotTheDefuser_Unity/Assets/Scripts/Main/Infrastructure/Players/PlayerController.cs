@@ -1,33 +1,29 @@
-﻿using SpotTheDefuser_Unity.Assets.Scripts.Main.Domain;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.UseCases;
+﻿using Main.Domain.Players;
+using Main.UseCases.Players;
 using UnityEngine;
 using Zenject;
 
-public class PlayerController : MonoBehaviour {
+namespace Main.Infrastructure.Players
+{
+    public class PlayerController : MonoBehaviour {
 
-    [Inject]
-    public AddNewPlayer addNewPlayer;
+        [Inject]
+        public AddNewPlayer AddNewPlayer;
 
-    [Inject]
-    public RemovePlayer removePlayer;
+        [Inject]
+        public RemovePlayer RemovePlayer;
 
-    [Inject]
-    public GetAllPlayers getAllPlayers;
+        [Inject]
+        public GetAllPlayers GetAllPlayers;
 
-    Player player;
+        private Player _player;
 
-    public void Start () 
-    {
-        player = new Player("Player");
-        addNewPlayer.Execute(player);
+        public void Start () 
+        {
+            _player = new Player("Player");
+            AddNewPlayer.Execute(_player);
 
-        Debug.Log("New Player Added!");
-	}
-
-	public void OnDestroy()
-    {
-        //removePlayer.execute(player);
-
-        //Debug.Log("Player removed! Nb players: " + getAllPlayers.Get().Count);
+            Debug.Log("New Player Added!");
+        }
     }
 }

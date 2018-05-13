@@ -1,12 +1,17 @@
-namespace SpotTheDefuser_Unity.Assets.Scripts.Main.Domain
+namespace Main.Domain.Players
 {
     public class Player
     {
-        public string pseudo { get; }
+        private readonly string _pseudo;
+
+        public string Pseudo
+        {
+            get { return _pseudo; }
+        }
 
         public Player(string pseudo)
         {
-            this.pseudo = pseudo;
+            _pseudo = pseudo;
         }
     }
 }

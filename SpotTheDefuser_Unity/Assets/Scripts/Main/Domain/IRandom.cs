@@ -1,5 +1,4 @@
-﻿using System;
-namespace SpotTheDefuser_Unity.Assets.Scripts.Main.Domain
+﻿namespace Main.Domain
 {
     public interface IRandom
     {

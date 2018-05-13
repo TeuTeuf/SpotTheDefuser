@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Main.Domain.Players;
 
-namespace SpotTheDefuser_Unity.Assets.Scripts.Main.Domain
+namespace Main.Domain
 {
     public class DefuseAttempt
     {
-        private IList<Player> listPlayer;
-        private int defuserId;
+        private readonly IList<Player> _listPlayer;
+        private readonly int _defuserId;
 
         public DefuseAttempt(IRandom random, IList<Player> listPlayer)
         {
-            this.listPlayer = listPlayer;
-            this.defuserId = random.Range(0, listPlayer.Count);
+            _listPlayer = listPlayer;
+            _defuserId = random.Range(0, listPlayer.Count);
         }
 
         public bool IsDefuser(Player player)
         {
-            return listPlayer.IndexOf(player) == defuserId;
+            return _listPlayer.IndexOf(player) == _defuserId;
         }
     }
 }

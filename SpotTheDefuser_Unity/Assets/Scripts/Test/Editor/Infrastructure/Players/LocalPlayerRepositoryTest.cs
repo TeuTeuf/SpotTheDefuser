@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Main.Domain.Players;
+using Main.Infrastructure.Players;
 using NUnit.Framework;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.Domain;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.Infrastructure;
 
-namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.Infrastructure
+namespace Test.Editor.Infrastructure.Players
 {
     public class LocalPlayerRepositoryTest
     {
@@ -11,10 +10,10 @@ namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.Infrastructure
         public void GetAll_ShouldReturnEmptyListWhenNoPlayerAdded()
         {
             // Given
-			LocalPlayersRepository localPlayerRepository = new LocalPlayersRepository();
+			var localPlayerRepository = new LocalPlayersRepository();
 
             // When 
-            IReadOnlyCollection<Player> players = localPlayerRepository.GetAll();
+            var players = localPlayerRepository.GetAll();
 
             // Then
             Assert.That(players, Is.Empty);
@@ -24,16 +23,16 @@ namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.Infrastructure
         public void Add_ShouldAddPlayersToPlayersList()
         {
             // Given
-            LocalPlayersRepository localPlayerRepository = new LocalPlayersRepository();
-            Player player1 = new Player("Player1");
-            Player player2 = new Player("Player2");
+            var localPlayerRepository = new LocalPlayersRepository();
+            var player1 = new Player("Player1");
+            var player2 = new Player("Player2");
 
             // When 
             localPlayerRepository.Add(player1);
             localPlayerRepository.Add(player2);
 
             // Then
-            IReadOnlyCollection<Player> players = localPlayerRepository.GetAll();
+            var players = localPlayerRepository.GetAll();
             Assert.That(players, Has.Exactly(1).EqualTo(player1));
             Assert.That(players, Has.Exactly(1).EqualTo(player2));
 			Assert.That(players.Count, Is.EqualTo(2));
@@ -43,19 +42,19 @@ namespace SpotTheDefuser_Unity.Editor.Assets.Scripts.Test.Editor.Infrastructure
         public void Remove_ShouldRemovePlayerFromPlayersList()
         {
             // Given
-            LocalPlayersRepository localPlayerRepository = new LocalPlayersRepository();
+            var localPlayerRepository = new LocalPlayersRepository();
 
-            Player player1 = new Player("Player1");
+            var player1 = new Player("Player1");
 			localPlayerRepository.Add(player1);
 
-            Player player2 = new Player("Player2");
+            var player2 = new Player("Player2");
 			localPlayerRepository.Add(player2);
 
             // When 
             localPlayerRepository.Remove(player1);
 
             // Then
-            IReadOnlyCollection<Player> players = localPlayerRepository.GetAll();
+            var players = localPlayerRepository.GetAll();
             Assert.That(players, Has.Exactly(1).EqualTo(player2));
             Assert.That(players.Count, Is.EqualTo(1));
         }

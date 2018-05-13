@@ -1,27 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using SpotTheDefuser_Unity.Assets.Scripts.Main.Domain;
+using Main.Domain.Players;
 
-namespace SpotTheDefuser_Unity.Assets.Scripts.Main.Infrastructure
+namespace Main.Infrastructure.Players
 {
     public class LocalPlayersRepository : IPlayersRepository
     {
-        List<Player> players = new List<Player>();
+	    private readonly List<Player> _players = new List<Player>();
 
         public void Add(Player player)
         {
-            players.Add(player);
+            _players.Add(player);
         }
 
 		public void Remove(Player player)
 		{
-			players.Remove(player);
+			_players.Remove(player);
 		}
 
 		public ReadOnlyCollection<Player> GetAll()
 		{
-			return players.AsReadOnly();
+			return _players.AsReadOnly();
 		}
     }
 }
