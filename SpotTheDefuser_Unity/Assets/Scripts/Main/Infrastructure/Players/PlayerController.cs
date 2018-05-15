@@ -7,14 +7,11 @@ namespace Main.Infrastructure.Players
 {
     public class PlayerController : MonoBehaviour {
 
-        [Inject]
-        public AddNewPlayer AddNewPlayer;
+        [Inject] public AddNewPlayer AddNewPlayer;
 
-        [Inject]
-        public RemovePlayer RemovePlayer;
+        [Inject] public RemovePlayer RemovePlayer;
 
-        [Inject]
-        public GetAllPlayers GetAllPlayers;
+        [Inject] public GetAllPlayers GetAllPlayers;
 
         private Player _player;
 
@@ -22,8 +19,17 @@ namespace Main.Infrastructure.Players
         {
             _player = new Player("Player");
             AddNewPlayer.Execute(_player);
+        }
 
-            Debug.Log("New Player Added!");
+        public void Update()
+        {
+            // TODO : Remove this !
+            Debug.Log("Nb Players: " + GetAllPlayers.Get().Count);
+        }
+
+        public void OnDestroy()
+        {
+            RemovePlayer.Execute(_player);
         }
     }
 }

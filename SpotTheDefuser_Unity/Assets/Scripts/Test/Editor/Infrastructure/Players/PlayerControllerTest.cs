@@ -25,8 +25,34 @@ namespace Test.Editor.Infrastructure.Players
             // Then
             mockAddNewPlayer
                 .Received()
-                .Execute(Arg.Is<Player>(player => player.Pseudo == "Player"));
+                .Execute(Arg.Any<Player>());
         }
 
+        [Test]
+        public void OnDestroy_shouldExecuteRemovePlayerUseCaseWithPlayerPreviouslyAddedOnStart()
+        {
+            // Given
+            var playersRepository = Substitute.For<IPlayersRepository>();
+            var mockAddNewPlayer = Substitute.For<AddNewPlayer>(playersRepository);
+            var mockRemovePlayer = Substitute.For<RemovePlayer>(playersRepository);
+            
+            var playerController = new GameObject().AddComponent<PlayerController>();
+            playerController.AddNewPlayer = mockAddNewPlayer;
+            playerController.RemovePlayer = mockRemovePlayer;
+
+            Player playerAdded = null;
+            playerController.Start();
+            mockAddNewPlayer
+                .Received()
+                .Execute(Arg.Do<Player>(player => playerAdded = player));
+            
+            // When
+            playerController.OnDestroy();
+            
+            // Then
+            mockRemovePlayer
+                .Received()
+                .Execute(playerAdded);
+        }
     }
 }
