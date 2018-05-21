@@ -1,14 +1,16 @@
-﻿using Main.Domain.Players;
+﻿using System.Collections.Generic;
+using Main.Domain.Players;
 using Main.Infrastructure.Players;
 using Main.UseCases.Players;
 using NSubstitute;
+using NSubstitute.Core;
 using NUnit.Framework;
 using UnityEngine;
 
 namespace Test.Editor.Infrastructure.Players
 {
     public class PlayerControllerTest {
-
+        
         [Test]
         public void Start_shouldExecuteAddNewPlayerUseCaseWithNewPlayerObject()
         {
@@ -41,10 +43,10 @@ namespace Test.Editor.Infrastructure.Players
             playerController.RemovePlayer = mockRemovePlayer;
 
             Player playerAdded = null;
-            playerController.Start();
             mockAddNewPlayer
-                .Received()
-                .Execute(Arg.Do<Player>(player => playerAdded = player));
+                .When(addNewPlayer => addNewPlayer.Execute(Arg.Any<Player>()))
+                .Do(info => playerAdded = (Player) info[0]);
+            playerController.Start();
             
             // When
             playerController.OnDestroy();

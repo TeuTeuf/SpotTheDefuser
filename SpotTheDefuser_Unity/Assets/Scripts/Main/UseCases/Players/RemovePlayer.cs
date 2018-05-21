@@ -11,7 +11,7 @@ namespace Main.UseCases.Players
             _playerRepository = playerRepository;
         }
 
-        public void Execute(Player player)
+        public virtual void Execute(Player player)
         {
             _playerRepository.Remove(player);
         }
