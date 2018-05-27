@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using Main.Domain;
+using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Test.Editor.Domain
+namespace Test.Editor.Domain.DefuseAttempts
 {
     public class DefuseAttemptTest
     {

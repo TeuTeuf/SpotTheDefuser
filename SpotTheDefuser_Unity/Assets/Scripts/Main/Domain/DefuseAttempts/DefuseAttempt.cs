@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Main.Domain.Players;
 
-namespace Main.Domain
+namespace Main.Domain.DefuseAttempts
 {
     public class DefuseAttempt
     {
