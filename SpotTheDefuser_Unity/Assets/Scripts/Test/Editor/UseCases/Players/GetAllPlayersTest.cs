@@ -12,7 +12,7 @@ namespace Test.Editor.UseCases.Players
         public void ShouldRemovePlayerFromPlayerRepository()
         {
             // Given
-            var playerRepository = Substitute.For<IPlayersRepository>();
+            var playerRepository = Substitute.For<IPlayerRepository>();
             var getAllPlayers = new GetAllPlayers(playerRepository);
 
             var playersInRepository = new List<Player>();

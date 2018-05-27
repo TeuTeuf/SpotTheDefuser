@@ -10,7 +10,7 @@ namespace Test.Editor.Infrastructure.Players
         public void GetAll_ShouldReturnEmptyListWhenNoPlayerAdded()
         {
             // Given
-			var localPlayerRepository = new LocalPlayersRepository();
+			var localPlayerRepository = new LocalPlayerRepository();
 
             // When 
             var players = localPlayerRepository.GetAll();
@@ -23,7 +23,7 @@ namespace Test.Editor.Infrastructure.Players
         public void Add_ShouldAddPlayersToPlayersList()
         {
             // Given
-            var localPlayerRepository = new LocalPlayersRepository();
+            var localPlayerRepository = new LocalPlayerRepository();
             var player1 = new Player("Player1");
             var player2 = new Player("Player2");
 
@@ -42,7 +42,7 @@ namespace Test.Editor.Infrastructure.Players
         public void Remove_ShouldRemovePlayerFromPlayersList()
         {
             // Given
-            var localPlayerRepository = new LocalPlayersRepository();
+            var localPlayerRepository = new LocalPlayerRepository();
 
             var player1 = new Player("Player1");
 			localPlayerRepository.Add(player1);

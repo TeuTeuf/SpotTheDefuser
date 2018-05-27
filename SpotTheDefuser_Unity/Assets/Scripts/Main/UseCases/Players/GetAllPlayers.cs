@@ -5,9 +5,9 @@ namespace Main.UseCases.Players
 {
     public class GetAllPlayers
     {
-        private readonly IPlayersRepository _playerRepository;
+        private readonly IPlayerRepository _playerRepository;
 
-        public GetAllPlayers(IPlayersRepository playerRepository)
+        public GetAllPlayers(IPlayerRepository playerRepository)
         {
             _playerRepository = playerRepository;
         }

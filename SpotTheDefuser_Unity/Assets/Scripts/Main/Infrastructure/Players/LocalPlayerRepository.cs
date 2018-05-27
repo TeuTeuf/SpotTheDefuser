@@ -4,7 +4,7 @@ using Main.Domain.Players;
 
 namespace Main.Infrastructure.Players
 {
-    public class LocalPlayersRepository : IPlayersRepository
+    public class LocalPlayerRepository : IPlayerRepository
     {
 	    private readonly List<Player> _players = new List<Player>();
 

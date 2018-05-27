@@ -2,7 +2,7 @@
 
 namespace Main.Domain.Players
 {
-    public interface IPlayersRepository
+    public interface IPlayerRepository
     {
         void Add(Player player);
         void Remove(Player player);

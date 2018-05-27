@@ -11,7 +11,7 @@ namespace Test.Editor.UseCases.Players
         public void ShouldAddPlayerToPlayerRepository()
         {
             // Given
-            var playerRepository = Substitute.For<IPlayersRepository>();
+            var playerRepository = Substitute.For<IPlayerRepository>();
             var addNewPlayer = new AddNewPlayer(playerRepository);
             var player = new Player("Test");
 

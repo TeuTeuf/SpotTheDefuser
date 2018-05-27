@@ -4,9 +4,9 @@ namespace Main.UseCases.Players
 {
     public class AddNewPlayer
     {
-        private readonly IPlayersRepository _playerRepository;
+        private readonly IPlayerRepository _playerRepository;
 
-        public AddNewPlayer(IPlayersRepository playerRepository)
+        public AddNewPlayer(IPlayerRepository playerRepository)
         {
             _playerRepository = playerRepository;
         }

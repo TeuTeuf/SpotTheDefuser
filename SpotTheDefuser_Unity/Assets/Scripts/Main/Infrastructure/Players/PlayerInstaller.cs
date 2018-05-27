@@ -8,7 +8,7 @@ namespace Main.Infrastructure.Players
     {
         public override void InstallBindings()
         {
-            Container.Bind<IPlayersRepository>().To<LocalPlayersRepository>().AsSingle();
+            Container.Bind<IPlayerRepository>().To<LocalPlayerRepository>().AsSingle();
 
             // Use Cases
             Container.Bind<AddNewPlayer>().AsSingle();
