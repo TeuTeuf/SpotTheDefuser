@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Main.Domain.Players;
+﻿using Main.Domain.Players;
 using Main.Infrastructure.Players;
 using Main.UseCases.Players;
 using NSubstitute;
-using NSubstitute.Core;
 using NUnit.Framework;
 using UnityEngine;
 

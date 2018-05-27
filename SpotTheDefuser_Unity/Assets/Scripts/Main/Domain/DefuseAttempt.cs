@@ -5,18 +5,45 @@ namespace Main.Domain
 {
     public class DefuseAttempt
     {
-        private readonly IList<Player> _listPlayer;
-        private readonly int _defuserId;
+        private readonly IList<Player> _defuserPlayers;
 
-        public DefuseAttempt(IRandom random, IList<Player> listPlayer)
+        public DefuseAttempt(IRandom random, ICollection<Player> players)
         {
-            _listPlayer = listPlayer;
-            _defuserId = random.Range(0, listPlayer.Count);
+            _defuserPlayers = GetDefuserPlayers(random, players);
         }
 
         public bool IsDefuser(Player player)
         {
-            return _listPlayer.IndexOf(player) == _defuserId;
+            return _defuserPlayers.Contains(player);
+        }
+
+        private static List<Player> GetDefuserPlayers(IRandom random, ICollection<Player> players)
+        {
+            var allPlayers = new List<Player>(players);
+            var numberOfDefuserPlayers = GetNumberOfDefuserPlayers(allPlayers);
+            
+            var defuserPlayers = new List<Player>();
+            for (var i = 0; i < numberOfDefuserPlayers; i++)
+            {
+                var defuserIndex = random.Range(0, allPlayers.Count);
+                defuserPlayers.Add(allPlayers[defuserIndex]);
+                allPlayers.RemoveAt(defuserIndex);
+            }
+
+            return defuserPlayers;
+        }
+
+        private static int GetNumberOfDefuserPlayers(ICollection<Player> players)
+        {
+            var isNumberOfPlayersEven = players.Count % 2 == 0;
+            var nbDefuserPlayers = players.Count / 2;
+
+            if (isNumberOfPlayersEven)
+            {
+                nbDefuserPlayers--;
+            }
+
+            return nbDefuserPlayers;
         }
     }
 }
