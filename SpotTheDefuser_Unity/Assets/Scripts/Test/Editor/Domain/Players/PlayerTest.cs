@@ -2,6 +2,7 @@ using Main.Domain.Players;
 using NUnit.Framework;
 
 namespace Test.Editor.Domain.Players {
+    [TestFixture]
     public class PlayerTest
     {
         [Test]

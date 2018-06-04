@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace Test.Editor.UseCases.DefuseAttempts
 {
+    [TestFixture]
     public class CreateDefuseAttemptTest {
 
         [Test]

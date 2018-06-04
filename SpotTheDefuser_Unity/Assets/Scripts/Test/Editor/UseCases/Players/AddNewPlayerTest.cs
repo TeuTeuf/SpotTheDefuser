@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 namespace Test.Editor.UseCases.Players
 {
+    [TestFixture]
     public class AddNewPlayerTest
     {
         [Test]
