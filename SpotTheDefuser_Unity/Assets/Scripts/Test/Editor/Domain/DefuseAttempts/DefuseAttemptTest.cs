@@ -11,17 +11,6 @@ namespace Test.Editor.Domain.DefuseAttempts
         private readonly Player _player1 = new Player("player1");
         private readonly Player _player2 = new Player("player2");
         private readonly Player _player3 = new Player("player3");
-//        private readonly Player _player4 = new Player("player4");
-//        private readonly Player _player5 = new Player("player5");
-//        private readonly Player _player6 = new Player("player6");
-
-//        private IRandom _random;
-//
-//        [SetUp]
-//        public void Setup()
-//        {
-//            _random = Substitute.For<IRandom>();
-//        }
 
         [Test]
         public void IsDefuser_ShouldReturnTrueWithDefuserPlayer()
@@ -51,27 +40,7 @@ namespace Test.Editor.Domain.DefuseAttempts
             Assert.IsFalse(isDefuser);
         }
 
-//        [Test]
-//        public void IsDefuser_ShouldReturnTrueForFirstPlayerAndFalseForOthers_WhenRandomReturnZero_WithThreePlayers()
-//        {
-//            // Given
-//            var players = new List<Player> {_player1, _player2, _player3};
-//
-//            _random.Range(Arg.Any<int>(), Arg.Any<int>())
-//                  .Returns(0);
-//
-//            var defuseAttempt = new DefuseAttempt(_random, players);
-//
-//            // When
-//            var isPlayer1Defuser = defuseAttempt.IsDefuser(_player1);
-//            var isPlayer2Defuser = defuseAttempt.IsDefuser(_player2);
-//            var isPlayer3Defuser = defuseAttempt.IsDefuser(_player3);
-//
-//            // Then
-//            Assert.IsTrue(isPlayer1Defuser);
-//            Assert.IsFalse(isPlayer2Defuser);
-//            Assert.IsFalse(isPlayer3Defuser);
-//        }
+
 //
 //        [Test]
 //        public void IsDefuser_ShouldReturnTrueForLastPlayerAndFalseForOthers_WhenRandomReturnMaxValue_WithThreePlayers()

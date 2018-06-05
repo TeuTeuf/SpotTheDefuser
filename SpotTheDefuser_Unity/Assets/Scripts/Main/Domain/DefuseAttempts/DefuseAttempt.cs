@@ -7,11 +7,6 @@ namespace Main.Domain.DefuseAttempts
     {
         private readonly IList<Player> _defuserPlayers;
 
-//        public DefuseAttempt(IRandom random, IEnumerable<Player> players)
-//        {
-//            _defuserPlayers = GetDefuserPlayers(random, players);
-//        }
-
         public DefuseAttempt(IList<Player> defuserPlayers)
         {
             _defuserPlayers = defuserPlayers;
