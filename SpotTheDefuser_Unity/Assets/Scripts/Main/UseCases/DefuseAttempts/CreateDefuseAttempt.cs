@@ -18,8 +18,38 @@ namespace Main.UseCases.DefuseAttempts
 		public DefuseAttempt Execute()
 		{
 			var allPlayers = new List<Player>(_playerRepository.GetAll());
-			var defuserPlayers = new List<Player> {allPlayers[_random.Range(0, allPlayers.Count)]};
+			
+			var numberOfDefuserPlayers = GetNumberOfDefuserPlayers(allPlayers.Count);
+			
+			var defuserPlayers = GetDefuserPlayers(numberOfDefuserPlayers, allPlayers);
+
 			return new DefuseAttempt(defuserPlayers);
+		}
+
+		private List<Player> GetDefuserPlayers(int numberOfDefuserPlayers, IList<Player> allPlayers)
+		{
+			var defuserPlayers = new List<Player>();
+			for (var i = 0; i < numberOfDefuserPlayers; i++)
+			{
+				var defuserIndex = _random.Range(0, allPlayers.Count);
+				defuserPlayers.Add(allPlayers[defuserIndex]);
+				allPlayers.RemoveAt(defuserIndex);
+			}
+
+			return defuserPlayers;
+		}
+
+		private static int GetNumberOfDefuserPlayers(int nbAllPlayers)
+		{
+			var isNumberOfPlayersEven = nbAllPlayers % 2 == 0;
+			var nbDefuserPlayers = nbAllPlayers / 2;
+
+			if (isNumberOfPlayersEven)
+			{
+				nbDefuserPlayers--;
+			}
+
+			return nbDefuserPlayers;
 		}
 	}
 }
