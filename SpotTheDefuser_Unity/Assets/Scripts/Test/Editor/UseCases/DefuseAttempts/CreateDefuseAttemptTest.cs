@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Main.Domain;
-using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
 using Main.UseCases.DefuseAttempts;
 using NSubstitute;
