@@ -19,13 +19,13 @@ namespace Test.Editor.UseCases.DefuseAttempts
 
         private CreateDefuseAttempt _createDefuseAttempt;
         private IRandom _random;
-        private IPlayerRepository _playerRepository;
+        private PlayerRepository _playerRepository;
 
         [SetUp]
         public void Setup()
         {
             _random = Substitute.For<IRandom>();
-            _playerRepository = Substitute.For<IPlayerRepository>();
+            _playerRepository = Substitute.For<PlayerRepository>();
             _createDefuseAttempt = new CreateDefuseAttempt(_random, _playerRepository);
         }        
 

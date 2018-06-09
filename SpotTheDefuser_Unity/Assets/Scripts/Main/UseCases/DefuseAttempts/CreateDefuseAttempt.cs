@@ -7,9 +7,9 @@ namespace Main.UseCases.DefuseAttempts
 {
 	public class CreateDefuseAttempt {
 		private readonly IRandom _random;
-		private readonly IPlayerRepository _playerRepository;
+		private readonly PlayerRepository _playerRepository;
 
-		public CreateDefuseAttempt(IRandom random, IPlayerRepository playerRepository)
+		public CreateDefuseAttempt(IRandom random, PlayerRepository playerRepository)
 		{
 			_random = random;
 			_playerRepository = playerRepository;

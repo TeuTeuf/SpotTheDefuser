@@ -10,7 +10,7 @@ namespace Main.Infrastructure
     {
         public override void InstallBindings()
         {
-            Container.Bind<IPlayerRepository>().To<PlayerRepository>().AsSingle();
+            Container.Bind<PlayerRepository>().To<PlayerRepository>().AsSingle();
 
             Container.Bind<IRandom>().To<RandomSTD>().AsSingle();
             

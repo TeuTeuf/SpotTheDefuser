@@ -13,7 +13,7 @@ namespace Test.Editor.Infrastructure.Players
         public void Start_shouldExecuteAddNewPlayerUseCaseWithNewPlayerObject()
         {
             // Given
-            var playersRepository = Substitute.For<IPlayerRepository>();
+            var playersRepository = Substitute.For<PlayerRepository>();
             var mockAddNewPlayer = Substitute.For<AddNewPlayer>(playersRepository);
 
             var playerController = new GameObject().AddComponent<PlayerController>();
@@ -32,7 +32,7 @@ namespace Test.Editor.Infrastructure.Players
         public void OnDestroy_shouldExecuteRemovePlayerUseCaseWithPlayerPreviouslyAddedOnStart()
         {
             // Given
-            var playersRepository = Substitute.For<IPlayerRepository>();
+            var playersRepository = Substitute.For<PlayerRepository>();
             var mockAddNewPlayer = Substitute.For<AddNewPlayer>(playersRepository);
             var mockRemovePlayer = Substitute.For<RemovePlayer>(playersRepository);
             

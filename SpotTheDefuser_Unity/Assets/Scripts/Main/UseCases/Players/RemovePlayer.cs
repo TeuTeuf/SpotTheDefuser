@@ -4,9 +4,9 @@ namespace Main.UseCases.Players
 {
     public class RemovePlayer
     {
-        private readonly IPlayerRepository _playerRepository;
+        private readonly PlayerRepository _playerRepository;
 
-        public RemovePlayer(IPlayerRepository playerRepository)
+        public RemovePlayer(PlayerRepository playerRepository)
         {
             _playerRepository = playerRepository;
         }

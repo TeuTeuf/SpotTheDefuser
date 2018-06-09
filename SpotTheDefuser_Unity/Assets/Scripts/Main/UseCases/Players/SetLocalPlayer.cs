@@ -2,18 +2,18 @@
 
 namespace Main.UseCases.Players
 {
-    public class AddNewPlayer
+    public class SetLocalPlayer
     {
         private readonly PlayerRepository _playerRepository;
 
-        public AddNewPlayer(PlayerRepository playerRepository)
+        public SetLocalPlayer(PlayerRepository playerRepository)
         {
             _playerRepository = playerRepository;
         }
 
-        public virtual void Execute(Player player)
+        public void Set(Player player)
         {
-            _playerRepository.Add(player);
+            _playerRepository.SetLocalPlayer(player);
         }
     }
 }
