@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Main.Domain.Players;
 
-namespace Main.Infrastructure.Players
+namespace Main.Domain.Players
 {
-    public class LocalPlayerRepository : IPlayerRepository
+    public class PlayerRepository : IPlayerRepository
     {
 	    private readonly List<Player> _players = new List<Player>();
 
