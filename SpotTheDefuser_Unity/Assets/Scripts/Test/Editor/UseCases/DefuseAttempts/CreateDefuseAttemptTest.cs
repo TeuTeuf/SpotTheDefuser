@@ -10,12 +10,12 @@ namespace Test.Editor.UseCases.DefuseAttempts
     [TestFixture]
     public class CreateDefuseAttemptTest {
         
-        private readonly Player _player1 = new Player("player1");
-        private readonly Player _player2 = new Player("player2");
-        private readonly Player _player3 = new Player("player3");
-        private readonly Player _player4 = new Player("player4");
-        private readonly Player _player5 = new Player("player5");
-        private readonly Player _player6 = new Player("player6");
+        private readonly Player _player1 = new Player("Player");
+        private readonly Player _player2 = new Player("Player");
+        private readonly Player _player3 = new Player("Player");
+        private readonly Player _player4 = new Player("Player");
+        private readonly Player _player5 = new Player("Player");
+        private readonly Player _player6 = new Player("Player");
 
         private CreateDefuseAttempt _createDefuseAttempt;
         private IRandom _random;
