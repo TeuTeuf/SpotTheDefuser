@@ -1,6 +1,5 @@
 using Main.Domain;
 using Main.Domain.Players;
-using Main.Infrastructure.Players;
 using Main.UseCases.Players;
 using Zenject;
 

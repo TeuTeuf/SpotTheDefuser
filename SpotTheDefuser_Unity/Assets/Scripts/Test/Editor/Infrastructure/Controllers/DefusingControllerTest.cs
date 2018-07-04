@@ -1,13 +1,13 @@
 ﻿using Main.Domain.Players;
-using Main.Infrastructure.Players;
+using Main.Infrastructure.Controllers;
 using Main.UseCases.Players;
 using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace Test.Editor.Infrastructure.Players
+namespace Test.Editor.Infrastructure.Controllers
 {
-    public class PlayerControllerTest {
+    public class DefusingControllerTest {
         
         [Test]
         public void Start_shouldExecuteAddNewPlayerUseCaseWithNewPlayerObject()
@@ -16,7 +16,7 @@ namespace Test.Editor.Infrastructure.Players
             var playersRepository = Substitute.For<PlayerRepository>();
             var mockAddNewPlayer = Substitute.For<AddNewPlayer>(playersRepository);
 
-            var playerController = new GameObject().AddComponent<PlayerController>();
+            var playerController = new GameObject().AddComponent<DefusingController>();
             playerController.AddNewPlayer = mockAddNewPlayer;
 
             // When
@@ -36,7 +36,7 @@ namespace Test.Editor.Infrastructure.Players
             var mockAddNewPlayer = Substitute.For<AddNewPlayer>(playersRepository);
             var mockRemovePlayer = Substitute.For<RemovePlayer>(playersRepository);
             
-            var playerController = new GameObject().AddComponent<PlayerController>();
+            var playerController = new GameObject().AddComponent<DefusingController>();
             playerController.AddNewPlayer = mockAddNewPlayer;
             playerController.RemovePlayer = mockRemovePlayer;
 
