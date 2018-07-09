@@ -1,6 +1,7 @@
 using Main.Domain;
 using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
+using Main.Infrastructure.Controllers.Network;
 using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
 using Zenject;
@@ -33,6 +34,7 @@ namespace Main.Infrastructure
         {
             Container.Bind<PlayerRepository>().AsSingle();
             Container.Bind<DefusingState>().AsSingle();
+            Container.Bind<NetworkControllers>().AsSingle();
         }
     }
 }
