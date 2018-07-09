@@ -1,5 +1,7 @@
 using Main.Domain;
+using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
+using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
 using Zenject;
 
@@ -9,14 +11,28 @@ namespace Main.Infrastructure
     {
         public override void InstallBindings()
         {
-            Container.Bind<PlayerRepository>().To<PlayerRepository>().AsSingle();
+            InstallInterfaceImplementations();
+            InstallUseCases();
+            InstallOtherSingletons();
+        }
 
+        private void InstallInterfaceImplementations()
+        {
             Container.Bind<IRandom>().To<RandomSTD>().AsSingle();
-            
-            // Use Cases
+        }
+
+        private void InstallUseCases()
+        {
             Container.Bind<AddNewPlayer>().AsSingle();
             Container.Bind<GetAllPlayers>().AsSingle();
             Container.Bind<RemovePlayer>().AsSingle();
+            Container.Bind<SetNewDefuseAttempt>().AsSingle();
+        }
+
+        private void InstallOtherSingletons()
+        {
+            Container.Bind<PlayerRepository>().AsSingle();
+            Container.Bind<DefusingState>().AsSingle();
         }
     }
 }
