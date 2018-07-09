@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Main.Infrastructure.UI
+namespace Main.Infrastructure.Controllers
 {
-	public class UIController : MonoBehaviour{
+	public class UIController : MonoBehaviour {
 
 		public void ClickOnNewDefuseAttempt()
 		{
