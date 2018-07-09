@@ -10,7 +10,7 @@ namespace Test.Editor.UseCases.Players
     public class GetAllPlayersTest
     {
         [Test]
-        public void ShouldRemovePlayerFromPlayerRepository()
+        public void Get_ShouldReturnAllPlayersFromRepository()
         {
             // Given
             var playerRepository = Substitute.For<PlayerRepository>();

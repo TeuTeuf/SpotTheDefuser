@@ -9,7 +9,7 @@ namespace Test.Editor.UseCases.Players
     public class RemovePlayerTest
     {
         [Test]
-        public void ShouldRemovePlayerFromPlayerRepository()
+        public void Execute_ShouldRemovePlayerFromPlayerRepository()
         {
             // Given
             var playerRepository = Substitute.For<PlayerRepository>();

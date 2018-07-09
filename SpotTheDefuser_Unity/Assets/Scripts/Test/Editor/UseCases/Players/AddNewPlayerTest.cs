@@ -9,7 +9,7 @@ namespace Test.Editor.UseCases.Players
     public class AddNewPlayerTest
     {
         [Test]
-        public void ShouldAddPlayerToPlayerRepository()
+        public void Execute_ShouldAddPlayerToPlayerRepository()
         {
             // Given
             var playerRepository = Substitute.For<PlayerRepository>();
