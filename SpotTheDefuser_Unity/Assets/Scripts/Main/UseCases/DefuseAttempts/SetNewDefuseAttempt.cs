@@ -17,7 +17,7 @@ namespace Main.UseCases.DefuseAttempts
             _defusingState = defusingState;
         }
 
-        public void Set()
+        public virtual void Set()
         {
             _defusingState.CurrentDefuseAttempt = new DefuseAttempt(_random, _playerRepository.GetAll());
         }

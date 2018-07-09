@@ -1,6 +1,9 @@
-﻿using Main.Domain.Players;
+﻿using Main.Domain;
+using Main.Domain.DefuseAttempts;
+using Main.Domain.Players;
 using Main.Infrastructure.Controllers;
 using Main.Infrastructure.Controllers.Network;
+using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
 using NSubstitute;
 using NUnit.Framework;
@@ -45,6 +48,25 @@ namespace Test.Editor.Infrastructure.Controllers.Network
             // Then
             Assert.Contains(playerController1, networkControllers.GetPlayerControllersOnServer());
             Assert.Contains(playerController2, networkControllers.GetPlayerControllersOnServer());
+        }
+
+        [Test]
+        public void CmdSetNewDefuseAttempt_ShouldExecuteSetNewDefuseAttemptUseCase()
+        {
+            // Given
+            var random = Substitute.For<IRandom>();
+            var playerRepository = Substitute.For<PlayerRepository>();
+            var defusingState = Substitute.For<DefusingState>();
+            var setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(random, playerRepository, defusingState);
+            
+            var playerController = new GameObject().AddComponent<PlayerController>();
+            playerController.SetDefuseAttempt = setNewDefuseAttempt;
+            
+            // When
+            playerController.CmdSetNewDefuseAttempt();
+            
+            // Then
+            setNewDefuseAttempt.Received().Set();
         }
         
         [Test]

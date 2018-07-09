@@ -1,4 +1,5 @@
 ﻿using Main.Domain.Players;
+using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
 using UnityEngine.Networking;
 using Zenject;
@@ -10,6 +11,8 @@ namespace Main.Infrastructure.Controllers.Network
         [Inject] public AddNewPlayer AddNewPlayer;
 
         [Inject] public RemovePlayer RemovePlayer;
+
+        [Inject] public SetNewDefuseAttempt SetDefuseAttempt;
 
         [Inject] public NetworkControllers NetworkControllers;
         
@@ -36,6 +39,11 @@ namespace Main.Infrastructure.Controllers.Network
         public void OnDestroy()
         {
             RemovePlayer.Execute(_player);
+        }
+
+        public virtual void CmdSetNewDefuseAttempt()
+        {
+            SetDefuseAttempt.Set();
         }
     }
 }
