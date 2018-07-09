@@ -60,41 +60,5 @@ namespace Test.Editor.Domain.Players
             Assert.That(players, Has.Exactly(1).EqualTo(player2));
             Assert.That(players.Count, Is.EqualTo(1));
         }
-
-        [Test]
-        public void SetLocalPlayer_ShouldSetLocalPlayer()
-        {
-            // Given
-            var playerRepository = new PlayerRepository();
-
-            var player1 = new Player("Player1");
-            
-            // When
-            playerRepository.SetLocalPlayer(player1);
-
-            // Then
-            Assert.AreEqual(playerRepository.LocalPlayer, player1);
-        }
-        
-        
-
-        [Test]
-        public void SetLocalPlayer_ShouldThrowExceptionIfPlayerAlreadySet()
-        {
-            // Given
-            var playerRepository = new PlayerRepository();
-
-            var player1 = new Player("Player1");
-            var player2 = new Player("Player2");
-            
-            playerRepository.SetLocalPlayer(player1);
-            
-            // When
-            var exception = Assert.Throws<LocalPlayerAlreadySetException>(() => playerRepository.SetLocalPlayer(player2));
-
-            // Then
-            var expectedException = new LocalPlayerAlreadySetException();
-            Assert.AreEqual(exception.Message, expectedException.Message);
-        }
     }
 }

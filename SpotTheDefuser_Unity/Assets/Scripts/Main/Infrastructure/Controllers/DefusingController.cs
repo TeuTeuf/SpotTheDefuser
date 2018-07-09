@@ -1,11 +1,11 @@
 ﻿using Main.Domain.Players;
 using Main.UseCases.Players;
-using UnityEngine;
+using UnityEngine.Networking;
 using Zenject;
 
 namespace Main.Infrastructure.Controllers
 {
-    public class DefusingController : MonoBehaviour {
+    public class DefusingController : NetworkBehaviour {
 
         [Inject] public AddNewPlayer AddNewPlayer;
 

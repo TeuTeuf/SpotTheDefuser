@@ -22,15 +22,5 @@ namespace Main.Domain.Players
 		{
 			return _players.AsReadOnly();
 		}
-
-	    public virtual void SetLocalPlayer(Player player)
-	    {
-		    if (LocalPlayer != null)
-		    {
-				throw new LocalPlayerAlreadySetException();    
-		    }
-		    
-		    LocalPlayer = player;
-	    }
     }
 }
