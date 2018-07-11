@@ -1,6 +1,7 @@
 ﻿using Main.Domain;
 using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
+using UnityEngine;
 
 namespace Main.UseCases.DefuseAttempts
 {
@@ -20,6 +21,7 @@ namespace Main.UseCases.DefuseAttempts
         public virtual void Set()
         {
             _defusingState.CurrentDefuseAttempt = new DefuseAttempt(_random, _playerRepository.GetAll());
+            Debug.Log("New Defuse Attempt Set!");
         }
     }
 }

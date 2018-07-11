@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Main.Infrastructure.Controllers.Network
 {
     public class NetworkControllers
     {
-        public PlayerController LocalPlayerController { get; set; }
+        public IPlayerController LocalPlayerController { get; set; }
         
         private readonly List<PlayerController> _playerControllersOnServer;
         

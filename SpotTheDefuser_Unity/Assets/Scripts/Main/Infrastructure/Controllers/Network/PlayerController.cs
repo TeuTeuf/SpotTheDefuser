@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Main.Infrastructure.Controllers.Network
 {
-    public class PlayerController : NetworkBehaviour {
+    public class PlayerController : NetworkBehaviour, IPlayerController {
 
         [Inject] public AddNewPlayer AddNewPlayer;
 
@@ -41,7 +41,8 @@ namespace Main.Infrastructure.Controllers.Network
             RemovePlayer.Execute(_player);
         }
 
-        public virtual void CmdSetNewDefuseAttempt()
+        [Command]
+        public void CmdSetNewDefuseAttempt()
         {
             SetDefuseAttempt.Set();
         }

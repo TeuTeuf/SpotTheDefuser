@@ -11,7 +11,7 @@ namespace Test.Editor.Infrastructure.Controllers.Network
         public void SetNewDefuseAttemptOnServer_ShouldExecuteCmdSetNewDefuseAttempt_OnLocalPlayerController()
         {
             // Given
-            var localPlayerController = Substitute.For<PlayerController>();
+            var localPlayerController = Substitute.For<IPlayerController>();
             var networkControllers = new NetworkControllers {LocalPlayerController = localPlayerController};
 
             // When
