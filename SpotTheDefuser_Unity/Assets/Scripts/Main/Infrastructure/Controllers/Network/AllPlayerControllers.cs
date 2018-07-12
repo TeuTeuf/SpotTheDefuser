@@ -3,13 +3,13 @@ using System.Collections.ObjectModel;
 
 namespace Main.Infrastructure.Controllers.Network
 {
-    public class NetworkControllers
+    public class AllPlayerControllers
     {
         public IPlayerController LocalPlayerController { get; set; }
         
         private readonly List<PlayerController> _playerControllersOnServer;
         
-        public NetworkControllers()
+        public AllPlayerControllers()
         {
             _playerControllersOnServer = new List<PlayerController>();
         }

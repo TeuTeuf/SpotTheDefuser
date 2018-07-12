@@ -34,7 +34,7 @@ namespace Main.Infrastructure
         {
             Container.Bind<PlayerRepository>().AsSingle();
             Container.Bind<DefusingState>().AsSingle();
-            Container.Bind<NetworkControllers>().AsSingle();
+            Container.Bind<AllPlayerControllers>().AsSingle();
         }
     }
 }

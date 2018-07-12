@@ -5,17 +5,17 @@ using NUnit.Framework;
 namespace Test.Editor.Infrastructure.Controllers.Network
 {
     [TestFixture]
-    public class NetworkControllersTest
+    public class AllPlayersControllersTest
     {
         [Test]
         public void SetNewDefuseAttemptOnServer_ShouldExecuteCmdSetNewDefuseAttempt_OnLocalPlayerController()
         {
             // Given
             var localPlayerController = Substitute.For<IPlayerController>();
-            var networkControllers = new NetworkControllers {LocalPlayerController = localPlayerController};
+            var allPlayerControllers = new AllPlayerControllers {LocalPlayerController = localPlayerController};
 
             // When
-            networkControllers.SetNewDefuseAttemptOnServer();
+            allPlayerControllers.SetNewDefuseAttemptOnServer();
 
             // Then
             localPlayerController.Received().CmdSetNewDefuseAttempt();

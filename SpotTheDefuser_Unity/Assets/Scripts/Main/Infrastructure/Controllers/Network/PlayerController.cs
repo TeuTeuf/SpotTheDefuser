@@ -14,20 +14,20 @@ namespace Main.Infrastructure.Controllers.Network
 
         [Inject] public SetNewDefuseAttempt SetDefuseAttempt;
 
-        [Inject] public NetworkControllers NetworkControllers;
+        [Inject] public AllPlayerControllers AllPlayerControllers;
         
         private Player _player;
 
         public override void OnStartLocalPlayer()
         {
             base.OnStartLocalPlayer();
-            NetworkControllers.LocalPlayerController = this;
+            AllPlayerControllers.LocalPlayerController = this;
         }
 
         public override void OnStartServer()
         {
             base.OnStartServer();
-            NetworkControllers.AddPlayerControllerOnServer(this);
+            AllPlayerControllers.AddPlayerControllerOnServer(this);
         }
 
         public void Start () 

@@ -5,11 +5,11 @@ namespace Main.Infrastructure.Controllers.Network
 {
 	public class UIController : MonoBehaviour {
 
-		[Inject] public NetworkControllers NetworkControllers { get; set; }
+		[Inject] public AllPlayerControllers AllPlayerControllers { get; set; }
 		
 		public void ClickOnNewDefuseAttempt()
 		{
-			NetworkControllers.SetNewDefuseAttemptOnServer();
+			AllPlayerControllers.SetNewDefuseAttemptOnServer();
 		}
 
 		public void ClickOnTryToDefuse()

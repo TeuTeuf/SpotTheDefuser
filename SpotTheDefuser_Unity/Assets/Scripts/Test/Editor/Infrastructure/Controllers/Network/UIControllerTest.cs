@@ -9,19 +9,19 @@ namespace Test.Editor.Infrastructure.Controllers.Network
     public class UIControllerTest
     {
         [Test]
-        public void ClickOnNewDefuseAttempt_ShouldExecuteSetNewDefuseAttemptOnServer_OnNetworkControllers()
+        public void ClickOnNewDefuseAttempt_ShouldExecuteSetNewDefuseAttemptOnServer_OnAllPlayerControllers()
         {
             // Given
-            var networkControllers = Substitute.For<NetworkControllers>();
+            var allPlayerControllers = Substitute.For<AllPlayerControllers>();
 
             var uiController = new GameObject().AddComponent<UIController>();
-            uiController.NetworkControllers = networkControllers;
+            uiController.AllPlayerControllers = allPlayerControllers;
 
             // When
             uiController.ClickOnNewDefuseAttempt();
 
             // Then
-            networkControllers.SetNewDefuseAttemptOnServer();
+            allPlayerControllers.SetNewDefuseAttemptOnServer();
         }
     }
 }

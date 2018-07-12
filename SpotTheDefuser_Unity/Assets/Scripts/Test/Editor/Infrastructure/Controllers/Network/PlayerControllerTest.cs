@@ -1,7 +1,6 @@
 ﻿using Main.Domain;
 using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
-using Main.Infrastructure.Controllers;
 using Main.Infrastructure.Controllers.Network;
 using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
@@ -14,40 +13,40 @@ namespace Test.Editor.Infrastructure.Controllers.Network
     public class PlayerControllerTest {
         
         [Test]
-        public void OnStartLocalPlayer_ShouldSetLocalPlayerControlerOnNetworkControllers()
+        public void OnStartLocalPlayer_ShouldSetLocalPlayerControlerOnAllPlayerControllers()
         {
             // Given
-            var networkControllers = new NetworkControllers();
+            var allPlayerControllers = new AllPlayerControllers();
             
             var playerController = new GameObject().AddComponent<PlayerController>();
-            playerController.NetworkControllers = networkControllers;
+            playerController.AllPlayerControllers = allPlayerControllers;
             
             // When
             playerController.OnStartLocalPlayer();
             
             // Then
-            Assert.AreSame(playerController, networkControllers.LocalPlayerController);
+            Assert.AreSame(playerController, allPlayerControllers.LocalPlayerController);
         }
 
         [Test]
-        public void OnStartServer_ShouldAddPlayerControllerToPlayerControllersInNetworkControllers()
+        public void OnStartServer_ShouldAddPlayerControllerToPlayerControllersInAllPlayerControllers()
         {
             // Given
-            var networkControllers = new NetworkControllers();
+            var allPlayersControllers = new AllPlayerControllers();
             
             var playerController1 = new GameObject().AddComponent<PlayerController>();
-            playerController1.NetworkControllers = networkControllers;
+            playerController1.AllPlayerControllers = allPlayersControllers;
             
             var playerController2 = new GameObject().AddComponent<PlayerController>();
-            playerController2.NetworkControllers = networkControllers;
+            playerController2.AllPlayerControllers = allPlayersControllers;
             
             // When
             playerController1.OnStartServer();
             playerController2.OnStartServer();
             
             // Then
-            Assert.Contains(playerController1, networkControllers.GetPlayerControllersOnServer());
-            Assert.Contains(playerController2, networkControllers.GetPlayerControllersOnServer());
+            Assert.Contains(playerController1, allPlayersControllers.GetPlayerControllersOnServer());
+            Assert.Contains(playerController2, allPlayersControllers.GetPlayerControllersOnServer());
         }
 
         [Test]
