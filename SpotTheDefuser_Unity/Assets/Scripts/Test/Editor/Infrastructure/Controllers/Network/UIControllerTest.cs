@@ -18,7 +18,7 @@ namespace Test.Editor.Infrastructure.Controllers.Network
             uiController.AllPlayerControllers = allPlayerControllers;
 
             // When
-            uiController.ClickOnNewDefuseAttempt();
+            uiController.OnClickOnNewDefuseAttempt();
 
             // Then
             allPlayerControllers.SetNewDefuseAttemptOnServer();

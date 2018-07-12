@@ -3,18 +3,30 @@ using Zenject;
 
 namespace Main.Infrastructure.Controllers.Network
 {
-	public class UIController : MonoBehaviour {
+	public class UIController : MonoBehaviour
+	{
+		[Inject] public AllPlayerControllers AllPlayerControllers;
 
-		[Inject] public AllPlayerControllers AllPlayerControllers { get; set; }
+		private string _playerName;
 		
-		public void ClickOnNewDefuseAttempt()
+		public void OnEndEditOnPlayerName(string playerName)
+		{
+			_playerName = playerName;
+		}
+
+		public void OnClickOnAddPlayer()
+		{
+			Debug.Log("OnClickOnAddPlayer with player name: " + _playerName);
+		}
+		
+		public void OnClickOnNewDefuseAttempt()
 		{
 			AllPlayerControllers.SetNewDefuseAttemptOnServer();
 		}
-
-		public void ClickOnTryToDefuse()
+		
+		public void OnClickOnTryToDefuse()
 		{
-			Debug.Log("ClickOnTryToDefuse");
+			Debug.Log("OnClickOnTryToDefuse");
 		}
 	}
 }
