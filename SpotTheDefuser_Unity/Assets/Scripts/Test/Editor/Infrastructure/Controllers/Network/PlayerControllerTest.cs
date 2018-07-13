@@ -54,9 +54,9 @@ namespace Test.Editor.Infrastructure.Controllers.Network
         {
             // Given
             var random = Substitute.For<IRandom>();
-            var playerRepository = Substitute.For<PlayerRepository>();
+            var allPlayers = Substitute.For<AllPlayers>();
             var defusingState = Substitute.For<DefusingState>();
-            var setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(random, playerRepository, defusingState);
+            var setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(random, allPlayers, defusingState);
             
             var playerController = new GameObject().AddComponent<PlayerController>();
             playerController.SetDefuseAttempt = setNewDefuseAttempt;
@@ -72,7 +72,7 @@ namespace Test.Editor.Infrastructure.Controllers.Network
         public void Start_ShouldExecuteAddNewPlayerUseCaseWithNewPlayerObject()
         {
             // Given
-            var playersRepository = Substitute.For<PlayerRepository>();
+            var playersRepository = Substitute.For<AllPlayers>();
             var mockAddNewPlayer = Substitute.For<AddNewPlayer>(playersRepository);
 
             var playerController = new GameObject().AddComponent<PlayerController>();
@@ -91,7 +91,7 @@ namespace Test.Editor.Infrastructure.Controllers.Network
         public void OnDestroy_ShouldExecuteRemovePlayerUseCaseWithPlayerPreviouslyAddedOnStart()
         {
             // Given
-            var playersRepository = Substitute.For<PlayerRepository>();
+            var playersRepository = Substitute.For<AllPlayers>();
             var mockAddNewPlayer = Substitute.For<AddNewPlayer>(playersRepository);
             var mockRemovePlayer = Substitute.For<RemovePlayer>(playersRepository);
             

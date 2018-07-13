@@ -9,18 +9,18 @@ namespace Test.Editor.UseCases.Players
     public class AddNewPlayerTest
     {
         [Test]
-        public void Execute_ShouldAddPlayerToPlayerRepository()
+        public void Execute_ShouldAddPlayerToAllPlayers()
         {
             // Given
-            var playerRepository = Substitute.For<PlayerRepository>();
-            var addNewPlayer = new AddNewPlayer(playerRepository);
+            var AllPlayers = Substitute.For<AllPlayers>();
+            var addNewPlayer = new AddNewPlayer(AllPlayers);
             var player = new Player("Test");
 
             // When
             addNewPlayer.Execute(player);
 
             // Then
-            playerRepository
+            AllPlayers
                 .Received()
                 .Add(player);
         }

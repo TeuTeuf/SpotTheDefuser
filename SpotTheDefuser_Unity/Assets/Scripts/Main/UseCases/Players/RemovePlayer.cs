@@ -4,16 +4,16 @@ namespace Main.UseCases.Players
 {
     public class RemovePlayer
     {
-        private readonly PlayerRepository _playerRepository;
+        private readonly AllPlayers _allPlayers;
 
-        public RemovePlayer(PlayerRepository playerRepository)
+        public RemovePlayer(AllPlayers allPlayers)
         {
-            _playerRepository = playerRepository;
+            _allPlayers = allPlayers;
         }
 
         public virtual void Execute(Player player)
         {
-            _playerRepository.Remove(player);
+            _allPlayers.Remove(player);
         }
     }
 }

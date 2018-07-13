@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace Main.Domain.Players
 {
-    public class PlayerRepository
+    public class AllPlayers
     {
 	    private readonly List<Player> _players = new List<Player>();
 	    public Player LocalPlayer { get; private set; }

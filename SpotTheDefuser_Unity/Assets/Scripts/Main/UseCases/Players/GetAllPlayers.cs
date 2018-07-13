@@ -5,16 +5,16 @@ namespace Main.UseCases.Players
 {
     public class GetAllPlayers
     {
-        private readonly PlayerRepository _playerRepository;
+        private readonly AllPlayers _allPlayers;
 
-        public GetAllPlayers(PlayerRepository playerRepository)
+        public GetAllPlayers(AllPlayers allPlayers)
         {
-            _playerRepository = playerRepository;
+            _allPlayers = allPlayers;
         }
 
         public ReadOnlyCollection<Player> Get()
         {
-            return _playerRepository.GetAll();
+            return _allPlayers.GetAll();
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Main.Infrastructure
 
         private void InstallOtherSingletons()
         {
-            Container.Bind<PlayerRepository>().AsSingle();
+            Container.Bind<AllPlayers>().AsSingle();
             Container.Bind<DefusingState>().AsSingle();
             Container.Bind<AllPlayerControllers>().AsSingle();
         }

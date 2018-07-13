@@ -5,17 +5,17 @@ using NUnit.Framework;
 
 namespace Test.Editor.Domain.Players
 {
-    public class PlayerRepositoryTest
+    public class AllPlayersTest
     {
         
         [Test]
         public void GetAll_ShouldReturnEmptyListWhenNoPlayerAdded()
         {
             // Given
-			var playerRepository = new PlayerRepository();
+			var allPlayers = new AllPlayers();
 
             // When 
-            var players = playerRepository.GetAll();
+            var players = allPlayers.GetAll();
 
             // Then
             Assert.That(players, Is.Empty);
@@ -25,16 +25,16 @@ namespace Test.Editor.Domain.Players
         public void Add_ShouldAddPlayersToPlayersList()
         {
             // Given
-            var playerRepository = new PlayerRepository();
+            var allPlayers = new AllPlayers();
             var player1 = new Player("Player1");
             var player2 = new Player("Player2");
 
             // When 
-            playerRepository.Add(player1);
-            playerRepository.Add(player2);
+            allPlayers.Add(player1);
+            allPlayers.Add(player2);
 
             // Then
-            var players = playerRepository.GetAll();
+            var players = allPlayers.GetAll();
             Assert.That(players, Has.Exactly(1).EqualTo(player1));
             Assert.That(players, Has.Exactly(1).EqualTo(player2));
 			Assert.That(players.Count, Is.EqualTo(2));
@@ -44,19 +44,19 @@ namespace Test.Editor.Domain.Players
         public void Remove_ShouldRemovePlayerFromPlayersList()
         {
             // Given
-            var playerRepository = new PlayerRepository();
+            var allPlayers = new AllPlayers();
 
             var player1 = new Player("Player1");
-			playerRepository.Add(player1);
+			allPlayers.Add(player1);
 
             var player2 = new Player("Player2");
-			playerRepository.Add(player2);
+			allPlayers.Add(player2);
 
             // When 
-            playerRepository.Remove(player1);
+            allPlayers.Remove(player1);
 
             // Then
-            var players = playerRepository.GetAll();
+            var players = allPlayers.GetAll();
             Assert.That(players, Has.Exactly(1).EqualTo(player2));
             Assert.That(players.Count, Is.EqualTo(1));
         }

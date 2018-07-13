@@ -13,8 +13,8 @@ namespace Test.Editor.UseCases.Players
         public void Get_ShouldReturnAllPlayersFromRepository()
         {
             // Given
-            var playerRepository = Substitute.For<PlayerRepository>();
-            var getAllPlayers = new GetAllPlayers(playerRepository);
+            var allPlayers = Substitute.For<AllPlayers>();
+            var getAllPlayers = new GetAllPlayers(allPlayers);
 
             var playersInRepository = new List<Player>();
             var player1 = new Player("Test1");
@@ -22,7 +22,7 @@ namespace Test.Editor.UseCases.Players
             var player2 = new Player("Test2");
 			playersInRepository.Add(player2);
 
-            playerRepository.GetAll()
+            allPlayers.GetAll()
                             .Returns(playersInRepository.AsReadOnly());
 
 
