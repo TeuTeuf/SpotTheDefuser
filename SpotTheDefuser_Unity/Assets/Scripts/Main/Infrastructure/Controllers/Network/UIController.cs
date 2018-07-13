@@ -7,16 +7,16 @@ namespace Main.Infrastructure.Controllers.Network
 	{
 		[Inject] public AllPlayerControllers AllPlayerControllers;
 
-		private string _playerName;
-		
+		public string PlayerName { get; private set; }
+
 		public void OnEndEditOnPlayerName(string playerName)
 		{
-			_playerName = playerName;
+			PlayerName = playerName;
 		}
 
 		public void OnClickOnAddPlayer()
 		{
-			Debug.Log("OnClickOnAddPlayer with player name: " + _playerName);
+			Debug.Log("OnClickOnAddPlayer with player name: " + PlayerName);
 		}
 		
 		public void OnClickOnNewDefuseAttempt()

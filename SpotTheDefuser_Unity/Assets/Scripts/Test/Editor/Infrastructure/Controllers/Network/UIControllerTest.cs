@@ -9,7 +9,7 @@ namespace Test.Editor.Infrastructure.Controllers.Network
     public class UIControllerTest
     {
         [Test]
-        public void ClickOnNewDefuseAttempt_ShouldExecuteSetNewDefuseAttemptOnServer_OnAllPlayerControllers()
+        public void OnClickOnNewDefuseAttempt_ShouldExecuteSetNewDefuseAttemptOnServer_OnAllPlayerControllers()
         {
             // Given
             var allPlayerControllers = Substitute.For<AllPlayerControllers>();
@@ -22,6 +22,20 @@ namespace Test.Editor.Infrastructure.Controllers.Network
 
             // Then
             allPlayerControllers.SetNewDefuseAttemptOnServer();
+        }
+
+        [Test]
+        public void OnEndEditOnPlayerName_ShouldSetPlayerNameVariable()
+        {
+            // Given
+            const string playerName = "playerName";
+            var uiController = new GameObject().AddComponent<UIController>();
+
+            // When
+            uiController.OnEndEditOnPlayerName(playerName);
+            
+            // Then
+            Assert.AreEqual(playerName, uiController.PlayerName);
         }
     }
 }
