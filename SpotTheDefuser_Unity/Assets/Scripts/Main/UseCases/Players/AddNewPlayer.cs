@@ -1,4 +1,6 @@
-﻿using Main.Domain.Players;
+﻿using System.Diagnostics;
+using Main.Domain.Players;
+using Debug = UnityEngine.Debug;
 
 namespace Main.UseCases.Players
 {
@@ -14,6 +16,7 @@ namespace Main.UseCases.Players
         public virtual void Execute(Player player)
         {
             _allPlayers.Add(player);
+            Debug.Log("Player added: " + player.Name);
         }
     }
 }

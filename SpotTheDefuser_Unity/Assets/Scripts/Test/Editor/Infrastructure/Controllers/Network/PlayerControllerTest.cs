@@ -10,108 +10,95 @@ using UnityEngine;
 
 namespace Test.Editor.Infrastructure.Controllers.Network
 {
-    public class PlayerControllerTest {
-        
+    public class PlayerControllerTest
+    {
+        private PlayerController _playerController;
+
+        private AllPlayerControllers _allPlayerControllers;
+        private IRandom _random;
+        private AllPlayers _allPlayers;
+        private DefusingState _defusingState;
+        private SetNewDefuseAttempt _setNewDefuseAttempt;
+        private AddNewPlayer _addNewPlayer;
+
+        [SetUp]
+        public void Init()
+        {
+            _random = Substitute.For<IRandom>();
+
+            _allPlayerControllers = new AllPlayerControllers();
+            _allPlayers = Substitute.For<AllPlayers>();
+            _defusingState = Substitute.For<DefusingState>();
+            
+            _setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(_random, _allPlayers, _defusingState);
+            _addNewPlayer = Substitute.For<AddNewPlayer>(_allPlayers);
+            
+            _playerController = new GameObject().AddComponent<PlayerController>();
+            _playerController.AllPlayerControllers = _allPlayerControllers;
+            _playerController.SetDefuseAttempt = _setNewDefuseAttempt;
+            _playerController.AddNewPlayer = _addNewPlayer;
+        }
+
         [Test]
         public void OnStartLocalPlayer_ShouldSetLocalPlayerControlerOnAllPlayerControllers()
         {
-            // Given
-            var allPlayerControllers = new AllPlayerControllers();
-            
-            var playerController = new GameObject().AddComponent<PlayerController>();
-            playerController.AllPlayerControllers = allPlayerControllers;
-            
             // When
-            playerController.OnStartLocalPlayer();
-            
+            _playerController.OnStartLocalPlayer();
+
             // Then
-            Assert.AreSame(playerController, allPlayerControllers.LocalPlayerController);
+            Assert.AreSame(_playerController, _allPlayerControllers.LocalPlayerController);
         }
 
         [Test]
         public void OnStartServer_ShouldAddPlayerControllerToPlayerControllersInAllPlayerControllers()
         {
             // Given
-            var allPlayersControllers = new AllPlayerControllers();
-            
-            var playerController1 = new GameObject().AddComponent<PlayerController>();
-            playerController1.AllPlayerControllers = allPlayersControllers;
-            
-            var playerController2 = new GameObject().AddComponent<PlayerController>();
-            playerController2.AllPlayerControllers = allPlayersControllers;
-            
+            var otherPlayerController = new GameObject().AddComponent<PlayerController>();
+            otherPlayerController.AllPlayerControllers = _allPlayerControllers;
+
             // When
-            playerController1.OnStartServer();
-            playerController2.OnStartServer();
-            
+            _playerController.OnStartServer();
+            otherPlayerController.OnStartServer();
+
             // Then
-            Assert.Contains(playerController1, allPlayersControllers.GetPlayerControllersOnServer());
-            Assert.Contains(playerController2, allPlayersControllers.GetPlayerControllersOnServer());
+            Assert.Contains(_playerController, _allPlayerControllers.GetPlayerControllersOnServer());
+            Assert.Contains(otherPlayerController, _allPlayerControllers.GetPlayerControllersOnServer());
         }
 
         [Test]
         public void CmdSetNewDefuseAttempt_ShouldExecuteSetNewDefuseAttemptUseCase()
         {
-            // Given
-            var random = Substitute.For<IRandom>();
-            var allPlayers = Substitute.For<AllPlayers>();
-            var defusingState = Substitute.For<DefusingState>();
-            var setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(random, allPlayers, defusingState);
-            
-            var playerController = new GameObject().AddComponent<PlayerController>();
-            playerController.SetDefuseAttempt = setNewDefuseAttempt;
-            
             // When
-            playerController.CmdSetNewDefuseAttempt();
-            
+            _playerController.CmdSetNewDefuseAttempt();
+
             // Then
-            setNewDefuseAttempt.Received().Set();
+            _setNewDefuseAttempt.Received().Set();
+        }
+
+        [Test]
+        public void CmdAddNewPlayer_ShouldExecuteAddNewPlayerUseCase()
+        {
+            // Given
+            const string playerName = "Player Name";
+
+            // When
+            _playerController.CmdAddNewPlayer(playerName);
+
+            // Then
+            _addNewPlayer.Received().Execute(Arg.Is<Player>(player => player.Name == playerName));
         }
         
         [Test]
-        public void Start_ShouldExecuteAddNewPlayerUseCaseWithNewPlayerObject()
+        public void CmdAddNewPlayer_ShouldSetPlayerProperty()
         {
             // Given
-            var playersRepository = Substitute.For<AllPlayers>();
-            var mockAddNewPlayer = Substitute.For<AddNewPlayer>(playersRepository);
-
-            var playerController = new GameObject().AddComponent<PlayerController>();
-            playerController.AddNewPlayer = mockAddNewPlayer;
+            const string playerName = "Player Name";
 
             // When
-            playerController.Start();
+            _playerController.CmdAddNewPlayer(playerName);
 
             // Then
-            mockAddNewPlayer
-                .Received()
-                .Execute(Arg.Any<Player>());
-        }
-
-        [Test]
-        public void OnDestroy_ShouldExecuteRemovePlayerUseCaseWithPlayerPreviouslyAddedOnStart()
-        {
-            // Given
-            var playersRepository = Substitute.For<AllPlayers>();
-            var mockAddNewPlayer = Substitute.For<AddNewPlayer>(playersRepository);
-            var mockRemovePlayer = Substitute.For<RemovePlayer>(playersRepository);
-            
-            var playerController = new GameObject().AddComponent<PlayerController>();
-            playerController.AddNewPlayer = mockAddNewPlayer;
-            playerController.RemovePlayer = mockRemovePlayer;
-
-            Player playerAdded = null;
-            mockAddNewPlayer
-                .When(addNewPlayer => addNewPlayer.Execute(Arg.Any<Player>()))
-                .Do(info => playerAdded = (Player) info[0]);
-            playerController.Start();
-            
-            // When
-            playerController.OnDestroy();
-            
-            // Then
-            mockRemovePlayer
-                .Received()
-                .Execute(playerAdded);
+            Assert.AreEqual(playerName, _playerController.Player.Name);
         }
     }
 }

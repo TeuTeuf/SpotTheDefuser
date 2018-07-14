@@ -1,6 +1,4 @@
-﻿using System;
-using Boo.Lang.Runtime;
-using Main.Domain.Players;
+﻿using Main.Domain.Players;
 using NUnit.Framework;
 
 namespace Test.Editor.Domain.Players

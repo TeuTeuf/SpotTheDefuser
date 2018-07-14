@@ -8,34 +8,52 @@ namespace Test.Editor.Infrastructure.Controllers.Network
     [TestFixture]
     public class UIControllerTest
     {
+        private UIController _uiController;
+        private AllPlayerControllers _allPlayerControllers;
+
+        [SetUp]
+        public void Init()
+        {
+            _allPlayerControllers = Substitute.For<AllPlayerControllers>();
+            _uiController = new GameObject().AddComponent<UIController>();
+            _uiController.AllPlayerControllers = _allPlayerControllers;
+        }
+        
         [Test]
         public void OnClickOnNewDefuseAttempt_ShouldExecuteSetNewDefuseAttemptOnServer_OnAllPlayerControllers()
         {
-            // Given
-            var allPlayerControllers = Substitute.For<AllPlayerControllers>();
-
-            var uiController = new GameObject().AddComponent<UIController>();
-            uiController.AllPlayerControllers = allPlayerControllers;
-
             // When
-            uiController.OnClickOnNewDefuseAttempt();
+            _uiController.OnClickOnNewDefuseAttempt();
 
             // Then
-            allPlayerControllers.SetNewDefuseAttemptOnServer();
+            _allPlayerControllers.Received().SetNewDefuseAttemptOnServer();
         }
 
         [Test]
-        public void OnEndEditOnPlayerName_ShouldSetPlayerNameVariable()
+        public void OnEndEditOnPlayerName_ShouldSetPlayerNameProperty()
         {
             // Given
             const string playerName = "playerName";
-            var uiController = new GameObject().AddComponent<UIController>();
 
             // When
-            uiController.OnEndEditOnPlayerName(playerName);
+            _uiController.OnEndEditOnPlayerName(playerName);
             
             // Then
-            Assert.AreEqual(playerName, uiController.PlayerName);
+            Assert.AreEqual(playerName, _uiController.PlayerName);
+        }
+
+        [Test]
+        public void OnClickOnAddPlayer_ShouldAddNewPlayerOnServer_OnAllPlayerControllers()
+        {
+            // Given
+            const string playerName = "playerName";
+            _uiController.OnEndEditOnPlayerName(playerName);
+
+            // When
+            _uiController.OnClickOnAddPlayer();
+            
+            // Then
+            _allPlayerControllers.Received().AddNewPlayerOnServer(playerName);
         }
     }
 }

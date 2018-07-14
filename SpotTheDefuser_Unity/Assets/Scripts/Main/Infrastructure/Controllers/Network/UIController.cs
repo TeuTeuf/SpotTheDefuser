@@ -16,7 +16,7 @@ namespace Main.Infrastructure.Controllers.Network
 
 		public void OnClickOnAddPlayer()
 		{
-			Debug.Log("OnClickOnAddPlayer with player name: " + PlayerName);
+			AllPlayerControllers.AddNewPlayerOnServer(PlayerName);
 		}
 		
 		public void OnClickOnNewDefuseAttempt()

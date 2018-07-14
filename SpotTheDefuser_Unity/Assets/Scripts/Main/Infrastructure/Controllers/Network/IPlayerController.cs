@@ -3,5 +3,6 @@
     public interface IPlayerController
     {
         void CmdSetNewDefuseAttempt();
+        void CmdAddNewPlayer(string playerName);
     }
 }

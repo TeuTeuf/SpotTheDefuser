@@ -6,14 +6,16 @@ namespace Test.Editor.Domain.Players {
     public class PlayerTest
     {
         [Test]
-        public void ShouldHaveAPseudo()
+        public void NewPlayer_ShouldHaveAName()
         {
             // Given
+            const string playerName = "Test";
+            
             // When
-            var player = new Player("Test");
+            var player = new Player(playerName);
 
             // Then
-            Assert.That(player.Pseudo, Is.EqualTo("Test"));
+            Assert.That(player.Name, Is.EqualTo(playerName));
         }
     }    
 }

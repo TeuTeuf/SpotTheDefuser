@@ -2,16 +2,13 @@ namespace Main.Domain.Players
 {
     public class Player
     {
-        private readonly string _pseudo;
+        public string Name { get; private set; }
 
-        public string Pseudo
+        public Player(string name)
         {
-            get { return _pseudo; }
+            Name = name;
         }
-
-        public Player(string pseudo)
-        {
-            _pseudo = pseudo;
-        }
+        
+        
     }
 }

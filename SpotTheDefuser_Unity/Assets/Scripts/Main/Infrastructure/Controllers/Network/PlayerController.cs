@@ -10,13 +10,11 @@ namespace Main.Infrastructure.Controllers.Network
 
         [Inject] public AddNewPlayer AddNewPlayer;
 
-        [Inject] public RemovePlayer RemovePlayer;
-
         [Inject] public SetNewDefuseAttempt SetDefuseAttempt;
 
         [Inject] public AllPlayerControllers AllPlayerControllers;
         
-        private Player _player;
+        public Player Player { get; private set; }
 
         public override void OnStartLocalPlayer()
         {
@@ -30,21 +28,17 @@ namespace Main.Infrastructure.Controllers.Network
             AllPlayerControllers.AddPlayerControllerOnServer(this);
         }
 
-        public void Start () 
-        {
-            _player = new Player("Player");
-            AddNewPlayer.Execute(_player);
-        }
-
-        public void OnDestroy()
-        {
-            RemovePlayer.Execute(_player);
-        }
-
         [Command]
         public void CmdSetNewDefuseAttempt()
         {
             SetDefuseAttempt.Set();
+        }
+
+        [Command]
+        public void CmdAddNewPlayer(string playerName)
+        {
+            Player = new Player(playerName);
+            AddNewPlayer.Execute(Player);
         }
     }
 }
