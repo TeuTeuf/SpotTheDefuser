@@ -14,7 +14,7 @@ namespace Main.Domain.DefuseAttempts
             _defuserPlayers = GetDefuserPlayers(random, numberOfDefuserPlayers, allPlayers);
         }
 
-        public bool IsDefuser(Player player)
+        public virtual bool IsDefuser(Player player)
         {
             return _defuserPlayers.Contains(player);
         }

@@ -9,12 +9,12 @@ namespace Main.Infrastructure.Controllers.Network
     public class PlayerController : NetworkBehaviour, IPlayerController {
 
         [Inject] public AddNewPlayer AddNewPlayer;
-
         [Inject] public SetNewDefuseAttempt SetDefuseAttempt;
+        [Inject] public TryToDefuse TryToDefuse;
 
         [Inject] public AllPlayerControllers AllPlayerControllers;
-        
-        public Player Player { get; private set; }
+
+        private Player _player;
 
         public override void OnStartLocalPlayer()
         {
@@ -37,8 +37,14 @@ namespace Main.Infrastructure.Controllers.Network
         [Command]
         public void CmdAddNewPlayer(string playerName)
         {
-            Player = new Player(playerName);
-            AddNewPlayer.Execute(Player);
+            _player = new Player(playerName);
+            AddNewPlayer.Execute(_player);
+        }
+
+        [Command]
+        public void CmdTryToDefuse()
+        {
+            TryToDefuse.Try(_player);
         }
     }
 }

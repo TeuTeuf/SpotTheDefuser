@@ -4,5 +4,6 @@
     {
         void CmdSetNewDefuseAttempt();
         void CmdAddNewPlayer(string playerName);
+        void CmdTryToDefuse();
     }
 }

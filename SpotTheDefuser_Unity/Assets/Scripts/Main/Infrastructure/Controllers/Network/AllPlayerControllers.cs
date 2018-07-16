@@ -33,5 +33,10 @@ namespace Main.Infrastructure.Controllers.Network
         {
             LocalPlayerController.CmdAddNewPlayer(playerName);
         }
+
+        public virtual void TryToDefuseOnServer()
+        {
+            LocalPlayerController.CmdTryToDefuse();
+        }
     }
 }

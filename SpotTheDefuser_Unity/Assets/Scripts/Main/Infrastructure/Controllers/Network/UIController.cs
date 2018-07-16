@@ -26,7 +26,7 @@ namespace Main.Infrastructure.Controllers.Network
 		
 		public void OnClickOnTryToDefuse()
 		{
-			Debug.Log("OnClickOnTryToDefuse");
+			AllPlayerControllers.TryToDefuseOnServer();
 		}
 	}
 }

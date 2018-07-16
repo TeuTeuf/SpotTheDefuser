@@ -12,31 +12,33 @@ namespace Test.Editor.Infrastructure.Controllers.Network
 {
     public class PlayerControllerTest
     {
+        private SetNewDefuseAttempt _setNewDefuseAttempt;
+        private AddNewPlayer _addNewPlayer;
+        private TryToDefuse _tryToDefuse;
+        
         private PlayerController _playerController;
 
         private AllPlayerControllers _allPlayerControllers;
-        private IRandom _random;
-        private AllPlayers _allPlayers;
-        private DefusingState _defusingState;
-        private SetNewDefuseAttempt _setNewDefuseAttempt;
-        private AddNewPlayer _addNewPlayer;
 
         [SetUp]
         public void Init()
         {
-            _random = Substitute.For<IRandom>();
+            var random = Substitute.For<IRandom>();
+            var allPlayers = Substitute.For<AllPlayers>();
+            var defusingState = Substitute.For<DefusingState>();
+            var defusingListener = Substitute.For<IDefusingListener>();
 
-            _allPlayerControllers = new AllPlayerControllers();
-            _allPlayers = Substitute.For<AllPlayers>();
-            _defusingState = Substitute.For<DefusingState>();
+            _setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(random, allPlayers, defusingState);
+            _addNewPlayer = Substitute.For<AddNewPlayer>(allPlayers);
+            _tryToDefuse = Substitute.For<TryToDefuse>(defusingState, defusingListener);
             
-            _setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(_random, _allPlayers, _defusingState);
-            _addNewPlayer = Substitute.For<AddNewPlayer>(_allPlayers);
+            _allPlayerControllers = new AllPlayerControllers();
             
             _playerController = new GameObject().AddComponent<PlayerController>();
             _playerController.AllPlayerControllers = _allPlayerControllers;
             _playerController.SetDefuseAttempt = _setNewDefuseAttempt;
             _playerController.AddNewPlayer = _addNewPlayer;
+            _playerController.TryToDefuse = _tryToDefuse;
         }
 
         [Test]
@@ -89,16 +91,18 @@ namespace Test.Editor.Infrastructure.Controllers.Network
         }
         
         [Test]
-        public void CmdAddNewPlayer_ShouldSetPlayerProperty()
+        public void CmdTryToDefuse_ShouldExecuteTryToDefuseUseCase()
         {
             // Given
             const string playerName = "Player Name";
 
-            // When
             _playerController.CmdAddNewPlayer(playerName);
-
+            
+            // When
+            _playerController.CmdTryToDefuse();
+            
             // Then
-            Assert.AreEqual(playerName, _playerController.Player.Name);
+            _tryToDefuse.Received().Try(Arg.Is<Player>(player => player.Name == playerName));
         }
     }
 }

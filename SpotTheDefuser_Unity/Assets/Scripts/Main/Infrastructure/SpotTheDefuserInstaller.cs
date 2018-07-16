@@ -28,6 +28,7 @@ namespace Main.Infrastructure
             Container.Bind<GetAllPlayers>().AsSingle();
             Container.Bind<RemovePlayer>().AsSingle();
             Container.Bind<SetNewDefuseAttempt>().AsSingle();
+            Container.Bind<TryToDefuse>().AsSingle();
         }
 
         private void InstallOtherSingletons()
@@ -35,6 +36,7 @@ namespace Main.Infrastructure
             Container.Bind<AllPlayers>().AsSingle();
             Container.Bind<DefusingState>().AsSingle();
             Container.Bind<AllPlayerControllers>().AsSingle();
+            Container.Bind<IDefusingListener>().To<DefusingListener>().AsSingle();
         }
     }
 }

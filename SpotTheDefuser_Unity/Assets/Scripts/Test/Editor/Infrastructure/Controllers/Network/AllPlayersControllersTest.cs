@@ -39,5 +39,15 @@ namespace Test.Editor.Infrastructure.Controllers.Network
             // Then
             _localPlayerController.Received().CmdAddNewPlayer(playerName);
         }
+
+        [Test]
+        public void TryToDefuseOnServer_ShouldExecuteCmdTryToDefuse_OnLocalPlayerController()
+        {
+            // When
+            _allPlayerControllers.TryToDefuseOnServer();
+            
+            // Then
+            _localPlayerController.Received().CmdTryToDefuse();
+        }
     }
 }

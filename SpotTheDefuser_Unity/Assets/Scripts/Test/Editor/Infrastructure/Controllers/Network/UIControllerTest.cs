@@ -10,7 +10,7 @@ namespace Test.Editor.Infrastructure.Controllers.Network
     {
         private UIController _uiController;
         private AllPlayerControllers _allPlayerControllers;
-
+        
         [SetUp]
         public void Init()
         {
@@ -54,6 +54,16 @@ namespace Test.Editor.Infrastructure.Controllers.Network
             
             // Then
             _allPlayerControllers.Received().AddNewPlayerOnServer(playerName);
+        }
+
+        [Test]
+        public void OnClickOnTryToDefuse_ShouldTryToDefuseOnServer_OnAllPlayerControllers()
+        {
+            // When
+            _uiController.OnClickOnTryToDefuse();
+            
+            // Then
+            _allPlayerControllers.Received().TryToDefuseOnServer();
         }
     }
 }
