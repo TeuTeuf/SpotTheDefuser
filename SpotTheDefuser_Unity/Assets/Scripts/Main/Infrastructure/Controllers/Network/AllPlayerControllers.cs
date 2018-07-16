@@ -5,7 +5,7 @@ namespace Main.Infrastructure.Controllers.Network
 {
     public class AllPlayerControllers
     {
-        public IPlayerController LocalPlayerController { get; set; }
+        public PlayerController LocalPlayerController { get; set; }
         
         private readonly List<PlayerController> _playerControllersOnServer;
         

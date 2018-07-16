@@ -8,7 +8,7 @@ namespace Main.Infrastructure
     {
         public void OnDefuseTried(bool defuseSucceeded, Player player)
         {
-            Debug.Log(string.Format("{0} tried to defuse. Success: {1}", defuseSucceeded, player.Name));
+            Debug.Log(string.Format("{0} tried to defuse. Success: {1}", player.Name, defuseSucceeded));
         }
     }
 }
