@@ -17,5 +17,15 @@ namespace Test.Editor.Domain.Players {
             // Then
             Assert.That(player.Name, Is.EqualTo(playerName));
         }
+
+        [Test]
+        public void NewPlayer_ShouldADefaultConstructorForNetworkSerialization()
+        {
+            // When
+            var player = new Player();
+            
+            // Then
+            Assert.IsNotNull(player);
+        }
     }    
 }

@@ -1,13 +1,14 @@
 ﻿using Main.Domain.Players;
 using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
+using UnityEngine;
 using UnityEngine.Networking;
 using Zenject;
 
 namespace Main.Infrastructure.Controllers.Network
 {
-    public class PlayerController : NetworkBehaviour, IPlayerController {
-
+    public class PlayerController : NetworkBehaviour /*, IPlayerController*/
+    {
         [Inject] public AddNewPlayer AddNewPlayer;
         [Inject] public SetNewDefuseAttempt SetDefuseAttempt;
         [Inject] public TryToDefuse TryToDefuse;
@@ -45,6 +46,15 @@ namespace Main.Infrastructure.Controllers.Network
         public void CmdTryToDefuse()
         {
             TryToDefuse.Try(_player);
+        }
+
+        [ClientRpc]
+        public void RpcOnDefuseTried(bool defuseSucceeded, Player player)
+        {
+            if (hasAuthority)
+            {
+                Debug.Log($"{player.Name} tried to defuse. Success: {defuseSucceeded}");
+            }
         }
     }
 }

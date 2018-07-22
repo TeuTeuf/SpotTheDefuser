@@ -2,13 +2,13 @@ namespace Main.Domain.Players
 {
     public class Player
     {
-        public string Name { get; private set; }
+        public readonly string Name;
 
+        public Player() {}
+        
         public Player(string name)
         {
             Name = name;
         }
-        
-        
     }
 }

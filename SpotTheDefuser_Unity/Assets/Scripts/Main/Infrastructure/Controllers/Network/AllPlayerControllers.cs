@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Main.Domain.Players;
 
 namespace Main.Infrastructure.Controllers.Network
 {
@@ -37,6 +38,14 @@ namespace Main.Infrastructure.Controllers.Network
         public virtual void TryToDefuseOnServer()
         {
             LocalPlayerController.CmdTryToDefuse();
+        }
+
+        public virtual void OnDefuseTried(bool defuseSucceeded, Player player)
+        {
+            foreach (var playerController in _playerControllersOnServer)
+            {
+                playerController.RpcOnDefuseTried(defuseSucceeded, player);
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Test.Editor.Infrastructure.Controllers.Network
     {
         private UIController _uiController;
         private AllPlayerControllers _allPlayerControllers;
-        
+
         [SetUp]
         public void Init()
         {

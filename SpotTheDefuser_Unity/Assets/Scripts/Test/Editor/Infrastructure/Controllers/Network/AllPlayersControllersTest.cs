@@ -1,4 +1,5 @@
-﻿//using Main.Infrastructure.Controllers.Network;
+﻿//using Main.Domain.Players;
+//using Main.Infrastructure.Controllers.Network;
 //using NSubstitute;
 //using NUnit.Framework;
 //
@@ -8,12 +9,14 @@
 //    public class AllPlayersControllersTest
 //    {
 //        private IPlayerController _localPlayerController;
+//        
 //        private AllPlayerControllers _allPlayerControllers;
 //
 //        [SetUp]
 //        public void Init()
 //        {
 //            _localPlayerController = Substitute.For<IPlayerController>();
+//            
 //            _allPlayerControllers = new AllPlayerControllers {LocalPlayerController = _localPlayerController};
 //        }
 //        
@@ -48,6 +51,26 @@
 //            
 //            // Then
 //            _localPlayerController.Received().CmdTryToDefuse();
+//        }
+//        
+//        [Test]
+//        public void OnDefuseTried_ShouldExecuteRpcOnDefuseTried_OnAllPlayerControllers()
+//        {
+//            // Given
+//            var playerControllerOnServer1 = Substitute.For<IPlayerController>();
+//            _allPlayerControllers.AddPlayerControllerOnServer(playerControllerOnServer1);
+//            
+//            var playerControllerOnServer2 = Substitute.For<IPlayerController>();
+//            _allPlayerControllers.AddPlayerControllerOnServer(playerControllerOnServer2);
+//
+//            var player = new Player("Player");
+//            
+//            // When
+//            _allPlayerControllers.OnDefuseTried(true, player);
+//            
+//            // Then
+//            playerControllerOnServer1.Received().RpcOnDefuseTried(true, player);
+//            playerControllerOnServer2.Received().RpcOnDefuseTried(true, player);
 //        }
 //    }
 //}
