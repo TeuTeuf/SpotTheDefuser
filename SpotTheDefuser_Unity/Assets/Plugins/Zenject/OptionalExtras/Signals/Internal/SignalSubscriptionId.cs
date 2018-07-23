@@ -6,7 +6,7 @@ namespace Zenject
     [System.Diagnostics.DebuggerStepThrough]
     public struct SignalSubscriptionId : IEquatable<SignalSubscriptionId>
     {
-        public SignalSubscriptionId(Type signalType, object callback) : this()
+        public SignalSubscriptionId(Type signalType, object callback)
         {
             SignalType = signalType;
             Callback = callback;
