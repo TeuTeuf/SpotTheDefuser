@@ -1,7 +1,7 @@
 using Main.Domain.Players;
 using NUnit.Framework;
 
-namespace Test.Editor.Domain.Players {
+namespace Test.TestsEditMode.Domain.Players {
     [TestFixture]
     public class PlayerTest
     {

@@ -1,7 +1,7 @@
 ﻿using Main.Infrastructure;
 using NUnit.Framework;
 
-namespace Test.Editor.Infrastructure
+namespace Test.TestsEditMode.Infrastructure
 {
     [TestFixture]
     public class RandomSTDTest
@@ -11,8 +11,8 @@ namespace Test.Editor.Infrastructure
         {
             // Given
             var randomStd = new RandomSTD();
-            var includedMin = 0;
-            var excludedMax = 3;
+            const int includedMin = 0;
+            const int excludedMax = 3;
                 
             // When
             var result = randomStd.Range(includedMin, excludedMax);

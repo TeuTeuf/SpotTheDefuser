@@ -1,0 +1,14 @@
+{
+    "name": "TestsEditMode",
+    "references": [
+        "Main"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

@@ -3,7 +3,7 @@ using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace Test.Editor.Infrastructure.Controllers.Network
+namespace Test.TestsEditMode.Infrastructure.Controllers.Network
 {
     [TestFixture]
     public class UIControllerTest

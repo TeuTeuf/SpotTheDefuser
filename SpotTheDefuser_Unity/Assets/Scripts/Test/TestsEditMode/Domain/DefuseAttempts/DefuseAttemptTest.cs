@@ -5,32 +5,33 @@ using Main.Domain.Players;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Test.Editor.Domain.DefuseAttempts
+namespace Test.TestsEditMode.Domain.DefuseAttempts
 {
     [TestFixture]
     public class DefuseAttemptTest
     {
+        [SetUp]
+        public void Setup()
+        {
+            _random = Substitute.For<IRandom>();
+        }
+
         private readonly Player _player1 = new Player("Player");
         private readonly Player _player2 = new Player("Player");
         private readonly Player _player3 = new Player("Player");
         private readonly Player _player4 = new Player("Player");
         private readonly Player _player5 = new Player("Player");
         private readonly Player _player6 = new Player("Player");
-        
+
         private IRandom _random;
-        
-        [SetUp]
-        public void Setup()
-        {
-            _random = Substitute.For<IRandom>();
-        }
-        
+
         [Test]
-        public void Execute_ShouldReturnDefuseAttemptReturningIsDefuserTrueForFirstPlayerAndFalseForOthers_WhenRandomReturnZero_WithThreePlayers()
+        public void
+            Execute_ShouldReturnDefuseAttemptReturningIsDefuserTrueForFirstPlayerAndFalseForOthers_WhenRandomReturnZero_WithThreePlayers()
         {
             // Given
             var players = new List<Player> {_player1, _player2, _player3}.AsReadOnly();
-            
+
             _random.Range(Arg.Any<int>(), Arg.Any<int>())
                 .Returns(0);
 
@@ -42,14 +43,15 @@ namespace Test.Editor.Domain.DefuseAttempts
             Assert.IsFalse(defuseAttempt.IsDefuser(_player2));
             Assert.IsFalse(defuseAttempt.IsDefuser(_player3));
         }
-        
-        
+
+
         [Test]
-        public void Execute_ShouldReturnDefuseAttemptReturningIsDefuserTrueForLastPlayerAndFalseForOthers_WhenRandomReturnMaxValue_WithThreePlayers()
+        public void
+            Execute_ShouldReturnDefuseAttemptReturningIsDefuserTrueForLastPlayerAndFalseForOthers_WhenRandomReturnMaxValue_WithThreePlayers()
         {
             // Given
             var players = new List<Player> {_player1, _player2, _player3}.AsReadOnly();
-            
+
             _random.Range(Arg.Any<int>(), Arg.Any<int>())
                 .Returns(players.Count - 1);
 
@@ -61,10 +63,11 @@ namespace Test.Editor.Domain.DefuseAttempts
             Assert.IsFalse(defuseAttempt.IsDefuser(_player2));
             Assert.IsTrue(defuseAttempt.IsDefuser(_player3));
         }
-        
-               
+
+
         [Test]
-        public void Execute_ShouldReturnDefuseAttemptReturningIsDefuserTrueForTwoFirstPlayersAndFalseForOthers_WhenRandomReturnAlwaysZero_WithFivePlayers()
+        public void
+            Execute_ShouldReturnDefuseAttemptReturningIsDefuserTrueForTwoFirstPlayersAndFalseForOthers_WhenRandomReturnAlwaysZero_WithFivePlayers()
         {
             // Given
             var players = new List<Player> {_player1, _player2, _player3, _player4, _player5}.AsReadOnly();
@@ -74,7 +77,7 @@ namespace Test.Editor.Domain.DefuseAttempts
 
             // When
             var defuseAttempt = new DefuseAttempt(_random, players);
-            
+
             // Then
             Assert.IsTrue(defuseAttempt.IsDefuser(_player1));
             Assert.IsTrue(defuseAttempt.IsDefuser(_player2));
@@ -82,20 +85,21 @@ namespace Test.Editor.Domain.DefuseAttempts
             Assert.IsFalse(defuseAttempt.IsDefuser(_player4));
             Assert.IsFalse(defuseAttempt.IsDefuser(_player5));
         }
-        
-        
+
+
         [Test]
-        public void Execute_ShouldReturnDefuseAttemptReturningIsDefuserTrueForTwoLastPlayersAndFalseForOthers_WhenRandomReturnMaxValue_WithSixPlayers()
+        public void
+            Execute_ShouldReturnDefuseAttemptReturningIsDefuserTrueForTwoLastPlayersAndFalseForOthers_WhenRandomReturnMaxValue_WithSixPlayers()
         {
             // Given
             var players = new List<Player> {_player1, _player2, _player3, _player4, _player5, _player6}.AsReadOnly();
 
             _random.Range(0, 6).Returns(5);
             _random.Range(0, 5).Returns(4);
-            
+
             // When
             var defuseAttempt = new DefuseAttempt(_random, players);
-            
+
             // Then
             Assert.IsFalse(defuseAttempt.IsDefuser(_player1));
             Assert.IsFalse(defuseAttempt.IsDefuser(_player2));

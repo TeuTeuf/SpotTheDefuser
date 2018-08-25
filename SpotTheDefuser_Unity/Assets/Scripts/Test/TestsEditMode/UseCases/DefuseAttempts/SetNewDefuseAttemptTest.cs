@@ -6,7 +6,7 @@ using Main.UseCases.DefuseAttempts;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Test.Editor.UseCases.DefuseAttempts
+namespace Test.TestsEditMode.UseCases.DefuseAttempts
 {
     [TestFixture]
     public class SetNewDefuseAttemptTest

@@ -3,7 +3,7 @@ using Main.UseCases.Players;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Test.Editor.UseCases.Players
+namespace Test.TestsEditMode.UseCases.Players
 {
     [TestFixture]
     public class RemovePlayerTest

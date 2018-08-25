@@ -3,7 +3,7 @@ using Main.Infrastructure.Controllers.Network;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Test.Editor.Infrastructure.Controllers.Network
+namespace Test.TestsEditMode.Infrastructure.Controllers.Network
 {
     [TestFixture]
     public class DefusingListenerTest

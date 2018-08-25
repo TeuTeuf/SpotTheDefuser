@@ -3,7 +3,7 @@ using Main.UseCases.Players;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Test.Editor.UseCases.Players
+namespace Test.TestsEditMode.UseCases.Players
 {
     [TestFixture]
     public class AddNewPlayerTest
@@ -12,15 +12,15 @@ namespace Test.Editor.UseCases.Players
         public void Execute_ShouldAddPlayerToAllPlayers()
         {
             // Given
-            var AllPlayers = Substitute.For<AllPlayers>();
-            var addNewPlayer = new AddNewPlayer(AllPlayers);
+            var allPlayers = Substitute.For<AllPlayers>();
+            var addNewPlayer = new AddNewPlayer(allPlayers);
             var player = new Player("Test");
 
             // When
             addNewPlayer.Execute(player);
 
             // Then
-            AllPlayers
+            allPlayers
                 .Received()
                 .Add(player);
         }
