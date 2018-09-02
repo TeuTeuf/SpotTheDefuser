@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 readonly DIRECTORY_DOMAIN="Assets/Scripts/Main/Domain/"
 readonly DIRECTORY_USECASES="Assets/Scripts/Main/UseCases/"

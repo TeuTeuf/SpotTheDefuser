@@ -16,6 +16,7 @@ variables:
   - echo "$UNITY_LICENSE_CONTENT" | tr -d '\r' > /root/.local/share/unity3d/Unity/Unity_lic.ulf
 
 check-cleanarchi:
+  image: alpine:latest
   stage: check
   script: | 
     chmod +x Tools/checkCleanArchitecture.sh
