@@ -15,7 +15,7 @@ namespace Test.TestsEditMode.Domain.Players {
             var player = new Player(playerName);
 
             // Then
-            Assert.That(player.Name, Is.EqualTo(playerName));
+            Assert.That(player.Name, Is.EqualTo(playerName + "FAIL"));
         }
 
         [Test]

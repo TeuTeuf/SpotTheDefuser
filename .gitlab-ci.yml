@@ -50,6 +50,7 @@ test-playmode:
     xvfb-run --server-args="-screen 0 1024x768x24" \
       /opt/Unity/Editor/Unity \
       -projectPath $(pwd) \
+      -quit \
       -batchmode \
       -buildTarget $BUILD_TARGET \
       -customBuildTarget $BUILD_TARGET \
