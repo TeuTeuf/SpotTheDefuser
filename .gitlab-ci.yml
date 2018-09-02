@@ -20,7 +20,6 @@ variables:
   script: |
     /opt/Unity/Editor/Unity \
       -projectPath $(pwd) \
-      -quit \
       -batchmode \
       -force-free \
       -nographics \
