@@ -3,12 +3,8 @@
     "references": [
         "Zenject"
     ],
-    "optionalUnityReferences": [
-        "TestAssemblies"
-    ],
     "includePlatforms": [
         "Editor"
     ],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false
+    "excludePlatforms": []
 }
