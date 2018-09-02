@@ -1,6 +1,7 @@
 image: "registry.gitlab.com/teuteuf/unity3d:2018.2.5f1-"
 
 stages:
+- check
 - test
 - build
 - deploy
@@ -13,6 +14,12 @@ variables:
   - mkdir -p /root/.cache/unity3d
   - mkdir -p /root/.local/share/unity3d/Unity/
   - echo "$UNITY_LICENSE_CONTENT" | tr -d '\r' > /root/.local/share/unity3d/Unity/Unity_lic.ulf
+
+check-cleanarchi:
+  stage: check
+  script: | 
+    chmod +x Tools/checkCleanArchitecture.sh
+    ./Tools/checkCleanArchitecture.sh
 
 .test: &test
   stage: test
