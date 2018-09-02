@@ -22,7 +22,7 @@ variables:
       /opt/Unity/Editor/Unity \
         -projectPath $(pwd) \
         -runTests \
-        -testPlatform $TEST_PLATFORM
+        -testPlatform $TEST_PLATFORM \
         -testResults $(pwd)/$TEST_PLATFORM-results.xml \
         -batchmode
   artifacts:
