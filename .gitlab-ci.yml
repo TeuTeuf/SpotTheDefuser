@@ -6,7 +6,7 @@ stages:
 - deploy
 
 variables:
-  BUILD_NAME: ExampleProjectName
+  BUILD_NAME: SpotTheDefuser
 
 .unity_before_script: &unity_before_script
   before_script:
@@ -30,7 +30,7 @@ variables:
       -testPlatform $TEST_PLATFORM
   artifacts:
     paths:
-    - ./$TEST_PLATFORM-results.xml
+    - $(pwd)/$TEST_PLATFORM-results.xml
 
 test-editmode:
   <<: *test
@@ -76,10 +76,10 @@ build-StandaloneWindows64:
   variables:
     BUILD_TARGET: StandaloneWindows64
 
-build-Android:
-  <<: *build
-  variables:
-    BUILD_TARGET: Android
+#build-Android:
+#  <<: *build
+#  variables:
+#    BUILD_TARGET: Android
 
 build-WebGL:
   <<: *build
