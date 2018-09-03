@@ -87,6 +87,7 @@ build-Android:
   <<: *build
   variables:
     BUILD_TARGET: Android
+  allow_failure: true
 
 build-WebGL:
   image: registry.gitlab.com/teuteuf/unity3d:2018.2.6f1-webgl
