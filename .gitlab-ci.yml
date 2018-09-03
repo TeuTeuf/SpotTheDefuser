@@ -1,4 +1,4 @@
-image: "registry.gitlab.com/teuteuf/unity3d:2018.2.5f1-"
+image: "registry.gitlab.com/teuteuf/unity3d:2018.2.6f1"
 
 stages:
 - check
@@ -77,16 +77,19 @@ test-playmode:
 #     - master
 
 build-StandaloneWindows64:
+  image: registry.gitlab.com/teuteuf/unity3d:2018.2.6f1-windows
   <<: *build
   variables:
     BUILD_TARGET: StandaloneWindows64
 
 build-Android:
+  image: registry.gitlab.com/teuteuf/unity3d:2018.2.6f1-android
   <<: *build
   variables:
     BUILD_TARGET: Android
 
 build-WebGL:
+  image: registry.gitlab.com/teuteuf/unity3d:2018.2.6f1-webgl
   <<: *build
   variables:
     BUILD_TARGET: WebGL
