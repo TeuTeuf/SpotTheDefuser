@@ -81,10 +81,10 @@ build-StandaloneWindows64:
   variables:
     BUILD_TARGET: StandaloneWindows64
 
-#build-Android:
-#  <<: *build
-#  variables:
-#    BUILD_TARGET: Android
+build-Android:
+  <<: *build
+  variables:
+    BUILD_TARGET: Android
 
 build-WebGL:
   <<: *build
