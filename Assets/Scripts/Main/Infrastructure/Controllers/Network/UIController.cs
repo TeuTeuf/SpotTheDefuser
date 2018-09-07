@@ -7,9 +7,15 @@ namespace Main.Infrastructure.Controllers.Network
 {
 	public class UIController : MonoBehaviour
 	{
-		[Inject] public AllPlayerControllers AllPlayerControllers;
+		private AllPlayerControllers _allPlayerControllers;
 		
 		public string PlayerName { get; private set; }
+
+		[Inject]
+		public void Init(AllPlayerControllers allPlayerControllers)
+		{
+			_allPlayerControllers = allPlayerControllers;
+		}
 
 		public void OnEndEditOnPlayerName(string playerName)
 		{
@@ -18,23 +24,17 @@ namespace Main.Infrastructure.Controllers.Network
 
 		public void OnClickOnAddPlayer()
 		{
-			AllPlayerControllers.AddNewPlayerOnServer(PlayerName);
+			_allPlayerControllers.AddNewPlayerOnServer(PlayerName);
 		}
 
 		public void OnClickOnNewDefuseAttempt()
 		{
-			AllPlayerControllers.SetNewDefuseAttemptOnServer();
+			_allPlayerControllers.SetNewDefuseAttemptOnServer();
 		}
 
 		public void OnClickOnTryToDefuse()
 		{
-			AllPlayerControllers.TryToDefuseOnServer();
+			_allPlayerControllers.TryToDefuseOnServer();
 		}
-
-//		[ClientRpc]
-//		public virtual void RpcOnDefuseTried(bool defuseSucceeded, Player player)
-//		{
-//			Debug.Log($"{player.Name} tried to defuse. Success: {defuseSucceeded}");
-//		}
 	}
 }

@@ -9,43 +9,52 @@ namespace Main.Infrastructure.Controllers.Network
 {
     public class PlayerController : NetworkBehaviour /*, IPlayerController*/
     {
-        [Inject] public AddNewPlayer AddNewPlayer;
-        [Inject] public SetNewDefuseAttempt SetDefuseAttempt;
-        [Inject] public TryToDefuse TryToDefuse;
+        private AddNewPlayer _addNewPlayer;
+        private SetNewDefuseAttempt _setNewDefuseAttempt;
+        private TryToDefuse _tryToDefuse;
 
-        [Inject] public AllPlayerControllers AllPlayerControllers;
+        private AllPlayerControllers _allPlayerControllers;
 
         private Player _player;
+
+        [Inject]
+        public void Init(AddNewPlayer addNewPlayer, SetNewDefuseAttempt setNewDefuseAttempt, TryToDefuse tryToDefuse, AllPlayerControllers allPlayerControllers)
+        {
+            _addNewPlayer = addNewPlayer;
+            _setNewDefuseAttempt = setNewDefuseAttempt;
+            _tryToDefuse = tryToDefuse;
+            _allPlayerControllers = allPlayerControllers;
+        }
 
         public override void OnStartLocalPlayer()
         {
             base.OnStartLocalPlayer();
-            AllPlayerControllers.LocalPlayerController = this;
+            _allPlayerControllers.LocalPlayerController = this;
         }
 
         public override void OnStartServer()
         {
             base.OnStartServer();
-            AllPlayerControllers.AddPlayerControllerOnServer(this);
+            _allPlayerControllers.AddPlayerControllerOnServer(this);
         }
 
         [Command]
         public void CmdSetNewDefuseAttempt()
         {
-            SetDefuseAttempt.Set();
+            _setNewDefuseAttempt.Set();
         }
 
         [Command]
         public void CmdAddNewPlayer(string playerName)
         {
             _player = new Player(playerName);
-            AddNewPlayer.Execute(_player);
+            _addNewPlayer.Execute(_player);
         }
 
         [Command]
         public void CmdTryToDefuse()
         {
-            TryToDefuse.Try(_player);
+            _tryToDefuse.Try(_player);
         }
 
         [ClientRpc]

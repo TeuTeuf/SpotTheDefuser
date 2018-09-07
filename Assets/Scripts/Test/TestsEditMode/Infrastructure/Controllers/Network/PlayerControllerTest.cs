@@ -35,14 +35,11 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _allPlayerControllers = new AllPlayerControllers();
             
             _playerController = new GameObject().AddComponent<PlayerController>();
-            _playerController.AllPlayerControllers = _allPlayerControllers;
-            _playerController.SetDefuseAttempt = _setNewDefuseAttempt;
-            _playerController.AddNewPlayer = _addNewPlayer;
-            _playerController.TryToDefuse = _tryToDefuse;
+            _playerController.Init(_addNewPlayer, _setNewDefuseAttempt, _tryToDefuse, _allPlayerControllers);
         }
 
         [Test]
-        public void OnStartLocalPlayer_ShouldSetLocalPlayerControlerOnAllPlayerControllers()
+        public void OnStartLocalPlayer_ShouldSetLocalPlayerControllerOnAllPlayerControllers()
         {
             // When
             _playerController.OnStartLocalPlayer();
@@ -56,7 +53,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             // Given
             var otherPlayerController = new GameObject().AddComponent<PlayerController>();
-            otherPlayerController.AllPlayerControllers = _allPlayerControllers;
+            otherPlayerController.Init(null, null, null, _allPlayerControllers);
 
             // When
             _playerController.OnStartServer();

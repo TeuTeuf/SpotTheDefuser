@@ -50,6 +50,7 @@ ExportedObj/
 *.booproj
 *.svd
 *.pdb
+*.csproj*.meta
 
 # Unity3D generated meta files
 *.pidb.meta

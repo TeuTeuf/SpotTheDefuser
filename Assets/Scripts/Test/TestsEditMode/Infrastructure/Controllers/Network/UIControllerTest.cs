@@ -16,7 +16,8 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             _allPlayerControllers = Substitute.For<AllPlayerControllers>();
             _uiController = new GameObject().AddComponent<UIController>();
-            _uiController.AllPlayerControllers = _allPlayerControllers;
+
+            _uiController.Init(_allPlayerControllers);
         }
         
         [Test]
