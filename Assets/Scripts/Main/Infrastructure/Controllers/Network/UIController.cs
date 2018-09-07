@@ -1,12 +1,15 @@
 ﻿using Main.Domain.Players;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 using Zenject;
 
 namespace Main.Infrastructure.Controllers.Network
 {
 	public class UIController : MonoBehaviour
 	{
+		public Text UIDebugMessage;
+		
 		private AllPlayerControllers _allPlayerControllers;
 		
 		public string PlayerName { get; private set; }
@@ -35,6 +38,13 @@ namespace Main.Infrastructure.Controllers.Network
 		public void OnClickOnTryToDefuse()
 		{
 			_allPlayerControllers.TryToDefuseOnServer();
+		}
+
+		public void SetDebugMessage(string debugMessage)
+		{
+			Debug.Log("Please kill me...");
+			Debug.Log(debugMessage);
+			UIDebugMessage.text = debugMessage;
 		}
 	}
 }

@@ -35,7 +35,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _allPlayerControllers = new AllPlayerControllers();
             
             _playerController = new GameObject().AddComponent<PlayerController>();
-            _playerController.Init(_addNewPlayer, _setNewDefuseAttempt, _tryToDefuse, _allPlayerControllers);
+            _playerController.Init(_addNewPlayer, _setNewDefuseAttempt, _tryToDefuse, _allPlayerControllers, null);
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             // Given
             var otherPlayerController = new GameObject().AddComponent<PlayerController>();
-            otherPlayerController.Init(null, null, null, _allPlayerControllers);
+            otherPlayerController.Init(null, null, null, _allPlayerControllers, null);
 
             // When
             _playerController.OnStartServer();

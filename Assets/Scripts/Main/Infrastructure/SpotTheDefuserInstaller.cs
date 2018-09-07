@@ -37,6 +37,7 @@ namespace Main.Infrastructure
             Container.Bind<DefusingState>().AsSingle();
             Container.Bind<AllPlayerControllers>().AsSingle();
             Container.Bind<IDefusingListener>().To<DefusingListener>().AsSingle();
+            Container.Bind<UIController>().FromComponentInHierarchy().AsSingle();
         }
     }
 }

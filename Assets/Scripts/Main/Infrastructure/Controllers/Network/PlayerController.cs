@@ -14,16 +14,19 @@ namespace Main.Infrastructure.Controllers.Network
         private TryToDefuse _tryToDefuse;
 
         private AllPlayerControllers _allPlayerControllers;
+        private UIController _uiController;
 
         private Player _player;
 
         [Inject]
-        public void Init(AddNewPlayer addNewPlayer, SetNewDefuseAttempt setNewDefuseAttempt, TryToDefuse tryToDefuse, AllPlayerControllers allPlayerControllers)
+        public void Init(AddNewPlayer addNewPlayer, SetNewDefuseAttempt setNewDefuseAttempt, TryToDefuse tryToDefuse,
+            AllPlayerControllers allPlayerControllers, UIController uiController)
         {
             _addNewPlayer = addNewPlayer;
             _setNewDefuseAttempt = setNewDefuseAttempt;
             _tryToDefuse = tryToDefuse;
             _allPlayerControllers = allPlayerControllers;
+            _uiController = uiController;
         }
 
         public override void OnStartLocalPlayer()
@@ -62,7 +65,7 @@ namespace Main.Infrastructure.Controllers.Network
         {
             if (hasAuthority)
             {
-                Debug.Log($"{player.Name} tried to defuse. Success: {defuseSucceeded}");
+                _uiController.SetDebugMessage($"{player.Name} tried to defuse. Success: {defuseSucceeded}");
             }
         }
     }
