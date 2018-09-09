@@ -5,7 +5,7 @@ stages:
 - test
 - build
 - post-build
-- deploy
+#- deploy
 
 variables:
   BUILD_NAME: SpotTheDefuser
@@ -117,24 +117,24 @@ generate-android-apk:
   artifacts:
     name: "$BUILD_NAME $CI_PIPELINE_IID $BUILD_TARGET"
     paths:
-    - ./Builds/$BUILD_TARGET/$BUILD_NAME/SpotTheDefuser_Unity/build/outputs/apk/release/$BUILD_NAME-release.apk
+    - ./Builds/$BUILD_TARGET/$BUILD_NAME/SpotTheDefuser_Unity/build/outputs/apk/release/SpotTheDefuser_Unity-release.apk
     expire_in: 1 day
   variables:
     BUILD_TARGET: Android
 
-build-WebGL:
-  image: registry.gitlab.com/teuteuf/unity3d:2018.2.6f1-webgl
-  <<: *build
-  variables:
-    BUILD_TARGET: WebGL
+#build-WebGL:
+#  image: registry.gitlab.com/teuteuf/unity3d:2018.2.6f1-webgl
+#  <<: *build
+#  variables:
+#    BUILD_TARGET: WebGL
 
-pages:
-  image: alpine:latest
-  stage: deploy
-  script:
-  - mv ./Builds/WebGL public
-  artifacts:
-    paths:
-    - public
-  only:
-  - master
+#pages:
+#  image: alpine:latest
+#  stage: deploy
+#  script:
+#  - mv ./Builds/WebGL public
+#  artifacts:
+#    paths:
+#    - public
+#  only:
+#  - master
