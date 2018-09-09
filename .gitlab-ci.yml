@@ -4,8 +4,8 @@ stages:
 - check
 - test
 - build
-- deploy
 - post-build
+- deploy
 
 variables:
   BUILD_NAME: SpotTheDefuser
