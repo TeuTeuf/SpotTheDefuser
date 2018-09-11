@@ -103,7 +103,7 @@ build-Android:
   allow_failure: true
 
 generate-android-apk:
-  image: registry.gitlab.com/teuteuf/unity3d:2018.2.6f1-android-android-support
+  image: teuteuf/gradle-androidsdk:latest
   stage: post-build
   script: |
     cd ./Builds/Android/SpotTheDefuser/SpotTheDefuser_Unity
