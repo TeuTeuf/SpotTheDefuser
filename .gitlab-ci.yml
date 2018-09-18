@@ -95,7 +95,7 @@ build-StandaloneWindows64:
     BUILD_TARGET: StandaloneWindows64
 
 build-Android:
-  image: teuteuf/unity:latest_Android
+  image: teuteuf/unity-androidsdk:latest
   <<: *build
   variables:
     BUILD_TARGET: Android
