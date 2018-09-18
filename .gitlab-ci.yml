@@ -1,11 +1,10 @@
-image: "registry.gitlab.com/teuteuf/unity3d:2018.2.6f1"
+image: "teuteuf/unity:latest"
 
 stages:
 - check
 - test
 - build
 - post-build
-#- deploy
 
 variables:
   BUILD_NAME: SpotTheDefuser
@@ -84,19 +83,19 @@ build-StandaloneLinux64:
     BUILD_TARGET: StandaloneLinux64
 
 build-StandaloneOSX:
-  image: registry.gitlab.com/teuteuf/unity3d:2018.2.6f1-mac
+  image: teuteuf/unity:latest_Mac
   <<: *build
   variables:
     BUILD_TARGET: StandaloneOSX
 
 build-StandaloneWindows64:
-  image: registry.gitlab.com/teuteuf/unity3d:2018.2.6f1-windows
+  image: teuteuf/unity:latest_Windows
   <<: *build
   variables:
     BUILD_TARGET: StandaloneWindows64
 
 build-Android:
-  image: registry.gitlab.com/teuteuf/unity3d:2018.2.6f1-android-android-support
+  image: teuteuf/unity:latest_Android
   <<: *build
   variables:
     BUILD_TARGET: Android
@@ -112,25 +111,23 @@ generate-android-apk:
     ls -ahl
     find . -name '*.apk'
     ls -ahl build/outputs/apk/
-  # retry because sometimes checkingout artifacts fails
   retry: 2
   artifacts:
     name: "$BUILD_NAME $CI_PIPELINE_IID $BUILD_TARGET"
     paths:
     - ./Builds/$BUILD_TARGET/$BUILD_NAME/SpotTheDefuser_Unity/build/outputs/apk/release/SpotTheDefuser_Unity-release.apk
     expire_in: 1 day
-  variables:
-    BUILD_TARGET: Android
+  allow_failure: true
 
 #build-WebGL:
-#  image: registry.gitlab.com/teuteuf/unity3d:2018.2.6f1-webgl
+#  image: teuteuf/unity:latest_WebGL
 #  <<: *build
 #  variables:
 #    BUILD_TARGET: WebGL
 
 #pages:
 #  image: alpine:latest
-#  stage: deploy
+#  stage: post-build
 #  script:
 #  - mv ./Builds/WebGL public
 #  artifacts:
