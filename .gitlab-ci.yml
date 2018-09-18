@@ -102,12 +102,8 @@ generate-apk:
   image: teuteuf/gradle-androidsdk:latest
   stage: post-build
   script: |
-    cd ./Builds/Android/SpotTheDefuser/SpotTheDefuser_Unity
-    ls -ahl
+    cd ./Builds/Android/$BUILD_NAME/$BUILD_NAME
     gradle assembleRelease
-    ls -ahl
-    find . -name '*.apk'
-    ls -ahl build/outputs/apk/
   retry: 2
   artifacts:
     name: "$BUILD_NAME $CI_PIPELINE_IID $BUILD_TARGET"
