@@ -6,6 +6,7 @@ namespace Zenject
 {
     // Zero parameters
 
+    [NoReflectionBaking]
     public abstract class SubContainerCreatorByMethodBase : ISubContainerCreator
     {
         readonly DiContainer _container;
@@ -29,6 +30,7 @@ namespace Zenject
         }
     }
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod : SubContainerCreatorByMethodBase
     {
         readonly Action<DiContainer> _installMethod;
@@ -40,11 +42,6 @@ namespace Zenject
             : base(container, containerBindInfo)
         {
             _installMethod = installMethod;
-        }
-
-        public SubContainerCreatorByMethod(DiContainer container, Action<DiContainer> containerBindInfo): base(container, null)
-        {
-            throw new NotImplementedException();
         }
 
         public override DiContainer CreateSubContainer(List<TypeValuePair> args, InjectContext context)
@@ -63,6 +60,7 @@ namespace Zenject
 
     // One parameters
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod<TParam1> : SubContainerCreatorByMethodBase
     {
         readonly Action<DiContainer, TParam1> _installMethod;
@@ -93,6 +91,7 @@ namespace Zenject
 
     // Two parameters
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod<TParam1, TParam2> : SubContainerCreatorByMethodBase
     {
         readonly Action<DiContainer, TParam1, TParam2> _installMethod;
@@ -127,6 +126,7 @@ namespace Zenject
 
     // Three parameters
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3> : SubContainerCreatorByMethodBase
     {
         readonly Action<DiContainer, TParam1, TParam2, TParam3> _installMethod;
@@ -163,6 +163,7 @@ namespace Zenject
 
     // Four parameters
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4> : SubContainerCreatorByMethodBase
     {
         readonly
@@ -208,6 +209,7 @@ namespace Zenject
 
     // Five parameters
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4, TParam5> : SubContainerCreatorByMethodBase
     {
         readonly
@@ -255,6 +257,7 @@ namespace Zenject
 
     // Six parameters
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> : SubContainerCreatorByMethodBase
     {
         readonly
@@ -304,6 +307,7 @@ namespace Zenject
 
     // 10 parameters
 
+    [NoReflectionBaking]
     public class SubContainerCreatorByMethod<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10> : SubContainerCreatorByMethodBase
     {
         readonly
