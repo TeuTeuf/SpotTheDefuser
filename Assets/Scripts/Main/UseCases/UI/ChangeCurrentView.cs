@@ -11,7 +11,7 @@ namespace Main.UseCases.UI
             _viewManager = viewManager;
         }
 
-        public void Change(View newCurrentView)
+        public virtual void Change(View newCurrentView)
         {
             _viewManager.DisableActiveLayers();
             _viewManager.EnableLayers(newCurrentView);

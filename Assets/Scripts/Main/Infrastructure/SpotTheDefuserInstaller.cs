@@ -5,6 +5,7 @@ using Main.Domain.UI;
 using Main.Infrastructure.Controllers.Network;
 using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
+using Main.UseCases.UI;
 using Zenject;
 
 namespace Main.Infrastructure
@@ -31,6 +32,7 @@ namespace Main.Infrastructure
             Container.Bind<RemovePlayer>().AsSingle();
             Container.Bind<SetNewDefuseAttempt>().AsSingle();
             Container.Bind<TryToDefuse>().AsSingle();
+            Container.Bind<ChangeCurrentView>().AsSingle();
         }
 
         private void InstallOtherSingletons()
@@ -39,12 +41,13 @@ namespace Main.Infrastructure
             Container.Bind<DefusingState>().AsSingle();
             Container.Bind<AllPlayerControllers>().AsSingle();
             Container.Bind<IDefusingListener>().To<DefusingListener>().AsSingle();
+            Container.Bind<IViewManager>().To<ViewManager>().AsSingle();
         }
 
         private void InstallFromComponentInHierarchy()
         {
             Container.Bind<UIController>().FromComponentInHierarchy().AsSingle();
-            Container.Bind<IViewLayer>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<IViewLayer>().FromComponentsInHierarchy().AsSingle();
         }
     }
 }

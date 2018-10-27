@@ -1,4 +1,6 @@
-﻿using Main.Infrastructure.Controllers.Network;
+﻿using Main.Domain.UI;
+using Main.Infrastructure.Controllers.Network;
+using Main.UseCases.UI;
 using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
@@ -10,14 +12,30 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
     {
         private UIController _uiController;
         private AllPlayerControllers _allPlayerControllers;
+        private ChangeCurrentView _changeCurrentView;
 
         [SetUp]
         public void Init()
         {
+            var viewManager = Substitute.For<IViewManager>();
+            _changeCurrentView = Substitute.For<ChangeCurrentView>(viewManager);
             _allPlayerControllers = Substitute.For<AllPlayerControllers>();
+            
             _uiController = new GameObject().AddComponent<UIController>();
+            _uiController.Init(_allPlayerControllers, _changeCurrentView);
+        }
 
-            _uiController.Init(_allPlayerControllers);
+        [Test]
+        public void Start_ShouldChangeCurrentViewToStartingView()
+        {
+            // Given
+            _uiController.StartingView = View.LOBBY;
+
+            // When
+            _uiController.Start();
+
+            // Then
+            _changeCurrentView.Received().Change(View.LOBBY);
         }
         
         [Test]

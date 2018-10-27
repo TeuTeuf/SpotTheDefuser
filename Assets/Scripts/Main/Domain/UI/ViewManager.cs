@@ -14,12 +14,8 @@ namespace Main.Domain.UI
 
             foreach (var layer in allViewLayers)
             {
-                var view = layer.View;
-                if (! _viewLayersByView.ContainsKey(view))
-                {
-                    _viewLayersByView.Add(view, new List<IViewLayer>());
-                }
-                _viewLayersByView[view].Add(layer);
+                layer.Disable();
+                _RegisterViewLayerByView(layer);
             }
         }
 
@@ -33,6 +29,17 @@ namespace Main.Domain.UI
         {
             _activeViewLayers?.ForEach(layer => layer.Disable());
             _activeViewLayers = null;
+        }
+
+        private void _RegisterViewLayerByView(IViewLayer layer)
+        {
+            var view = layer.GetView();
+            if (!_viewLayersByView.ContainsKey(view))
+            {
+                _viewLayersByView.Add(view, new List<IViewLayer>());
+            }
+
+            _viewLayersByView[view].Add(layer);
         }
     }
 }

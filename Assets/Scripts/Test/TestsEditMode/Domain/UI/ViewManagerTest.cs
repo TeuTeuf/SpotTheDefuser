@@ -16,17 +16,25 @@ namespace Test.TestsEditMode.Domain.UI
         public void Init()
         {
             _aViewLayer = Substitute.For<IViewLayer>();
-            _aViewLayer.View.Returns(View.HOME);
+            _aViewLayer.GetView().Returns(View.HOME);
             
             _anotherViewLayer = Substitute.For<IViewLayer>();
-            _anotherViewLayer.View.Returns(View.HOME);
+            _anotherViewLayer.GetView().Returns(View.HOME);
             
             _aViewLayerForOtherView = Substitute.For<IViewLayer>();
-            _aViewLayerForOtherView.View.Returns(View.LOBBY);
+            _aViewLayerForOtherView.GetView().Returns(View.LOBBY);
 
-            var allViewLayers = new List<IViewLayer> {_aViewLayer, _anotherViewLayer};
-            
+            var allViewLayers = new List<IViewLayer> {_aViewLayer, _anotherViewLayer, _aViewLayerForOtherView};
             _viewManager = new ViewManager(allViewLayers);
+        }
+
+        [Test]
+        public void New_ShouldDisableAllViewLayersOnCreation()
+        {
+            // Then
+            _aViewLayer.Received().Disable();
+            _anotherViewLayer.Received().Disable();
+            _aViewLayerForOtherView.Received().Disable();
         }
         
         [Test]
@@ -51,9 +59,9 @@ namespace Test.TestsEditMode.Domain.UI
             _viewManager.DisableActiveLayers();
 
             // Then
-            _aViewLayer.Received().Disable();
-            _anotherViewLayer.Received().Disable();
-            _aViewLayerForOtherView.DidNotReceive().Disable();
+            _aViewLayer.Received(2).Disable();
+            _anotherViewLayer.Received(2).Disable();
+            _aViewLayerForOtherView.Received(1).Disable();
         }
 
         [Test]
@@ -67,9 +75,9 @@ namespace Test.TestsEditMode.Domain.UI
             _viewManager.DisableActiveLayers();
 
             // Then
-            _aViewLayer.Received(1).Disable();
-            _anotherViewLayer.Received(1).Disable();
-            _aViewLayerForOtherView.DidNotReceive().Disable();
+            _aViewLayer.Received(2).Disable();
+            _anotherViewLayer.Received(2).Disable();
+            _aViewLayerForOtherView.Received(1).Disable();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Test.TestsEditMode.Infrastructure.UI
             _basicViewLayer.View = View.LOBBY;
 
             // Then
-            Assert.AreEqual(View.LOBBY, _basicViewLayer.View);
+            Assert.AreEqual(View.LOBBY, _basicViewLayer.GetView());
         }
 
         [Test]

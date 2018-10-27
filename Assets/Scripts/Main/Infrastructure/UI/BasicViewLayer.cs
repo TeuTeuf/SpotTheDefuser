@@ -1,4 +1,3 @@
-using System;
 using Main.Domain.UI;
 using UnityEngine;
 
@@ -6,7 +5,7 @@ namespace Main.Infrastructure.UI
 {
     public class BasicViewLayer : MonoBehaviour, IViewLayer
     {
-        public View View { get; set; }
+        public View View;
 
         public void Enable()
         {
@@ -16,6 +15,11 @@ namespace Main.Infrastructure.UI
         public void Disable()
         {
             gameObject.SetActive(false);
+        }
+
+        public View GetView()
+        {
+            return View;
         }
     }
 }
