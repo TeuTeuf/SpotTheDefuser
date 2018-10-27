@@ -1,6 +1,7 @@
 using Main.Domain;
 using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
+using Main.Domain.UI;
 using Main.Infrastructure.Controllers.Network;
 using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
@@ -15,6 +16,7 @@ namespace Main.Infrastructure
             InstallInterfaceImplementations();
             InstallUseCases();
             InstallOtherSingletons();
+            InstallFromComponentInHierarchy();
         }
 
         private void InstallInterfaceImplementations()
@@ -37,7 +39,12 @@ namespace Main.Infrastructure
             Container.Bind<DefusingState>().AsSingle();
             Container.Bind<AllPlayerControllers>().AsSingle();
             Container.Bind<IDefusingListener>().To<DefusingListener>().AsSingle();
+        }
+
+        private void InstallFromComponentInHierarchy()
+        {
             Container.Bind<UIController>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<IViewLayer>().FromComponentInHierarchy().AsSingle();
         }
     }
 }

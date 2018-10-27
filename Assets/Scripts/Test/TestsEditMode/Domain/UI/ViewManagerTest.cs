@@ -16,13 +16,13 @@ namespace Test.TestsEditMode.Domain.UI
         public void Init()
         {
             _aViewLayer = Substitute.For<IViewLayer>();
-            _aViewLayer.GetView().Returns(View.HOME);
+            _aViewLayer.View.Returns(View.HOME);
             
             _anotherViewLayer = Substitute.For<IViewLayer>();
-            _anotherViewLayer.GetView().Returns(View.HOME);
+            _anotherViewLayer.View.Returns(View.HOME);
             
             _aViewLayerForOtherView = Substitute.For<IViewLayer>();
-            _aViewLayerForOtherView.GetView().Returns(View.LOBBY);
+            _aViewLayerForOtherView.View.Returns(View.LOBBY);
 
             var allViewLayers = new List<IViewLayer> {_aViewLayer, _anotherViewLayer};
             

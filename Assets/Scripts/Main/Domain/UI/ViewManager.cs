@@ -14,7 +14,7 @@ namespace Main.Domain.UI
 
             foreach (var layer in allViewLayers)
             {
-                var view = layer.GetView();
+                var view = layer.View;
                 if (! _viewLayersByView.ContainsKey(view))
                 {
                     _viewLayersByView.Add(view, new List<IViewLayer>());
