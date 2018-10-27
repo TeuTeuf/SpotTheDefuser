@@ -1,7 +1,6 @@
 ﻿using Main.Domain.Players;
 using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
-using UnityEngine;
 using UnityEngine.Networking;
 using Zenject;
 

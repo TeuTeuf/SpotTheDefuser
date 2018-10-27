@@ -1,6 +1,5 @@
 ﻿using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
-using UnityEngine;
 
 namespace Main.Infrastructure.Controllers.Network
 {

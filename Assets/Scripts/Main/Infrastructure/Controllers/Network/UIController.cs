@@ -1,6 +1,4 @@
-﻿using Main.Domain.Players;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 

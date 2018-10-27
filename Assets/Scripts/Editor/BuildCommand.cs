@@ -1,6 +1,6 @@
-﻿using UnityEditor;
+﻿using System;
 using System.Linq;
-using System;
+using UnityEditor;
 
 static class BuildCommand
 {

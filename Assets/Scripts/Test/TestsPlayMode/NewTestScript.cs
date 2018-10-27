@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Main.Domain.Players;
 using NUnit.Framework;
 using UnityEngine.TestTools;
 

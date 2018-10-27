@@ -1,6 +1,5 @@
-﻿using System.Diagnostics;
-using Main.Domain.Players;
-using Debug = UnityEngine.Debug;
+﻿using Main.Domain.Players;
+using UnityEngine;
 
 namespace Main.UseCases.Players
 {
