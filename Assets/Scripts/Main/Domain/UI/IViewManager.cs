@@ -2,7 +2,7 @@ namespace Main.Domain.UI
 {
     public interface IViewManager
     {
-        void ActiveLayers(View view);
+        void EnableLayers(View view);
         void DisableActiveLayers();
     }
 }

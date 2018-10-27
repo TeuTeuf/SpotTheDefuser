@@ -19,7 +19,7 @@ namespace Test.TestsEditMode.UseCases.UI
         }
 
         [Test]
-        public void Change_ShouldActiveLayersCorrespondingToGivenView()
+        public void Change_ShouldEnableLayersCorrespondingToGivenView()
         {
             // Given
             const View view = View.HOME;
@@ -30,7 +30,7 @@ namespace Test.TestsEditMode.UseCases.UI
             // Then
             _viewManager
                 .Received()
-                .ActiveLayers(view);
+                .EnableLayers(view);
         }
         
         [Test]
@@ -46,7 +46,7 @@ namespace Test.TestsEditMode.UseCases.UI
             Received.InOrder(() =>
             {
                 _viewManager.DisableActiveLayers();
-                _viewManager.ActiveLayers(Arg.Any<View>());
+                _viewManager.EnableLayers(Arg.Any<View>());
             });
         }
     }

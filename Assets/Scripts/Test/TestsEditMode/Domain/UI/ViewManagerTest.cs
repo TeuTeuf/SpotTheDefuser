@@ -7,28 +7,69 @@ namespace Test.TestsEditMode.Domain.UI
 {
     public class ViewManagerTest
     {
-        [Test]
-        public void ActiveLayers_ShouldActiveAllLayersCorrespondingToView()
-        {
-            // Given
-            var aViewLayer = Substitute.For<IViewLayer>();
-            aViewLayer.GetView().Returns(View.HOME);
-            
-            var anotherViewLayer = Substitute.For<IViewLayer>();
-            anotherViewLayer.GetView().Returns(View.HOME);
-            
-            var aViewLayerForOtherView = Substitute.For<IViewLayer>();
-            aViewLayerForOtherView.GetView().Returns(View.LOBBY);
-            
-            var viewManager = new ViewManager(new List<IViewLayer> {aViewLayer, anotherViewLayer});
+        private ViewManager _viewManager;
+        private IViewLayer _aViewLayer;
+        private IViewLayer _anotherViewLayer;
+        private IViewLayer _aViewLayerForOtherView;
 
+        [SetUp]
+        public void Init()
+        {
+            _aViewLayer = Substitute.For<IViewLayer>();
+            _aViewLayer.GetView().Returns(View.HOME);
+            
+            _anotherViewLayer = Substitute.For<IViewLayer>();
+            _anotherViewLayer.GetView().Returns(View.HOME);
+            
+            _aViewLayerForOtherView = Substitute.For<IViewLayer>();
+            _aViewLayerForOtherView.GetView().Returns(View.LOBBY);
+
+            var allViewLayers = new List<IViewLayer> {_aViewLayer, _anotherViewLayer};
+            
+            _viewManager = new ViewManager(allViewLayers);
+        }
+        
+        [Test]
+        public void EnableLayers_ShouldEnableAllLayersCorrespondingToView()
+        {
             // When
-            viewManager.ActiveLayers(View.HOME);
+            _viewManager.EnableLayers(View.HOME);
 
             // Then
-            aViewLayer.Received().Active();
-            anotherViewLayer.Received().Active();
-            aViewLayerForOtherView.DidNotReceive().Active();
+            _aViewLayer.Received().Enable();
+            _anotherViewLayer.Received().Enable();
+            _aViewLayerForOtherView.DidNotReceive().Enable();
+        }
+
+        [Test]
+        public void DisableActiveLayers_ShouldDisableLayersPreviouslyEnabled()
+        {
+            // Given
+            _viewManager.EnableLayers(View.HOME);
+
+            // When
+            _viewManager.DisableActiveLayers();
+
+            // Then
+            _aViewLayer.Received().Disable();
+            _anotherViewLayer.Received().Disable();
+            _aViewLayerForOtherView.DidNotReceive().Disable();
+        }
+
+        [Test]
+        public void DisableActiveLayers_ShouldNotDisableLayersAlreadyDisabled()
+        {
+            // Given
+            _viewManager.EnableLayers(View.HOME);
+            _viewManager.DisableActiveLayers();
+
+            // When
+            _viewManager.DisableActiveLayers();
+
+            // Then
+            _aViewLayer.Received(1).Disable();
+            _anotherViewLayer.Received(1).Disable();
+            _aViewLayerForOtherView.DidNotReceive().Disable();
         }
     }
 }

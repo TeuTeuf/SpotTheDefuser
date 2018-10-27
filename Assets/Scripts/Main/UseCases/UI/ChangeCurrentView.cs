@@ -14,7 +14,7 @@ namespace Main.UseCases.UI
         public void Change(View newCurrentView)
         {
             _viewManager.DisableActiveLayers();
-            _viewManager.ActiveLayers(newCurrentView);
+            _viewManager.EnableLayers(newCurrentView);
         }
     }
 }

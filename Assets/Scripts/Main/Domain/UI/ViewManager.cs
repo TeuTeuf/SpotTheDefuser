@@ -4,9 +4,11 @@ namespace Main.Domain.UI
 {
     public class ViewManager : IViewManager
     {
-        private readonly Dictionary<View, List<IViewLayer>> _viewLayersByView;
-
-        public ViewManager(List<IViewLayer> allViewLayers)
+        private readonly IDictionary<View, List<IViewLayer>> _viewLayersByView;
+        
+        private List<IViewLayer> _activeViewLayers;
+        
+        public ViewManager(IEnumerable<IViewLayer> allViewLayers)
         {
             _viewLayersByView = new Dictionary<View, List<IViewLayer>>();
 
@@ -21,14 +23,16 @@ namespace Main.Domain.UI
             }
         }
 
-        public void ActiveLayers(View view)
+        public void EnableLayers(View view)
         {
-            _viewLayersByView[view].ForEach(layer => layer.Active());
+            _viewLayersByView[view].ForEach(layer => layer.Enable());
+            _activeViewLayers = _viewLayersByView[view];
         }
 
         public void DisableActiveLayers()
         {
-            throw new System.NotImplementedException();
+            _activeViewLayers?.ForEach(layer => layer.Disable());
+            _activeViewLayers = null;
         }
     }
 }

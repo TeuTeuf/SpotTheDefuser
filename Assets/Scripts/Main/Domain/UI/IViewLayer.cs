@@ -2,7 +2,8 @@ namespace Main.Domain.UI
 {
     public interface IViewLayer
     {
-        void Active();
+        void Enable();
+        void Disable();
         View GetView();
     }
 }
