@@ -16,13 +16,13 @@ namespace Test.TestsEditMode.Domain.UI
         public void Init()
         {
             _aViewLayer = Substitute.For<IViewLayer>();
-            _aViewLayer.GetView().Returns(View.HOME);
+            _aViewLayer.GetView().Returns(View.Home);
             
             _anotherViewLayer = Substitute.For<IViewLayer>();
-            _anotherViewLayer.GetView().Returns(View.HOME);
+            _anotherViewLayer.GetView().Returns(View.Home);
             
             _aViewLayerForOtherView = Substitute.For<IViewLayer>();
-            _aViewLayerForOtherView.GetView().Returns(View.LOBBY);
+            _aViewLayerForOtherView.GetView().Returns(View.Lobby);
 
             var allViewLayers = new List<IViewLayer> {_aViewLayer, _anotherViewLayer, _aViewLayerForOtherView};
             _viewManager = new ViewManager(allViewLayers);
@@ -41,7 +41,7 @@ namespace Test.TestsEditMode.Domain.UI
         public void EnableLayers_ShouldEnableAllLayersCorrespondingToView()
         {
             // When
-            _viewManager.EnableLayers(View.HOME);
+            _viewManager.EnableLayers(View.Home);
 
             // Then
             _aViewLayer.Received().Enable();
@@ -53,7 +53,7 @@ namespace Test.TestsEditMode.Domain.UI
         public void DisableActiveLayers_ShouldDisableLayersPreviouslyEnabled()
         {
             // Given
-            _viewManager.EnableLayers(View.HOME);
+            _viewManager.EnableLayers(View.Home);
 
             // When
             _viewManager.DisableActiveLayers();
@@ -68,7 +68,7 @@ namespace Test.TestsEditMode.Domain.UI
         public void DisableActiveLayers_ShouldNotDisableLayersAlreadyDisabled()
         {
             // Given
-            _viewManager.EnableLayers(View.HOME);
+            _viewManager.EnableLayers(View.Home);
             _viewManager.DisableActiveLayers();
 
             // When

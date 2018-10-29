@@ -19,10 +19,10 @@ namespace Test.TestsEditMode.Infrastructure.UI
         public void GetView_ShouldReturnViewSetHasPublicProperty()
         {
             // When
-            _basicViewLayer.View = View.LOBBY;
+            _basicViewLayer.View = View.Lobby;
 
             // Then
-            Assert.AreEqual(View.LOBBY, _basicViewLayer.GetView());
+            Assert.AreEqual(View.Lobby, _basicViewLayer.GetView());
         }
 
         [Test]

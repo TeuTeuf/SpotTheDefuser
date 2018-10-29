@@ -21,7 +21,7 @@ namespace Test.TestsEditMode.UseCases.UI
         public void Change_ShouldEnableLayersCorrespondingToGivenView()
         {
             // Given
-            const View view = View.HOME;
+            const View view = View.Home;
 
             // When
             _changeCurrentView.Change(view);
@@ -36,7 +36,7 @@ namespace Test.TestsEditMode.UseCases.UI
         public void Change_ShouldDisablePreviousActiveLayersFirst()
         {
             // Given
-            const View view = View.HOME;
+            const View view = View.Home;
 
             // When
             _changeCurrentView.Change(view);

@@ -29,13 +29,13 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         public void Start_ShouldChangeCurrentViewToStartingView()
         {
             // Given
-            _uiController.StartingView = View.LOBBY;
+            _uiController.StartingView = View.Lobby;
 
             // When
             _uiController.Start();
 
             // Then
-            _changeCurrentView.Received().Change(View.LOBBY);
+            _changeCurrentView.Received().Change(View.Lobby);
         }
         
         [Test]
