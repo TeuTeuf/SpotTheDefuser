@@ -14,11 +14,6 @@ public class DebugViewLayers : MonoBehaviour {
         _changeCurrentView = changeCurrentView;
     }
     
-    public void ChangeView(View view)
-    {
-        _changeCurrentView.Change(view);
-    }
-    
     public void ChangeView(string strView)
     {
         View view;
