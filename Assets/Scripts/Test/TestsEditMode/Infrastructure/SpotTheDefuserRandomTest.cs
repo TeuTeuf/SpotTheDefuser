@@ -4,13 +4,13 @@ using NUnit.Framework;
 namespace Test.TestsEditMode.Infrastructure
 {
     [TestFixture]
-    public class RandomSTDTest
+    public class SpotTheDefuserRandomTest
     {
         [Test]
         public void Range_ShouldReturnValueBetweenIncludedMinAndExcludedMax()
         {
             // Given
-            var randomStd = new RandomSTD();
+            var randomStd = new SpotTheDefuserRandom();
             const int includedMin = 0;
             const int excludedMax = 3;
                 

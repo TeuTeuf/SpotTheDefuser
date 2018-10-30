@@ -22,7 +22,7 @@ namespace Main.Infrastructure
 
         private void InstallInterfaceImplementations()
         {
-            Container.Bind<IRandom>().To<RandomSTD>().AsSingle();
+            Container.Bind<IRandom>().To<SpotTheDefuserRandom>().AsSingle();
         }
 
         private void InstallUseCases()

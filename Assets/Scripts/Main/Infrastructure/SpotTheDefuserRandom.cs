@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Main.Infrastructure
 {
-    public class RandomSTD : IRandom
+    public class SpotTheDefuserRandom : IRandom
     {
         public int Range(int includedMin, int excludedMax)
         {
