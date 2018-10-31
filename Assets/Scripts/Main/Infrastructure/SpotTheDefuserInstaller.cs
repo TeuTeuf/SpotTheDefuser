@@ -3,6 +3,7 @@ using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
 using Main.Domain.UI;
 using Main.Infrastructure.Controllers.Network;
+using Main.UseCases;
 using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
 using Main.UseCases.UI;
@@ -33,6 +34,7 @@ namespace Main.Infrastructure
             Container.Bind<SetNewDefuseAttempt>().AsSingle();
             Container.Bind<TryToDefuse>().AsSingle();
             Container.Bind<ChangeCurrentView>().AsSingle();
+            Container.Bind<HostNewGame>().AsSingle();
         }
 
         private void InstallOtherSingletons()
