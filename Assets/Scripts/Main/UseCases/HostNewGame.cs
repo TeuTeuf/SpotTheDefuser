@@ -1,12 +1,22 @@
-using UnityEngine;
+using Main.Domain;
 
 namespace Main.UseCases
 {
     public class HostNewGame
     {
-        public virtual void Host(string playerName)
+        private readonly INetworkDiscovery _networkDiscovery;
+        private readonly INetworkManager _networkManager;
+
+        public HostNewGame(INetworkDiscovery networkDiscovery, INetworkManager networkManager)
         {
-            Debug.Log("Host new game by " + playerName);
+            _networkDiscovery = networkDiscovery;
+            _networkManager = networkManager;
+        }
+
+        public virtual void Host()
+        {
+            _networkDiscovery.StartAsServer();
+            _networkManager.StartHost();
         }
     }
 }

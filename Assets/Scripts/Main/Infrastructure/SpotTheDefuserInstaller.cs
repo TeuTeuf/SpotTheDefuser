@@ -3,6 +3,7 @@ using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
 using Main.Domain.UI;
 using Main.Infrastructure.Controllers.Network;
+using Main.Infrastructure.Network;
 using Main.UseCases;
 using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
@@ -24,6 +25,10 @@ namespace Main.Infrastructure
         private void InstallInterfaceImplementations()
         {
             Container.Bind<IRandom>().To<SpotTheDefuserRandom>().AsSingle();
+            Container.Bind<IDefusingListener>().To<DefusingListener>().AsSingle();
+            Container.Bind<IViewManager>().To<ViewManager>().AsSingle();
+            Container.Bind<INetworkDiscovery>().To<SpotTheDefuserNetworkDiscovery>().AsSingle();
+            Container.Bind<INetworkManager>().To<SpotTheDefuserNetworkManager>().AsSingle();
         }
 
         private void InstallUseCases()
@@ -42,8 +47,6 @@ namespace Main.Infrastructure
             Container.Bind<AllPlayers>().AsSingle();
             Container.Bind<DefusingState>().AsSingle();
             Container.Bind<AllPlayerControllers>().AsSingle();
-            Container.Bind<IDefusingListener>().To<DefusingListener>().AsSingle();
-            Container.Bind<IViewManager>().To<ViewManager>().AsSingle();
         }
 
         private void InstallFromComponentInHierarchy()
