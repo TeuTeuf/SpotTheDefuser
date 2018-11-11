@@ -1,11 +1,9 @@
 using Main.Domain;
+using UnityEngine.Networking;
 
 namespace Main.Infrastructure.Network
 {
-    public class SpotTheDefuserNetworkDiscovery : INetworkDiscovery
+    public class SpotTheDefuserNetworkDiscovery : NetworkDiscovery
     {
-        public void StartAsServer()
-        {
-        }
     }
 }

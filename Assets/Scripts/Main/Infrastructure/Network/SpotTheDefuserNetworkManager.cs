@@ -1,4 +1,7 @@
 using Main.Domain;
+using Main.Domain.Network;
+using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Main.Infrastructure.Network
 {
@@ -6,6 +9,8 @@ namespace Main.Infrastructure.Network
     {
         public void StartHost()
         {
+            NetworkManager.singleton.StartHost();
+            Debug.LogWarning("Improve me!");
         }
     }
 }

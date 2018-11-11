@@ -1,4 +1,4 @@
-namespace Main.Domain
+namespace Main.Domain.Network
 {
     public interface INetworkManager
     {

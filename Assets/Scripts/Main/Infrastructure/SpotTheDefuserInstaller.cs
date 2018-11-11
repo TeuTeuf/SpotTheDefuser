@@ -1,11 +1,13 @@
 using Main.Domain;
 using Main.Domain.DefuseAttempts;
+using Main.Domain.Network;
 using Main.Domain.Players;
 using Main.Domain.UI;
 using Main.Infrastructure.Controllers.Network;
 using Main.Infrastructure.Network;
 using Main.UseCases;
 using Main.UseCases.DefuseAttempts;
+using Main.UseCases.Network;
 using Main.UseCases.Players;
 using Main.UseCases.UI;
 using Zenject;
@@ -27,7 +29,6 @@ namespace Main.Infrastructure
             Container.Bind<IRandom>().To<SpotTheDefuserRandom>().AsSingle();
             Container.Bind<IDefusingListener>().To<DefusingListener>().AsSingle();
             Container.Bind<IViewManager>().To<ViewManager>().AsSingle();
-            Container.Bind<INetworkDiscovery>().To<SpotTheDefuserNetworkDiscovery>().AsSingle();
             Container.Bind<INetworkManager>().To<SpotTheDefuserNetworkManager>().AsSingle();
         }
 

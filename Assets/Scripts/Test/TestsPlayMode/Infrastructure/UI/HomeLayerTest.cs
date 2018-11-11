@@ -1,12 +1,14 @@
-using Main.Domain;
+using System.Collections;
+using Main.Domain.Network;
 using Main.Infrastructure.Controllers.Network;
 using Main.Infrastructure.UI;
-using Main.UseCases;
+using Main.UseCases.Network;
 using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 
-namespace Test.TestsEditMode.Infrastructure.UI
+namespace Test.TestsPlayMode.Infrastructure.UI
 {
     public class HomeLayerTest
     {
@@ -17,9 +19,8 @@ namespace Test.TestsEditMode.Infrastructure.UI
         [SetUp]
         public void Init()
         {
-            var networkDiscovery = Substitute.For<INetworkDiscovery>();
             var networkManager = Substitute.For<INetworkManager>();
-            _hostNewGame = Substitute.For<HostNewGame>(networkDiscovery, networkManager);
+            _hostNewGame = Substitute.For<HostNewGame>(networkManager);
             
             _allPlayerControllers = Substitute.For<AllPlayerControllers>();
             _homeLayer = new GameObject().AddComponent<HomeLayer>();
@@ -27,25 +28,36 @@ namespace Test.TestsEditMode.Infrastructure.UI
             _homeLayer.Init(_hostNewGame, _allPlayerControllers);
         }
 
-        [Test]
-        public void OnClickOnHost_OnEndEditOnPlayerName_ShouldAddPlayerThroughAllPlayerControllers()
+        [UnityTest]
+        public IEnumerator OnClickOnHost_OnEndEditOnPlayerName_ShouldAddPlayerThroughAllPlayerControllers()
         {
             // Given
             const string playerName = "Player Name";
+            
+            var playerController = new GameObject().AddComponent<PlayerController>();
+            _allPlayerControllers.LocalPlayerController = playerController;
 
             // When
             _homeLayer.OnEndEditOnPlayerName(playerName);
             _homeLayer.OnClickOnHost();
 
+            yield return null;
+
             // Then
             _allPlayerControllers.Received().AddNewPlayerOnServer(playerName);
         }
 
-        [Test]
-        public void OnClickOnHost_ShouldCallUseCaseHostNewGameBeforeAddingPlayer()
+        [UnityTest]
+        public IEnumerator OnClickOnHost_ShouldCallUseCaseHostNewGameBeforeAddingPlayer()
         {
+            // Given
+            var playerController = new GameObject().AddComponent<PlayerController>();
+            _allPlayerControllers.LocalPlayerController = playerController;
+            
             // When
             _homeLayer.OnClickOnHost();
+            
+            yield return null;
 
             // Then
             Received.InOrder(() =>
