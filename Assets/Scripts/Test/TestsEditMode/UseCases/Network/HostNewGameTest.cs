@@ -8,13 +8,13 @@ namespace Test.TestsEditMode.UseCases.Network
     public class HostNewGameTest
     {
         private HostNewGame _hostNewGame;
-        private INetworkManager _networkManager;
+        private ILobbyManager _lobbyManager;
         
         [SetUp]
         public void Init()
         {
-            _networkManager = Substitute.For<INetworkManager>();
-            _hostNewGame = new HostNewGame(_networkManager);
+            _lobbyManager = Substitute.For<ILobbyManager>();
+            _hostNewGame = new HostNewGame(_lobbyManager);
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace Test.TestsEditMode.UseCases.Network
             _hostNewGame.Host();
 
             // Then
-            _networkManager.Received().StartHost();
+            _lobbyManager.Received().Host();
         }
     }
 }

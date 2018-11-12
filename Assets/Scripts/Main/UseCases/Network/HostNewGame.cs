@@ -4,16 +4,16 @@ namespace Main.UseCases.Network
 {
     public class HostNewGame
     {
-        private readonly INetworkManager _networkManager;
+        private readonly ILobbyManager _lobbyManager;
 
-        public HostNewGame(INetworkManager networkManager)
+        public HostNewGame(ILobbyManager lobbyManager)
         {
-            _networkManager = networkManager;
+            _lobbyManager = lobbyManager;
         }
 
         public virtual void Host()
         {
-            _networkManager.StartHost();
+            _lobbyManager.Host();
         }
     }
 }

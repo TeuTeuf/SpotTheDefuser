@@ -1,7 +1,9 @@
 {
     "name": "TestsPlayMode",
     "references": [
-        "Main"
+        "Main",
+        "Zenject",
+        "Zenject-TestFramework"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"

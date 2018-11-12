@@ -19,7 +19,7 @@ namespace Test.TestsPlayMode.Infrastructure.UI
         [SetUp]
         public void Init()
         {
-            var networkManager = Substitute.For<INetworkManager>();
+            var networkManager = Substitute.For<ILobbyManager>();
             _hostNewGame = Substitute.For<HostNewGame>(networkManager);
             
             _allPlayerControllers = Substitute.For<AllPlayerControllers>();

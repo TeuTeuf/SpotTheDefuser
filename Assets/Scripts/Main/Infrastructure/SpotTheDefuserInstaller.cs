@@ -10,6 +10,7 @@ using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Network;
 using Main.UseCases.Players;
 using Main.UseCases.UI;
+using UnityEngine.Networking;
 using Zenject;
 
 namespace Main.Infrastructure
@@ -29,7 +30,7 @@ namespace Main.Infrastructure
             Container.Bind<IRandom>().To<SpotTheDefuserRandom>().AsSingle();
             Container.Bind<IDefusingListener>().To<DefusingListener>().AsSingle();
             Container.Bind<IViewManager>().To<ViewManager>().AsSingle();
-            Container.Bind<INetworkManager>().To<SpotTheDefuserNetworkManager>().AsSingle();
+            Container.Bind<ILobbyManager>().To<LobbyManager>().AsSingle();
         }
 
         private void InstallUseCases()
@@ -54,6 +55,7 @@ namespace Main.Infrastructure
         {
             Container.Bind<UIController>().FromComponentInHierarchy().AsSingle();
             Container.Bind<IViewLayer>().FromComponentsInHierarchy().AsSingle();
+            Container.Bind<NetworkManager>().FromComponentInHierarchy().AsSingle();
         }
     }
 }
