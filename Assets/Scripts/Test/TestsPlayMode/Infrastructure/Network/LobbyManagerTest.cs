@@ -21,12 +21,10 @@ namespace Test.TestsPlayMode.Infrastructure.Network
             var lobbyManager = SceneContainer.Resolve<ILobbyManager>();
             var networkManager = SceneContainer.Resolve<NetworkManager>();
             
-            yield return null;
-            
             // When
             lobbyManager.Host();
 
-            yield return null;
+            yield return new WaitForSeconds(1.0f);
             
             // Then
             Assert.IsTrue(networkManager.isNetworkActive);
