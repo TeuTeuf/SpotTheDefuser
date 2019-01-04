@@ -9,23 +9,18 @@ stages:
 variables:
   BUILD_NAME: SpotTheDefuser
 
-.unity_before_script: &unity_before_script
-  before_script:
-  - mkdir -p /root/.cache/unity3d
-  - mkdir -p /root/.local/share/unity3d/Unity/
-  - echo "$UNITY_LICENSE_CONTENT" | tr -d '\r' > /root/.local/share/unity3d/Unity/Unity_lic.ulf
-
 check-cleanarchi:
   image: alpine:latest
   stage: check
   script: | 
-    chmod +x Tools/checkCleanArchitecture.sh
-    ./Tools/checkCleanArchitecture.sh
+    chmod +x Tools/checkCleanArchitecture.sh && ./Tools/checkCleanArchitecture.sh
 
 .test: &test
   stage: test
-  <<: *unity_before_script
+  before_script:
   script: |
+    export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_LINUX
+    chmod +x Tools/setUnityLicense.sh && ./Tools/setUnityLicense.sh
     xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' \
       /opt/Unity/Editor/Unity \
         -projectPath $(pwd) \
@@ -53,8 +48,6 @@ test-playmode:
 
 .build: &build
   stage: build
-  <<: *unity_before_script
-  variables:
   script: |
     echo "Building for $BUILD_TARGET"
     export BUILD_PATH=./Builds/$BUILD_TARGET/
@@ -82,24 +75,36 @@ test-playmode:
 
 build-StandaloneLinux64:
   <<: *build
+  before_script:
+  - export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_LINUX
+  - chmod +x Tools/setUnityLicense.sh && ./Tools/setUnityLicense.sh
   variables:
     BUILD_TARGET: StandaloneLinux64
 
 build-StandaloneOSX:
   image: teuteuf/unity:latest_Mac
   <<: *build
+  before_script:
+  - export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_OSX
+  - chmod +x Tools/setUnityLicense.sh && ./Tools/setUnityLicense.sh
   variables:
     BUILD_TARGET: StandaloneOSX
 
 build-StandaloneWindows64:
   image: teuteuf/unity:latest_Windows
   <<: *build
+  before_script:
+  - export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_WINDOWS
+  - chmod +x Tools/setUnityLicense.sh && ./Tools/setUnityLicense.sh
   variables:
     BUILD_TARGET: StandaloneWindows64
 
 build-Android:
   image: teuteuf/unity-androidsdk:latest
   <<: *build
+  before_script:
+  - export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_ANDROID
+  - chmod +x Tools/setUnityLicense.sh && ./Tools/setUnityLicense.sh
   variables:
     BUILD_TARGET: Android
 
