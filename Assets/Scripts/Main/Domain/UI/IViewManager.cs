@@ -4,5 +4,6 @@ namespace Main.Domain.UI
     {
         void EnableLayers(View view);
         void DisableActiveLayers();
+        void ReplaceCurrentLayers(View view);
     }
 }

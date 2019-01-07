@@ -18,7 +18,7 @@ namespace Test.TestsEditMode.UseCases.UI
         }
 
         [Test]
-        public void Change_ShouldEnableLayersCorrespondingToGivenView()
+        public void Change_ShouldReplaceCurrentLayersToGivenView()
         {
             // Given
             const View view = View.Home;
@@ -29,24 +29,7 @@ namespace Test.TestsEditMode.UseCases.UI
             // Then
             _viewManager
                 .Received()
-                .EnableLayers(view);
-        }
-        
-        [Test]
-        public void Change_ShouldDisablePreviousActiveLayersFirst()
-        {
-            // Given
-            const View view = View.Home;
-
-            // When
-            _changeCurrentView.Change(view);
-
-            // Then
-            Received.InOrder(() =>
-            {
-                _viewManager.DisableActiveLayers();
-                _viewManager.EnableLayers(Arg.Any<View>());
-            });
+                .ReplaceCurrentLayers(view);
         }
     }
 }

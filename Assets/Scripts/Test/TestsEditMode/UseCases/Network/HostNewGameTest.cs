@@ -1,4 +1,5 @@
 using Main.Domain.Network;
+using Main.Domain.UI;
 using Main.UseCases.Network;
 using NSubstitute;
 using NUnit.Framework;

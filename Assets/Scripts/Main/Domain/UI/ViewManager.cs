@@ -31,6 +31,12 @@ namespace Main.Domain.UI
             _activeViewLayers = null;
         }
 
+        public void ReplaceCurrentLayers(View view)
+        {
+            DisableActiveLayers();
+            EnableLayers(view);
+        }
+
         private void _RegisterViewLayerByView(IViewLayer layer)
         {
             var view = layer.GetView();

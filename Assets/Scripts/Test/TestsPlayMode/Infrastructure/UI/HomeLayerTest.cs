@@ -1,5 +1,6 @@
 using System.Collections;
 using Main.Domain.Network;
+using Main.Domain.UI;
 using Main.Infrastructure.Controllers.Network;
 using Main.Infrastructure.UI;
 using Main.UseCases.Network;
@@ -12,9 +13,12 @@ namespace Test.TestsPlayMode.Infrastructure.UI
 {
     public class HomeLayerTest
     {
-        private HostNewGame _hostNewGame;
         private HomeLayer _homeLayer;
+        
+        private HostNewGame _hostNewGame;
         private AllPlayerControllers _allPlayerControllers;
+        private IViewManager _viewManager;
+
 
         [SetUp]
         public void Init()
@@ -24,8 +28,10 @@ namespace Test.TestsPlayMode.Infrastructure.UI
             
             _allPlayerControllers = Substitute.For<AllPlayerControllers>();
             _homeLayer = new GameObject().AddComponent<HomeLayer>();
+
+            _viewManager = Substitute.For<IViewManager>();
             
-            _homeLayer.Init(_hostNewGame, _allPlayerControllers);
+            _homeLayer.Init(_hostNewGame, _allPlayerControllers, _viewManager);
         }
 
         [UnityTest]
@@ -64,6 +70,26 @@ namespace Test.TestsPlayMode.Infrastructure.UI
             {
                 _hostNewGame.Host();
                 _allPlayerControllers.AddNewPlayerOnServer(Arg.Any<string>());
+            });
+        }
+        
+        [UnityTest]
+        public IEnumerator OnClickOnHost_ShouldChangeViewAfterAddingPlayerOnServer()
+        {
+            // Given
+            var playerController = new GameObject().AddComponent<PlayerController>();
+            _allPlayerControllers.LocalPlayerController = playerController;
+            
+            // When
+            _homeLayer.OnClickOnHost();
+            
+            yield return null;
+
+            // Then
+            Received.InOrder(() =>
+            {
+                _allPlayerControllers.AddNewPlayerOnServer(Arg.Any<string>());
+                _viewManager.ReplaceCurrentLayers(View.Lobby);
             });
         }
     }

@@ -1,4 +1,5 @@
 using System.Collections;
+using Main.Domain.UI;
 using Main.Infrastructure.Controllers.Network;
 using Main.UseCases.Network;
 using UnityEngine;
@@ -10,14 +11,16 @@ namespace Main.Infrastructure.UI
     {
         private HostNewGame _hostNewGame;
         private AllPlayerControllers _allPlayerControllers;
+        private IViewManager _viewManager;
         
         private string _playerName;
 
         [Inject]
-        public void Init(HostNewGame hostNewGame, AllPlayerControllers allPlayerControllers)
+        public void Init(HostNewGame hostNewGame, AllPlayerControllers allPlayerControllers, IViewManager viewManager)
         {
             _hostNewGame = hostNewGame;
             _allPlayerControllers = allPlayerControllers;
+            _viewManager = viewManager;
         }
 
         public void OnEndEditOnPlayerName(string playerName)
@@ -44,6 +47,7 @@ namespace Main.Infrastructure.UI
             }
             
             _allPlayerControllers.AddNewPlayerOnServer(_playerName);
+            _viewManager.ReplaceCurrentLayers(View.Lobby);
         }
     }
 }

@@ -8,23 +8,23 @@ namespace Test.TestsEditMode.Domain.UI
     public class ViewManagerTest
     {
         private ViewManager _viewManager;
-        private IViewLayer _aViewLayer;
-        private IViewLayer _anotherViewLayer;
-        private IViewLayer _aViewLayerForOtherView;
+        private IViewLayer _aHomeViewLayer;
+        private IViewLayer _anotherHomeViewLayer;
+        private IViewLayer _aLobbyViewLayer;
 
         [SetUp]
         public void Init()
         {
-            _aViewLayer = Substitute.For<IViewLayer>();
-            _aViewLayer.GetView().Returns(View.Home);
+            _aHomeViewLayer = Substitute.For<IViewLayer>();
+            _aHomeViewLayer.GetView().Returns(View.Home);
             
-            _anotherViewLayer = Substitute.For<IViewLayer>();
-            _anotherViewLayer.GetView().Returns(View.Home);
+            _anotherHomeViewLayer = Substitute.For<IViewLayer>();
+            _anotherHomeViewLayer.GetView().Returns(View.Home);
             
-            _aViewLayerForOtherView = Substitute.For<IViewLayer>();
-            _aViewLayerForOtherView.GetView().Returns(View.Lobby);
+            _aLobbyViewLayer = Substitute.For<IViewLayer>();
+            _aLobbyViewLayer.GetView().Returns(View.Lobby);
 
-            var allViewLayers = new List<IViewLayer> {_aViewLayer, _anotherViewLayer, _aViewLayerForOtherView};
+            var allViewLayers = new List<IViewLayer> {_aHomeViewLayer, _anotherHomeViewLayer, _aLobbyViewLayer};
             _viewManager = new ViewManager(allViewLayers);
         }
 
@@ -32,9 +32,9 @@ namespace Test.TestsEditMode.Domain.UI
         public void New_ShouldDisableAllViewLayersOnCreation()
         {
             // Then
-            _aViewLayer.Received().Disable();
-            _anotherViewLayer.Received().Disable();
-            _aViewLayerForOtherView.Received().Disable();
+            _aHomeViewLayer.Received().Disable();
+            _anotherHomeViewLayer.Received().Disable();
+            _aLobbyViewLayer.Received().Disable();
         }
         
         [Test]
@@ -44,9 +44,9 @@ namespace Test.TestsEditMode.Domain.UI
             _viewManager.EnableLayers(View.Home);
 
             // Then
-            _aViewLayer.Received().Enable();
-            _anotherViewLayer.Received().Enable();
-            _aViewLayerForOtherView.DidNotReceive().Enable();
+            _aHomeViewLayer.Received().Enable();
+            _anotherHomeViewLayer.Received().Enable();
+            _aLobbyViewLayer.DidNotReceive().Enable();
         }
 
         [Test]
@@ -54,14 +54,16 @@ namespace Test.TestsEditMode.Domain.UI
         {
             // Given
             _viewManager.EnableLayers(View.Home);
+            
+            _ClearReceivedCallsOnAllViewsDisable();
 
             // When
             _viewManager.DisableActiveLayers();
 
             // Then
-            _aViewLayer.Received(2).Disable();
-            _anotherViewLayer.Received(2).Disable();
-            _aViewLayerForOtherView.Received(1).Disable();
+            _aHomeViewLayer.Received().Disable();
+            _anotherHomeViewLayer.Received().Disable();
+            _aLobbyViewLayer.DidNotReceive().Disable();
         }
 
         [Test]
@@ -71,13 +73,39 @@ namespace Test.TestsEditMode.Domain.UI
             _viewManager.EnableLayers(View.Home);
             _viewManager.DisableActiveLayers();
 
+            _ClearReceivedCallsOnAllViewsDisable();
+            
             // When
             _viewManager.DisableActiveLayers();
 
             // Then
-            _aViewLayer.Received(2).Disable();
-            _anotherViewLayer.Received(2).Disable();
-            _aViewLayerForOtherView.Received(1).Disable();
+            _aHomeViewLayer.DidNotReceive().Disable();
+            _anotherHomeViewLayer.DidNotReceive().Disable();
+            _aLobbyViewLayer.DidNotReceive().Disable();
+        }
+
+        [Test]
+        public void ReplaceCurrent_ShouldDisableAllActiveLayersAndEnableLayersCorrespondingToGivenView()
+        {
+            // Given
+            _viewManager.EnableLayers(View.Home);
+            _ClearReceivedCallsOnAllViewsDisable();
+            
+            // When
+            _viewManager.ReplaceCurrentLayers(View.Lobby);
+
+            // Then
+            _aHomeViewLayer.Received().Disable();
+            _anotherHomeViewLayer.Received().Disable();
+            _aLobbyViewLayer.DidNotReceive().Disable();
+            _aLobbyViewLayer.Received().Enable();
+        }
+
+        private void _ClearReceivedCallsOnAllViewsDisable()
+        {
+            _aHomeViewLayer.ClearReceivedCalls();
+            _anotherHomeViewLayer.ClearReceivedCalls();
+            _aLobbyViewLayer.ClearReceivedCalls();
         }
     }
 }

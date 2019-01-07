@@ -1,4 +1,5 @@
 using Main.Domain.Network;
+using Main.Domain.UI;
 
 namespace Main.UseCases.Network
 {
