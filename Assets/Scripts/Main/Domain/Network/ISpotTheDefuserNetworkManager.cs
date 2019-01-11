@@ -1,6 +1,6 @@
 namespace Main.Domain.Network
 {
-    public interface ILobbyManager
+    public interface ISpotTheDefuserNetworkManager
     {
         void Host();
     }

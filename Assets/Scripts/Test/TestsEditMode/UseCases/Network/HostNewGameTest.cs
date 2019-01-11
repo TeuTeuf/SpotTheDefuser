@@ -9,13 +9,15 @@ namespace Test.TestsEditMode.UseCases.Network
     public class HostNewGameTest
     {
         private HostNewGame _hostNewGame;
-        private ILobbyManager _lobbyManager;
+        private ISpotTheDefuserNetworkManager _spotTheDefuserNetworkManager;
+        private ISpotTheDefuserNetworkDiscovery _spotTheDefuserNetworkDiscovery;
         
         [SetUp]
         public void Init()
         {
-            _lobbyManager = Substitute.For<ILobbyManager>();
-            _hostNewGame = new HostNewGame(_lobbyManager);
+            _spotTheDefuserNetworkManager = Substitute.For<ISpotTheDefuserNetworkManager>();
+            _spotTheDefuserNetworkDiscovery = Substitute.For<ISpotTheDefuserNetworkDiscovery>();
+            _hostNewGame = new HostNewGame(_spotTheDefuserNetworkManager, _spotTheDefuserNetworkDiscovery);
         }
 
         [Test]
@@ -25,7 +27,17 @@ namespace Test.TestsEditMode.UseCases.Network
             _hostNewGame.Host();
 
             // Then
-            _lobbyManager.Received().Host();
+            _spotTheDefuserNetworkManager.Received().Host();
+        }
+
+        [Test]
+        public void Host_ShouldStartBroadcastingOnNetworkDiscovery()
+        {
+            // When
+            _hostNewGame.Host();
+
+            // Then
+            _spotTheDefuserNetworkDiscovery.Received().StartBroadcastingOnLAN();
         }
     }
 }

@@ -5,16 +5,20 @@ namespace Main.UseCases.Network
 {
     public class HostNewGame
     {
-        private readonly ILobbyManager _lobbyManager;
+        private readonly ISpotTheDefuserNetworkManager _spotTheDefuserNetworkManager;
+        private readonly ISpotTheDefuserNetworkDiscovery _spotTheDefuserNetworkDiscovery;
 
-        public HostNewGame(ILobbyManager lobbyManager)
+        public HostNewGame(ISpotTheDefuserNetworkManager spotTheDefuserNetworkManager,
+            ISpotTheDefuserNetworkDiscovery spotTheDefuserNetworkDiscovery)
         {
-            _lobbyManager = lobbyManager;
+            _spotTheDefuserNetworkManager = spotTheDefuserNetworkManager;
+            _spotTheDefuserNetworkDiscovery = spotTheDefuserNetworkDiscovery;
         }
 
         public virtual void Host()
         {
-            _lobbyManager.Host();
+            _spotTheDefuserNetworkManager.Host();
+            _spotTheDefuserNetworkDiscovery.StartBroadcastingOnLAN();
         }
     }
 }

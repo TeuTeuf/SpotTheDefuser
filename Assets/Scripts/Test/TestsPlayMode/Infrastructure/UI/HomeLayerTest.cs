@@ -23,8 +23,9 @@ namespace Test.TestsPlayMode.Infrastructure.UI
         [SetUp]
         public void Init()
         {
-            var networkManager = Substitute.For<ILobbyManager>();
-            _hostNewGame = Substitute.For<HostNewGame>(networkManager);
+            var networkManager = Substitute.For<ISpotTheDefuserNetworkManager>();
+            var networkDiscovery = Substitute.For<ISpotTheDefuserNetworkDiscovery>();
+            _hostNewGame = Substitute.For<HostNewGame>(networkManager, networkDiscovery);
             
             _allPlayerControllers = Substitute.For<AllPlayerControllers>();
             _homeLayer = new GameObject().AddComponent<HomeLayer>();

@@ -3,11 +3,11 @@ using UnityEngine.Networking;
 
 namespace Main.Infrastructure.Network
 {
-    public class LobbyManager : ILobbyManager
+    public class SpotTheDefuserNetworkManager : ISpotTheDefuserNetworkManager
     {
         private readonly NetworkManager _networkManager;
         
-        public LobbyManager(NetworkManager networkManager)
+        public SpotTheDefuserNetworkManager(NetworkManager networkManager)
         {
             _networkManager = networkManager;
         }

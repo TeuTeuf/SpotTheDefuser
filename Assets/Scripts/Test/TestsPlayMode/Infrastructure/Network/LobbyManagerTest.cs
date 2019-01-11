@@ -18,7 +18,7 @@ namespace Test.TestsPlayMode.Infrastructure.Network
             yield return LoadScene("TestScene");
             
             // Given 
-            var lobbyManager = SceneContainer.Resolve<ILobbyManager>();
+            var lobbyManager = SceneContainer.Resolve<ISpotTheDefuserNetworkManager>();
             var networkManager = SceneContainer.Resolve<NetworkManager>();
             
             // When
