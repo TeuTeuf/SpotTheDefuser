@@ -10,7 +10,7 @@ using Zenject;
 
 namespace Test.TestsPlayMode.Infrastructure.Network
 {
-    public class LobbyManagerTest : SceneTestFixture
+    public class SpotTheDefuserNetworkManagerTest : SceneTestFixture
     {
         [UnityTest]
         public IEnumerator Host_ShouldStartNetwork()
@@ -18,11 +18,11 @@ namespace Test.TestsPlayMode.Infrastructure.Network
             yield return LoadScene("TestScene");
             
             // Given 
-            var lobbyManager = SceneContainer.Resolve<ISpotTheDefuserNetworkManager>();
+            var spotTheDefuserNetworkManager = SceneContainer.Resolve<ISpotTheDefuserNetworkManager>();
             var networkManager = SceneContainer.Resolve<NetworkManager>();
             
             // When
-            lobbyManager.Host();
+            spotTheDefuserNetworkManager.Host();
 
             yield return new WaitForSeconds(1.0f);
             
