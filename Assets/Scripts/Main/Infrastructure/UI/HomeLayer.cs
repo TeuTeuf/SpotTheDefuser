@@ -9,16 +9,22 @@ namespace Main.Infrastructure.UI
 {
     public class HomeLayer : BasicViewLayer
     {
+        private const View NEXT_VIEW = View.Lobby;
+        
         private HostNewGame _hostNewGame;
+        private StartWaitingForNewGame _startWaitingForNewGame;
+        
         private AllPlayerControllers _allPlayerControllers;
         private IViewManager _viewManager;
         
         private string _playerName;
 
         [Inject]
-        public void Init(HostNewGame hostNewGame, AllPlayerControllers allPlayerControllers, IViewManager viewManager)
+        public void Init(HostNewGame hostNewGame, StartWaitingForNewGame startWaitingForNewGame, AllPlayerControllers allPlayerControllers,
+            IViewManager viewManager)
         {
             _hostNewGame = hostNewGame;
+            _startWaitingForNewGame = startWaitingForNewGame;
             _allPlayerControllers = allPlayerControllers;
             _viewManager = viewManager;
         }
@@ -36,7 +42,9 @@ namespace Main.Infrastructure.UI
         
         public void OnClickOnJoin()
         {
-            Debug.Log("OnClickOnJoin");
+            _startWaitingForNewGame.Start(_playerName);
+            _viewManager.ReplaceCurrentLayers(NEXT_VIEW);
+            // ^ Should be removed and moved in StartWaitingForNewGame usecase
         }
 
         private IEnumerator WaitForLocalPlayerConnected()
@@ -46,8 +54,14 @@ namespace Main.Infrastructure.UI
                 yield return null;
             }
             
+            Debug.LogWarning("I NEED TO BE IMPROVED ! Check comments !");
+            
             _allPlayerControllers.AddNewPlayerOnServer(_playerName);
-            _viewManager.ReplaceCurrentLayers(View.Lobby);
+            // ^ Should be removed from this coroutine and set a LocalPlayerName field in AllPlayerControllers in HostNewGame usecase
+            // PlayerController.Start() => { if (local) _allPlayerControllers.AddNewPlayerOnServer(LocalPlayerName) }
+            
+            _viewManager.ReplaceCurrentLayers(NEXT_VIEW);
+            // ^ Should be removed from this coroutine and view switch immediately in HostNewGame usecase
         }
     }
 }

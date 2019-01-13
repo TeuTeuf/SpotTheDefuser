@@ -42,6 +42,8 @@ namespace Main.Infrastructure
             Container.Bind<TryToDefuse>().AsSingle();
             Container.Bind<ChangeCurrentView>().AsSingle();
             Container.Bind<HostNewGame>().AsSingle();
+            Container.Bind<StartWaitingForNewGame>().AsSingle();
+            Container.Bind<ConnectToNewGame>().AsSingle();
         }
 
         private void InstallOtherSingletons()

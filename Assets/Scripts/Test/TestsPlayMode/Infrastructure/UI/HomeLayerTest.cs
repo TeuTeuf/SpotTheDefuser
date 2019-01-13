@@ -16,6 +16,7 @@ namespace Test.TestsPlayMode.Infrastructure.UI
         private HomeLayer _homeLayer;
         
         private HostNewGame _hostNewGame;
+        private StartWaitingForNewGame _startWaitingForNewGame;
         private AllPlayerControllers _allPlayerControllers;
         private IViewManager _viewManager;
 
@@ -26,13 +27,14 @@ namespace Test.TestsPlayMode.Infrastructure.UI
             var networkManager = Substitute.For<ISpotTheDefuserNetworkManager>();
             var networkDiscovery = Substitute.For<ISpotTheDefuserNetworkDiscovery>();
             _hostNewGame = Substitute.For<HostNewGame>(networkManager, networkDiscovery);
+            _startWaitingForNewGame = Substitute.For<StartWaitingForNewGame>(networkDiscovery);
             
             _allPlayerControllers = Substitute.For<AllPlayerControllers>();
             _homeLayer = new GameObject().AddComponent<HomeLayer>();
 
             _viewManager = Substitute.For<IViewManager>();
             
-            _homeLayer.Init(_hostNewGame, _allPlayerControllers, _viewManager);
+            _homeLayer.Init(_hostNewGame, _startWaitingForNewGame, _allPlayerControllers, _viewManager);
         }
 
         [UnityTest]
@@ -92,6 +94,30 @@ namespace Test.TestsPlayMode.Infrastructure.UI
                 _allPlayerControllers.AddNewPlayerOnServer(Arg.Any<string>());
                 _viewManager.ReplaceCurrentLayers(View.Lobby);
             });
+        }
+        
+        [Test]
+        public void OnClickOnJoin_ShouldStartWaitingForNewGame()
+        {
+            // Given
+            const string playerName = "Player Name";
+            
+            // When
+            _homeLayer.OnEndEditOnPlayerName(playerName);
+            _homeLayer.OnClickOnJoin();
+            
+            // Then
+            _startWaitingForNewGame.Received().Start(playerName);
+        }
+
+        [Test]
+        public void OnClickOnJoin_ShouldSwitchToLobbyView()
+        {
+            // When
+            _homeLayer.OnClickOnJoin();
+
+            // Then
+            _viewManager.Received().ReplaceCurrentLayers(View.Lobby);
         }
     }
 }

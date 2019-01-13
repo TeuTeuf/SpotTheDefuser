@@ -1,12 +1,22 @@
 using Main.Domain;
 using Main.Domain.Network;
+using Main.UseCases.Network;
 using UnityEngine;
 using UnityEngine.Networking;
+using Zenject;
 
 namespace Main.Infrastructure.Network
 {
     public class SpotTheDefuserNetworkDiscovery : NetworkDiscovery, ISpotTheDefuserNetworkDiscovery
     {
+        private ConnectToNewGame _connectToNewGame;
+
+        [Inject]
+        public void Init(ConnectToNewGame connectToNewGame)
+        {
+            _connectToNewGame = connectToNewGame;
+        }
+
         private void Start()
         {
             Initialize();
@@ -29,9 +39,7 @@ namespace Main.Infrastructure.Network
 
         public override void OnReceivedBroadcast(string fromAddress, string data)
         {
-            StopBroadcast();
-            base.OnReceivedBroadcast(fromAddress, data);
-            Debug.Log("OnReceivedBroadcast");
+            _connectToNewGame.Connect(fromAddress);
         }
     }
 }
