@@ -14,19 +14,13 @@ namespace Main.Infrastructure.UI
         private HostNewGame _hostNewGame;
         private StartWaitingForNewGame _startWaitingForNewGame;
         
-        private AllPlayerControllers _allPlayerControllers;
-        private IViewManager _viewManager;
-        
         private string _playerName;
 
         [Inject]
-        public void Init(HostNewGame hostNewGame, StartWaitingForNewGame startWaitingForNewGame, AllPlayerControllers allPlayerControllers,
-            IViewManager viewManager)
+        public void Init(HostNewGame hostNewGame, StartWaitingForNewGame startWaitingForNewGame)
         {
             _hostNewGame = hostNewGame;
             _startWaitingForNewGame = startWaitingForNewGame;
-            _allPlayerControllers = allPlayerControllers;
-            _viewManager = viewManager;
         }
 
         public void OnEndEditOnPlayerName(string playerName)
@@ -42,8 +36,6 @@ namespace Main.Infrastructure.UI
         public void OnClickOnJoin()
         {
             _startWaitingForNewGame.Start(_playerName);
-            _viewManager.ReplaceCurrentLayers(NEXT_VIEW);
-            // ^ Should be removed and moved in StartWaitingForNewGame usecase
         }
     }
 }

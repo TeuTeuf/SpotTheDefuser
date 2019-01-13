@@ -31,11 +31,11 @@ namespace Test.TestsEditMode.Infrastructure.UI
             var networkDiscovery = Substitute.For<ISpotTheDefuserNetworkDiscovery>();
             
             _hostNewGame = Substitute.For<HostNewGame>(networkManager, networkDiscovery, _viewManager, _allPlayerControllers);
-            _startWaitingForNewGame = Substitute.For<StartWaitingForNewGame>(networkDiscovery);
+            _startWaitingForNewGame = Substitute.For<StartWaitingForNewGame>(networkDiscovery, _viewManager, _allPlayerControllers);
             
             _homeLayer = new GameObject().AddComponent<HomeLayer>();
             
-            _homeLayer.Init(_hostNewGame, _startWaitingForNewGame, _allPlayerControllers, _viewManager);
+            _homeLayer.Init(_hostNewGame, _startWaitingForNewGame);
         }
         
         [Test]
