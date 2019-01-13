@@ -36,8 +36,7 @@ namespace Main.Infrastructure.UI
 
         public void OnClickOnHost()
         {
-            _hostNewGame.Host();
-            StartCoroutine(nameof(WaitForLocalPlayerConnected));
+            _hostNewGame.Host(_playerName);
         }
         
         public void OnClickOnJoin()
@@ -45,23 +44,6 @@ namespace Main.Infrastructure.UI
             _startWaitingForNewGame.Start(_playerName);
             _viewManager.ReplaceCurrentLayers(NEXT_VIEW);
             // ^ Should be removed and moved in StartWaitingForNewGame usecase
-        }
-
-        private IEnumerator WaitForLocalPlayerConnected()
-        {
-            while (_allPlayerControllers.LocalPlayerController == null)
-            {
-                yield return null;
-            }
-            
-            Debug.LogWarning("I NEED TO BE IMPROVED ! Check comments !");
-            
-            _allPlayerControllers.AddNewPlayerOnServer(_playerName);
-            // ^ Should be removed from this coroutine and set a LocalPlayerName field in AllPlayerControllers in HostNewGame usecase
-            // PlayerController.Start() => { if (local) _allPlayerControllers.AddNewPlayerOnServer(LocalPlayerName) }
-            
-            _viewManager.ReplaceCurrentLayers(NEXT_VIEW);
-            // ^ Should be removed from this coroutine and view switch immediately in HostNewGame usecase
         }
     }
 }

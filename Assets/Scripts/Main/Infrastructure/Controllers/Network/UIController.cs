@@ -1,4 +1,4 @@
-﻿using Main.Domain.UI;
+using Main.Domain.UI;
 using Main.UseCases.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,7 +35,7 @@ namespace Main.Infrastructure.Controllers.Network
 
 		public void OnClickOnAddPlayer()
 		{
-			_allPlayerControllers.AddNewPlayerOnServer(PlayerName);
+			Debug.LogError("OnClickOnAddPlayer: Class should be deleted.");
 		}
 
 		public void OnClickOnNewDefuseAttempt()

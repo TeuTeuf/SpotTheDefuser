@@ -41,11 +41,36 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         [Test]
         public void OnStartLocalPlayer_ShouldSetLocalPlayerControllerOnAllPlayerControllers()
         {
+            // Given
+            var allPlayerControllers = Substitute.For<AllPlayerControllers>();
+            
+            var playerController = new GameObject().AddComponent<PlayerController>();
+            playerController.Init(null, null, null, allPlayerControllers, null);
+            
             // When
-            _playerController.OnStartLocalPlayer();
+            playerController.OnStartLocalPlayer();
 
             // Then
-            Assert.AreSame(_playerController, _allPlayerControllers.LocalPlayerController);
+            Assert.AreSame(playerController, allPlayerControllers.LocalPlayerController);
+        }
+
+        [Test]
+        public void OnStartLocalPlayer_ShouldAddLocalPlayerToServer()
+        {
+            // Given
+            const string playerName = "Player Name";
+            
+            var allPlayerControllers = Substitute.For<AllPlayerControllers>();
+            allPlayerControllers.LocalPlayerName = playerName;
+            
+            var playerController = new GameObject().AddComponent<PlayerController>();
+            playerController.Init(null, null, null, allPlayerControllers, null);
+            
+            // When
+            playerController.OnStartLocalPlayer();
+
+            // Then
+            allPlayerControllers.Received().AddLocalPlayerOnServer();
         }
 
         [Test]

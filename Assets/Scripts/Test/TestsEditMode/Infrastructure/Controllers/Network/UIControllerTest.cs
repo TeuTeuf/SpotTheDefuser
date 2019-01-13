@@ -62,20 +62,6 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         }
 
         [Test]
-        public void OnClickOnAddPlayer_ShouldAddNewPlayerOnServer_OnAllPlayerControllers()
-        {
-            // Given
-            const string playerName = "playerName";
-            _uiController.OnEndEditOnPlayerName(playerName);
-
-            // When
-            _uiController.OnClickOnAddPlayer();
-            
-            // Then
-            _allPlayerControllers.Received().AddNewPlayerOnServer(playerName);
-        }
-
-        [Test]
         public void OnClickOnTryToDefuse_ShouldTryToDefuseOnServer_OnAllPlayerControllers()
         {
             // When

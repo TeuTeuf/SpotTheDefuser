@@ -32,6 +32,7 @@ namespace Main.Infrastructure.Controllers.Network
         {
             base.OnStartLocalPlayer();
             _allPlayerControllers.LocalPlayerController = this;
+            _allPlayerControllers.AddLocalPlayerOnServer();
         }
 
         public override void OnStartServer()
