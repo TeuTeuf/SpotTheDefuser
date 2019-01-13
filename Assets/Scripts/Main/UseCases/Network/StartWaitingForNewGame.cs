@@ -1,5 +1,4 @@
 using Main.Domain.Network;
-using Main.Infrastructure.Network;
 
 namespace Main.UseCases.Network
 {
