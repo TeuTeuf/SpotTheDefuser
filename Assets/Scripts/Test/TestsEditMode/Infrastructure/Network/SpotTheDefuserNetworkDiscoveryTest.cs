@@ -1,3 +1,4 @@
+using Main.Domain.Network;
 using Main.Infrastructure.Network;
 using Main.UseCases.Network;
 using NSubstitute;
@@ -15,9 +16,11 @@ namespace Test.TestsEditMode.Infrastructure.Network
         [SetUp]
         public void Init()
         {
-            _connectToNewGame = Substitute.For<ConnectToNewGame>();
-
             _spotTheDefuserNetworkDiscovery = new GameObject().AddComponent<SpotTheDefuserNetworkDiscovery>();
+            var spotTheDefuserNetworkManager = Substitute.For<ISpotTheDefuserNetworkManager>();
+
+            _connectToNewGame = Substitute.For<ConnectToNewGame>(spotTheDefuserNetworkManager, _spotTheDefuserNetworkDiscovery);       
+            
             _spotTheDefuserNetworkDiscovery.Init(_connectToNewGame);
         }
         
@@ -26,6 +29,7 @@ namespace Test.TestsEditMode.Infrastructure.Network
         {
             // Given
             const string fromAddress = "fromAddress";
+            _spotTheDefuserNetworkDiscovery.Start();
             
             // When
             _spotTheDefuserNetworkDiscovery.OnReceivedBroadcast(fromAddress, "data");

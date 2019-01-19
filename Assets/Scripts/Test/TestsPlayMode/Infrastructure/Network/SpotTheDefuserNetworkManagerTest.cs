@@ -30,5 +30,27 @@ namespace Test.TestsPlayMode.Infrastructure.Network
             Assert.IsTrue(networkManager.isNetworkActive);
             Assert.IsTrue(networkManager.IsClientConnected());
         }
+        
+        [UnityTest]
+        public IEnumerator Host_ShouldStartClient()
+        {
+            yield return LoadScene("TestScene");
+            
+            
+            // Given 
+            var spotTheDefuserNetworkManager = SceneContainer.Resolve<ISpotTheDefuserNetworkManager>();
+            var networkManager = SceneContainer.Resolve<NetworkManager>();
+            
+            const string hostAddress = "123.123.123.123";
+            
+            // When
+            spotTheDefuserNetworkManager.Join(hostAddress);
+
+            yield return new WaitForSeconds(1.0f);
+            
+            // Then
+            Assert.That(networkManager.networkAddress, Is.EqualTo(hostAddress));
+            Assert.That(networkManager.isNetworkActive, Is.True);
+        }
     }
 }

@@ -1,5 +1,6 @@
 using Main.Domain.Network;
 using UnityEngine.Networking;
+using UnityEngine.Networking.Match;
 
 namespace Main.Infrastructure.Network
 {
@@ -15,6 +16,12 @@ namespace Main.Infrastructure.Network
         public void Host()
         {
             _networkManager.StartHost();
+        }
+
+        public void Join(string hostAddress)
+        {
+            _networkManager.networkAddress = hostAddress;
+            _networkManager.StartClient();
         }
     }
 }

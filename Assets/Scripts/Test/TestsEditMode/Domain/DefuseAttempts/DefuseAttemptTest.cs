@@ -44,10 +44,9 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
             Assert.IsFalse(defuseAttempt.IsDefuser(_player3));
         }
 
-
         [Test]
         public void
-            Execute_ShouldReturnDefuseAttemptReturningIsDefuserTrueForLastPlayerAndFalseForOthers_WhenRandomReturnMaxValue_WithThreePlayers()
+        Execute_ShouldReturnDefuseAttemptReturningIsDefuserTrueForLastPlayerAndFalseForOthers_WhenRandomReturnMaxValue_WithThreePlayers()
         {
             // Given
             var players = new List<Player> {_player1, _player2, _player3}.AsReadOnly();

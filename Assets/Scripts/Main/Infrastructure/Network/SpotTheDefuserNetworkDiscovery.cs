@@ -17,7 +17,7 @@ namespace Main.Infrastructure.Network
             _connectToNewGame = connectToNewGame;
         }
 
-        private void Start()
+        public void Start()
         {
             Initialize();
         }
@@ -39,6 +39,7 @@ namespace Main.Infrastructure.Network
 
         public override void OnReceivedBroadcast(string fromAddress, string data)
         {
+//            StopBroadcastingOnLAN();
             _connectToNewGame.Connect(fromAddress);
         }
     }
