@@ -1,6 +1,6 @@
 using Main.Domain.Network;
+using Main.Domain.Players;
 using Main.Domain.UI;
-using Main.Infrastructure.Controllers.Network;
 
 namespace Main.UseCases.Network
 {
@@ -9,24 +9,26 @@ namespace Main.UseCases.Network
         private readonly ISpotTheDefuserNetworkManager _spotTheDefuserNetworkManager;
         private readonly ISpotTheDefuserNetworkDiscovery _spotTheDefuserNetworkDiscovery;
         private readonly IViewManager _viewManager;
-        private readonly AllPlayerControllers _allPlayerControllers;
+        private readonly AllPlayers _allPlayers;
 
-        public HostNewGame(ISpotTheDefuserNetworkManager spotTheDefuserNetworkManager,
-            ISpotTheDefuserNetworkDiscovery spotTheDefuserNetworkDiscovery, IViewManager viewManager,
-            AllPlayerControllers allPlayerControllers)
-        {
-            _allPlayerControllers = allPlayerControllers;
-            _viewManager = viewManager;
+        public HostNewGame(
+            ISpotTheDefuserNetworkManager spotTheDefuserNetworkManager,
+            ISpotTheDefuserNetworkDiscovery spotTheDefuserNetworkDiscovery,
+            IViewManager viewManager,
+            AllPlayers allPlayers
+        ) {
             _spotTheDefuserNetworkManager = spotTheDefuserNetworkManager;
             _spotTheDefuserNetworkDiscovery = spotTheDefuserNetworkDiscovery;
+            _viewManager = viewManager;
+            _allPlayers = allPlayers;
         }
 
         public virtual void Host(string playerName)
         {
-            _allPlayerControllers.LocalPlayerName = playerName;
             _spotTheDefuserNetworkManager.Host();
             _spotTheDefuserNetworkDiscovery.StartBroadcastingOnLAN();
             _viewManager.ReplaceCurrentLayers(View.Lobby);
+            _allPlayers.LocalPlayer = new Player(playerName);
         }
     }
 }

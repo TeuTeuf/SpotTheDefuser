@@ -1,4 +1,5 @@
-﻿using Main.Domain.UI;
+﻿using Main.Domain.Players;
+using Main.Domain.UI;
 using Main.Infrastructure.Controllers.Network;
 using Main.UseCases.UI;
 using NSubstitute;
@@ -19,7 +20,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             var viewManager = Substitute.For<IViewManager>();
             _changeCurrentView = Substitute.For<ChangeCurrentView>(viewManager);
-            _allPlayerControllers = Substitute.For<AllPlayerControllers>();
+            _allPlayerControllers = Substitute.For<AllPlayerControllers>(new AllPlayers());
             
             _uiController = new GameObject().AddComponent<UIController>();
             _uiController.Init(_allPlayerControllers, _changeCurrentView);

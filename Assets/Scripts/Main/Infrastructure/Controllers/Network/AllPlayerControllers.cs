@@ -6,13 +6,15 @@ namespace Main.Infrastructure.Controllers.Network
 {
     public class AllPlayerControllers
     {
+        private readonly AllPlayers _allPlayers;
+        
         public PlayerController LocalPlayerController { get; set; }
-        public string LocalPlayerName { get; set; }
 
         private readonly List<PlayerController> _playerControllersOnServer;
         
-        public AllPlayerControllers()
+        public AllPlayerControllers(AllPlayers allPlayers)
         {
+            _allPlayers = allPlayers;
             _playerControllersOnServer = new List<PlayerController>();
         }
 
@@ -33,7 +35,7 @@ namespace Main.Infrastructure.Controllers.Network
 
         public virtual void AddLocalPlayerOnServer()
         {
-            LocalPlayerController.CmdAddNewPlayer(LocalPlayerName);
+            LocalPlayerController.CmdAddNewPlayer(_allPlayers.LocalPlayer);
         }
 
         public virtual void TryToDefuseOnServer()

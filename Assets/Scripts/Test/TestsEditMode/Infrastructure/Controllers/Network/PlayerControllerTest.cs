@@ -32,7 +32,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _addNewPlayer = Substitute.For<AddNewPlayer>(allPlayers);
             _tryToDefuse = Substitute.For<TryToDefuse>(defusingState, defusingListener);
             
-            _allPlayerControllers = new AllPlayerControllers();
+            _allPlayerControllers = new AllPlayerControllers(allPlayers);
             
             _playerController = new GameObject().AddComponent<PlayerController>();
             _playerController.Init(_addNewPlayer, _setNewDefuseAttempt, _tryToDefuse, _allPlayerControllers, null);
@@ -42,7 +42,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         public void OnStartLocalPlayer_ShouldSetLocalPlayerControllerOnAllPlayerControllers()
         {
             // Given
-            var allPlayerControllers = Substitute.For<AllPlayerControllers>();
+            var allPlayerControllers = Substitute.For<AllPlayerControllers>(new AllPlayers());
             
             var playerController = new GameObject().AddComponent<PlayerController>();
             playerController.Init(null, null, null, allPlayerControllers, null);
@@ -58,10 +58,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         public void OnStartLocalPlayer_ShouldAddLocalPlayerToServer()
         {
             // Given
-            const string playerName = "Player Name";
-            
-            var allPlayerControllers = Substitute.For<AllPlayerControllers>();
-            allPlayerControllers.LocalPlayerName = playerName;
+            var allPlayerControllers = Substitute.For<AllPlayerControllers>(new AllPlayers());
             
             var playerController = new GameObject().AddComponent<PlayerController>();
             playerController.Init(null, null, null, allPlayerControllers, null);
@@ -103,28 +100,28 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         public void CmdAddNewPlayer_ShouldExecuteAddNewPlayerUseCase()
         {
             // Given
-            const string playerName = "Player Name";
+            var player = new Player("Player Name");
 
             // When
-            _playerController.CmdAddNewPlayer(playerName);
+            _playerController.CmdAddNewPlayer(player);
 
             // Then
-            _addNewPlayer.Received().Execute(Arg.Is<Player>(player => player.Name == playerName));
+            _addNewPlayer.Received().Execute(Arg.Is<Player>(addedPlayer => addedPlayer == player));
         }
         
         [Test]
         public void CmdTryToDefuse_ShouldExecuteTryToDefuseUseCase()
         {
             // Given
-            const string playerName = "Player Name";
+            var player = new Player("Player Name");
 
-            _playerController.CmdAddNewPlayer(playerName);
+            _playerController.CmdAddNewPlayer(player);
             
             // When
             _playerController.CmdTryToDefuse();
             
             // Then
-            _tryToDefuse.Received().Try(Arg.Is<Player>(player => player.Name == playerName));
+            _tryToDefuse.Received().Try(Arg.Is<Player>(defuserPlayer => defuserPlayer == player));
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         [SetUp]
         public void Init()
         {
-            _allPlayerControllers = Substitute.For<AllPlayerControllers>();
+            _allPlayerControllers = Substitute.For<AllPlayerControllers>(new AllPlayers());
             _defusingListener = new DefusingListener(_allPlayerControllers);
         }
 

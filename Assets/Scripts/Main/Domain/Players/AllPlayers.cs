@@ -6,7 +6,7 @@ namespace Main.Domain.Players
     public class AllPlayers
     {
 	    private readonly List<Player> _players = new List<Player>();
-	    public Player LocalPlayer { get; private set; }
+	    public Player LocalPlayer { get; set; }
 
 	    public virtual void Add(Player player)
         {

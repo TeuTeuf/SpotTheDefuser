@@ -1,4 +1,5 @@
 using Main.Domain.Network;
+using Main.Domain.Players;
 using Main.Domain.UI;
 using Main.Infrastructure.Controllers.Network;
 using Main.Infrastructure.UI;
@@ -16,7 +17,6 @@ namespace Test.TestsEditMode.Infrastructure.UI
         
         private HostNewGame _hostNewGame;
         private StartWaitingForNewGame _startWaitingForNewGame;
-        private AllPlayerControllers _allPlayerControllers;
         private IViewManager _viewManager;
 
 
@@ -24,14 +24,14 @@ namespace Test.TestsEditMode.Infrastructure.UI
         public void Init()
         {
             _viewManager = Substitute.For<IViewManager>();
-            
-            _allPlayerControllers = Substitute.For<AllPlayerControllers>();
+
+            var allPlayers = new AllPlayers();
             
             var networkManager = Substitute.For<ISpotTheDefuserNetworkManager>();
             var networkDiscovery = Substitute.For<ISpotTheDefuserNetworkDiscovery>();
             
-            _hostNewGame = Substitute.For<HostNewGame>(networkManager, networkDiscovery, _viewManager, _allPlayerControllers);
-            _startWaitingForNewGame = Substitute.For<StartWaitingForNewGame>(networkDiscovery, _viewManager, _allPlayerControllers);
+            _hostNewGame = Substitute.For<HostNewGame>(networkManager, networkDiscovery, _viewManager, allPlayers);
+            _startWaitingForNewGame = Substitute.For<StartWaitingForNewGame>(networkDiscovery, _viewManager, allPlayers);
             
             _homeLayer = new GameObject().AddComponent<HomeLayer>();
             

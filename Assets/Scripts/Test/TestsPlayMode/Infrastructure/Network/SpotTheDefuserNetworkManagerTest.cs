@@ -1,13 +1,10 @@
 using System.Collections;
 using Main.Domain.Network;
-using Main.Infrastructure.Controllers.Network;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using Zenject;
-using Zenject.Internal;
 
 namespace Test.TestsPlayMode.Infrastructure.Network
 {
@@ -16,6 +13,7 @@ namespace Test.TestsPlayMode.Infrastructure.Network
         [UnityTest]
         public IEnumerator Host_ShouldStartNetwork()
         {
+            yield return null;
             yield return LoadScene("TestScene");
             
             // Given 

@@ -1,4 +1,5 @@
 using Main.Domain.Network;
+using Main.Domain.Players;
 using Main.Domain.UI;
 using Main.Infrastructure.Controllers.Network;
 using Main.UseCases.Network;
@@ -13,7 +14,7 @@ namespace Test.TestsEditMode.UseCases.Network
         private ISpotTheDefuserNetworkManager _spotTheDefuserNetworkManager;
         private ISpotTheDefuserNetworkDiscovery _spotTheDefuserNetworkDiscovery;
         private IViewManager _viewManager;
-        private AllPlayerControllers _allPlayerControllers;
+        private AllPlayers _allPlayers;
 
         [SetUp]
         public void Init()
@@ -22,9 +23,13 @@ namespace Test.TestsEditMode.UseCases.Network
             _spotTheDefuserNetworkDiscovery = Substitute.For<ISpotTheDefuserNetworkDiscovery>();
             _viewManager = Substitute.For<IViewManager>();
             
-            _allPlayerControllers = Substitute.For<AllPlayerControllers>();
+            _allPlayers = new AllPlayers();
             
-            _hostNewGame = new HostNewGame(_spotTheDefuserNetworkManager, _spotTheDefuserNetworkDiscovery, _viewManager, _allPlayerControllers);
+            _hostNewGame = new HostNewGame(
+                _spotTheDefuserNetworkManager,
+                _spotTheDefuserNetworkDiscovery, 
+                _viewManager,
+                _allPlayers);
         }
 
         [Test]
@@ -67,7 +72,7 @@ namespace Test.TestsEditMode.UseCases.Network
             _hostNewGame.Host(playerName);
 
             // Then
-            Assert.That(_allPlayerControllers.LocalPlayerName, Is.EqualTo(playerName));
+            Assert.That(_allPlayers.LocalPlayer.Name, Is.EqualTo(playerName));
         }
     }
 }

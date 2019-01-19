@@ -48,10 +48,10 @@ namespace Main.Infrastructure.Controllers.Network
         }
 
         [Command]
-        public void CmdAddNewPlayer(string playerName)
+        public void CmdAddNewPlayer(Player player)
         {
-            _player = new Player(playerName);
-            _addNewPlayer.Execute(_player);
+            _player = player;
+            _addNewPlayer.Execute(player);
         }
 
         [Command]
