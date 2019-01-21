@@ -113,7 +113,7 @@ generate-apk:
   stage: post-build
   script: |
     cd ./Builds/Android/$BUILD_NAME/$BUILD_NAME
-    gradle assembleRelease
+    gradle assembleRelease --stacktrace
   retry: 2
   artifacts:
     name: "$BUILD_NAME $CI_PIPELINE_IID $BUILD_TARGET"
