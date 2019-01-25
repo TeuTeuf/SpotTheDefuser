@@ -30,7 +30,6 @@ namespace Main.Infrastructure
             Container.Bind<IRandom>().To<SpotTheDefuserRandom>().AsSingle();
             Container.Bind<IDefusingListener>().To<DefusingListener>().AsSingle();
             Container.Bind<IViewManager>().To<ViewManager>().AsSingle();
-            Container.Bind<ISpotTheDefuserNetworkManager>().To<SpotTheDefuserNetworkManager>().AsSingle();
         }
 
         private void InstallUseCases()
@@ -57,7 +56,7 @@ namespace Main.Infrastructure
         {
             Container.Bind<UIController>().FromComponentInHierarchy().AsSingle();
             Container.Bind<IViewLayer>().FromComponentsInHierarchy().AsSingle();
-            Container.Bind<NetworkManager>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<ISpotTheDefuserNetworkManager>().To<SpotTheDefuserNetworkManager>().FromComponentInHierarchy().AsSingle();;
             Container.Bind<ISpotTheDefuserNetworkDiscovery>().FromComponentInHierarchy().AsSingle();
         }
     }

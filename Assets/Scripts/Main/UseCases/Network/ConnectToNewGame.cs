@@ -17,7 +17,6 @@ namespace Main.UseCases.Network
         public virtual void Connect(string hostAddress)
         {
             _spotTheDefuserNetworkManager.Join(hostAddress);
-            _spotTheDefuserNetworkDiscovery.StopBroadcastingOnLAN();
         }
     }
 }

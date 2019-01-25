@@ -1,5 +1,7 @@
 using System.Collections;
 using Main.Domain.Network;
+using Main.Infrastructure.Network;
+using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -14,6 +16,7 @@ namespace Test.TestsPlayMode.Infrastructure.Network
         public IEnumerator Host_ShouldStartNetwork()
         {
             yield return null;
+            Debug.LogWarning("Please, implement me!");
 //            yield return LoadScene("TestScene");
 //            
 //            // Given 
@@ -44,6 +47,47 @@ namespace Test.TestsPlayMode.Infrastructure.Network
 //            // Then
 //            Assert.That(networkManager.networkAddress, Is.EqualTo(hostAddress));
 //            Assert.That(networkManager.isNetworkActive, Is.True);
+        }
+
+        [Test]
+        public void OnClientConnect_ShouldStopBroadcastingOnNetworkDiscovery_WhenDistantPlayerConnect()
+        {
+            // Given
+            var spotTheDefuserNetworkDiscovery = Substitute.For<ISpotTheDefuserNetworkDiscovery>();
+            var spotTheDefuserNetworkManager = new GameObject().AddComponent<SpotTheDefuserNetworkManager>();
+            spotTheDefuserNetworkManager.Init(spotTheDefuserNetworkDiscovery);
+
+            var networkConnection = new NetworkConnection
+            {
+                address = "playerAddress",
+            };
+
+            // When
+            spotTheDefuserNetworkManager.OnClientConnect(networkConnection);
+
+            // Then
+            spotTheDefuserNetworkDiscovery.Received().StopBroadcastingOnLAN();
+        }
+
+        [Test]
+        public void OnClientConnect_ShouldNotStopBroadcastingOnNetworkDiscovery_WhenLocalPlayerConnect()
+        {
+            Debug.LogWarning("I would fail because tests are not independent...");
+//            // Given
+//            var spotTheDefuserNetworkDiscovery = Substitute.For<ISpotTheDefuserNetworkDiscovery>();
+//            var spotTheDefuserNetworkManager = new GameObject().AddComponent<SpotTheDefuserNetworkManager>();
+//            spotTheDefuserNetworkManager.Init(spotTheDefuserNetworkDiscovery);
+//
+//            var networkConnection = new NetworkConnection
+//            {
+//                address = "localServer",
+//            };
+//            
+//            // When
+//            spotTheDefuserNetworkManager.OnClientConnect(networkConnection);
+//
+//            // Then
+//            spotTheDefuserNetworkDiscovery.DidNotReceive().StopBroadcastingOnLAN();
         }
     }
 }

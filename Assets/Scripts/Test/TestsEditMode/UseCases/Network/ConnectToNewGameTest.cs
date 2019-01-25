@@ -32,15 +32,5 @@ namespace Test.TestsEditMode.UseCases.Network
             // Then
             _spotTheDefuserNetworkManager.Received().Join(hostAddress);
         }
-
-        [Test]
-        public void Connect_ShouldStopBroadcasting()
-        {
-            // When
-            _connectToNewGame.Connect("");
-
-            // Then
-            _spotTheDefuserNetworkDiscovery.Received().StopBroadcastingOnLAN();
-        }
     }
 }

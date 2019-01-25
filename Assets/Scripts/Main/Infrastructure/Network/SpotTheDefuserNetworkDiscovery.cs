@@ -39,7 +39,6 @@ namespace Main.Infrastructure.Network
 
         public override void OnReceivedBroadcast(string fromAddress, string data)
         {
-//            StopBroadcastingOnLAN();
             _connectToNewGame.Connect(fromAddress);
         }
     }
