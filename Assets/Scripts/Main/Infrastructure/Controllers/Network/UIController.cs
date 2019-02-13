@@ -2,7 +2,6 @@ using Main.Domain.UI;
 using Main.UseCases.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 using Zenject;
 
 namespace Main.Infrastructure.Controllers.Network

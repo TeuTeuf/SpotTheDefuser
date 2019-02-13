@@ -1,5 +1,4 @@
 using Main.Domain.UI;
-using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Main.Infrastructure.UI
