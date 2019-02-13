@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Main.Infrastructure.UI
 {
-    public class BasicViewLayer : MonoBehaviour, IViewLayer
+    public abstract class BaseLayer : MonoBehaviour, IViewLayer
     {
-        public View View;
+        private IViewLayer _viewLayerImplementation;
 
         public void Enable()
         {
@@ -17,9 +17,6 @@ namespace Main.Infrastructure.UI
             gameObject.SetActive(false);
         }
 
-        public View GetView()
-        {
-            return View;
-        }
+        public abstract View GetView();
     }
 }

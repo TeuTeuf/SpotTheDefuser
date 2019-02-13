@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
 
 namespace Main.Infrastructure.Controllers.Network
 {
-    public class AllPlayerControllers
+    public class AllPlayerControllers: IDefusingListener
     {
         private readonly AllPlayers _allPlayers;
         

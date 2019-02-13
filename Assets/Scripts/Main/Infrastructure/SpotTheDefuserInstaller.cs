@@ -28,7 +28,7 @@ namespace Main.Infrastructure
         private void InstallInterfaceImplementations()
         {
             Container.Bind<IRandom>().To<SpotTheDefuserRandom>().AsSingle();
-            Container.Bind<IDefusingListener>().To<DefusingListener>().AsSingle();
+            Container.Bind<IDefusingListener>().To<AllPlayerControllers>().FromResolve();
             Container.Bind<IViewManager>().To<ViewManager>().AsSingle();
         }
 

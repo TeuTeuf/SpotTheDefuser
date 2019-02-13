@@ -7,10 +7,8 @@ using Zenject;
 
 namespace Main.Infrastructure.UI
 {
-    public class HomeLayer : BasicViewLayer
+    public class HomeLayer : BaseLayer
     {
-        private const View NEXT_VIEW = View.Lobby;
-        
         private HostNewGame _hostNewGame;
         private StartWaitingForNewGame _startWaitingForNewGame;
         
@@ -36,6 +34,11 @@ namespace Main.Infrastructure.UI
         public void OnClickOnJoin()
         {
             _startWaitingForNewGame.Start(_playerName);
+        }
+
+        public override View GetView()
+        {
+            return View.Home;
         }
     }
 }

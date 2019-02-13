@@ -7,48 +7,48 @@ namespace Test.TestsEditMode.Infrastructure.UI
 {
     public class BasicViewLayerTest
     {
-        private BasicViewLayer _basicViewLayer;
+        private BasicLayer _basicLayer;
 
         [SetUp]
         public void Init()
         {
-            _basicViewLayer = new GameObject().AddComponent<BasicViewLayer>();
+            _basicLayer = new GameObject().AddComponent<BasicLayer>();
         }
         
         [Test]
         public void GetView_ShouldReturnViewSetHasPublicProperty()
         {
             // When
-            _basicViewLayer.View = View.Lobby;
+            _basicLayer.view = View.Lobby;
 
             // Then
-            Assert.AreEqual(View.Lobby, _basicViewLayer.GetView());
+            Assert.AreEqual(View.Lobby, _basicLayer.GetView());
         }
 
         [Test]
         public void Enable_ShouldEnableGameObject()
         {
             // Given
-            _basicViewLayer.gameObject.SetActive(false);
+            _basicLayer.gameObject.SetActive(false);
             
             // When
-            _basicViewLayer.Enable();
+            _basicLayer.Enable();
 
             // Then
-            Assert.IsTrue(_basicViewLayer.gameObject.activeSelf);
+            Assert.IsTrue(_basicLayer.gameObject.activeSelf);
         }
 
         [Test]
         public void Disable_ShouldDisableGameObject()
         {
             // Given
-            _basicViewLayer.gameObject.SetActive(true);
+            _basicLayer.gameObject.SetActive(true);
 
             // When
-            _basicViewLayer.Disable();
+            _basicLayer.Disable();
 
             // Then
-            Assert.IsFalse(_basicViewLayer.gameObject.activeSelf);
+            Assert.IsFalse(_basicLayer.gameObject.activeSelf);
         }
     }
 }
