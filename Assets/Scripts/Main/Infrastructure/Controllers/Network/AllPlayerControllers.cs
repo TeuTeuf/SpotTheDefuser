@@ -5,7 +5,7 @@ using Main.Domain.Players;
 
 namespace Main.Infrastructure.Controllers.Network
 {
-    public class AllPlayerControllers: IDefusingListener
+    public class AllPlayerControllers: IDefusingListener, IPlayerAddedListener
     {
         private readonly AllPlayers _allPlayers;
         
@@ -49,6 +49,14 @@ namespace Main.Infrastructure.Controllers.Network
             foreach (var playerController in _playerControllersOnServer)
             {
                 playerController.RpcOnDefuseTried(defuseSucceeded, player);
+            }
+        }
+
+        public virtual void OnPlayerAdded(Player player)
+        {
+            foreach (var playerController in _playerControllersOnServer)
+            {
+                playerController.RpcOnPlayerAdded(player);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Main.Domain.Players;
+using Main.Domain.UI;
 using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
 using UnityEngine;
@@ -14,13 +15,13 @@ namespace Main.Infrastructure.Controllers.Network
         private TryToDefuse _tryToDefuse;
 
         private AllPlayerControllers _allPlayerControllers;
-        private UIController _uiController;
+        private IUIController _uiController;
 
         private Player _player;
 
         [Inject]
         public void Init(AddNewPlayer addNewPlayer, SetNewDefuseAttempt setNewDefuseAttempt, TryToDefuse tryToDefuse,
-            AllPlayerControllers allPlayerControllers, UIController uiController)
+            AllPlayerControllers allPlayerControllers, IUIController uiController)
         {
             _addNewPlayer = addNewPlayer;
             _setNewDefuseAttempt = setNewDefuseAttempt;
@@ -68,6 +69,20 @@ namespace Main.Infrastructure.Controllers.Network
             {
                 Debug.Log($"{player.Name} tried to defuse. Success: {defuseSucceeded}");
             }
+        }
+
+        [ClientRpc]
+        public void RpcOnPlayerAdded(Player player)
+        {
+            if (hasAuthority)
+            {
+                OnPlayerAdded(player);
+            }
+        }
+
+        public void OnPlayerAdded(Player player)
+        {
+            _uiController.UpdateLobby();
         }
     }
 }

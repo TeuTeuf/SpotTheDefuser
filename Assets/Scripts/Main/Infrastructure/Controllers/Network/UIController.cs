@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Main.Infrastructure.Controllers.Network
 {
-	public class UIController : MonoBehaviour
+	public class UIController : MonoBehaviour, IUIController
 	{
 		[FormerlySerializedAs("StartingView")] public View startingView;
 		
@@ -22,6 +22,11 @@ namespace Main.Infrastructure.Controllers.Network
 		public void Start()
 		{
 			_changeCurrentView.Change(startingView);
+		}
+
+		public void UpdateLobby()
+		{
+			Debug.Log("Update Lobby");
 		}
 	}
 }

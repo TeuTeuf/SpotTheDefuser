@@ -1,12 +1,15 @@
 ﻿using Main.Domain;
 using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
+using Main.Domain.UI;
 using Main.Infrastructure.Controllers.Network;
 using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
 using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Networking;
+using PlayerController = Main.Infrastructure.Controllers.Network.PlayerController;
 
 namespace Test.TestsEditMode.Infrastructure.Controllers.Network
 {
@@ -19,6 +22,8 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         private PlayerController _playerController;
 
         private AllPlayerControllers _allPlayerControllers;
+        private IUIController _uiController;
+        private GameObject _playerControllerGameObject;
 
         [SetUp]
         public void Init()
@@ -28,14 +33,17 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             var defusingState = Substitute.For<DefusingState>();
             var defusingListener = Substitute.For<IDefusingListener>();
 
+            _uiController = Substitute.For<IUIController>();
+
             _setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(random, allPlayers, defusingState);
-            _addNewPlayer = Substitute.For<AddNewPlayer>(allPlayers);
+            _addNewPlayer = Substitute.For<AddNewPlayer>(allPlayers, null);
             _tryToDefuse = Substitute.For<TryToDefuse>(defusingState, defusingListener);
             
             _allPlayerControllers = new AllPlayerControllers(allPlayers);
-            
-            _playerController = new GameObject().AddComponent<PlayerController>();
-            _playerController.Init(_addNewPlayer, _setNewDefuseAttempt, _tryToDefuse, _allPlayerControllers, null);
+
+            _playerControllerGameObject = new GameObject();
+            _playerController = _playerControllerGameObject.AddComponent<PlayerController>();
+            _playerController.Init(_addNewPlayer, _setNewDefuseAttempt, _tryToDefuse, _allPlayerControllers, _uiController);
         }
 
         [Test]
@@ -67,7 +75,9 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             playerController.OnStartLocalPlayer();
 
             // Then
-            allPlayerControllers.Received().AddLocalPlayerOnServer();
+            allPlayerControllers
+                .Received()
+                .AddLocalPlayerOnServer();
         }
 
         [Test]
@@ -93,7 +103,9 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _playerController.CmdSetNewDefuseAttempt();
 
             // Then
-            _setNewDefuseAttempt.Received().Set();
+            _setNewDefuseAttempt
+                .Received()
+                .Set();
         }
 
         [Test]
@@ -106,7 +118,9 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _playerController.CmdAddNewPlayer(player);
 
             // Then
-            _addNewPlayer.Received().Execute(Arg.Is<Player>(addedPlayer => addedPlayer == player));
+            _addNewPlayer
+                .Received()
+                .Execute(Arg.Is<Player>(addedPlayer => addedPlayer == player));
         }
         
         [Test]
@@ -121,7 +135,39 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _playerController.CmdTryToDefuse();
             
             // Then
-            _tryToDefuse.Received().Try(Arg.Is<Player>(defuserPlayer => defuserPlayer == player));
+            _tryToDefuse
+                .Received()
+                .Try(Arg.Is<Player>(defuserPlayer => defuserPlayer == player));
+        }
+
+        [Test]
+        public void OnPlayerAdded_ShouldUpdateLobbyView()
+        {
+            // Given
+            var player = new Player("Player Name");
+
+            // When
+            _playerController.OnPlayerAdded(player);
+
+            // Then
+            _uiController
+                .Received()
+                .UpdateLobby();
+        }
+
+        [Test]
+        public void RpcOnPlayerAdded_ShouldNotUpdateLobbyViewIfHasNotNetworkAuthority()
+        {
+            // Given
+            var player = new Player("Player Name");
+
+            // When
+            _playerController.RpcOnPlayerAdded(player);
+
+            // Then
+            _uiController
+                .DidNotReceive()
+                .UpdateLobby();
         }
     }
 }
