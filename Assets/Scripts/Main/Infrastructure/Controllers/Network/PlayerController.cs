@@ -1,4 +1,5 @@
-﻿using Main.Domain.Players;
+﻿using System.Collections.ObjectModel;
+using Main.Domain.Players;
 using Main.Domain.UI;
 using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
@@ -72,17 +73,17 @@ namespace Main.Infrastructure.Controllers.Network
         }
 
         [ClientRpc]
-        public void RpcOnPlayerAdded(Player player)
+        public void RpcOnPlayerAdded(Player[] allPlayers)
         {
             if (hasAuthority)
             {
-                OnPlayerAdded(player);
+                OnPlayerAdded(allPlayers);
             }
         }
 
-        public void OnPlayerAdded(Player player)
+        public void OnPlayerAdded(Player[] allPlayers)
         {
-            _uiController.UpdateLobby();
+            _uiController.UpdateLobby(allPlayers);
         }
     }
 }

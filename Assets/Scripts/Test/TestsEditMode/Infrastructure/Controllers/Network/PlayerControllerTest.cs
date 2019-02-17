@@ -142,30 +142,38 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         public void OnPlayerAdded_ShouldUpdateLobbyView()
         {
             // Given
-            var player = new Player("Player Name");
+            var players = new[]
+            {
+                new Player("Player Name 1"),
+                new Player("Player Name 2"),
+            };
 
             // When
-            _playerController.OnPlayerAdded(player);
+            _playerController.OnPlayerAdded(players);
 
             // Then
             _uiController
                 .Received()
-                .UpdateLobby();
+                .UpdateLobby(players);
         }
 
         [Test]
         public void RpcOnPlayerAdded_ShouldNotUpdateLobbyViewIfHasNotNetworkAuthority()
         {
             // Given
-            var player = new Player("Player Name");
+            var players = new[]
+            {
+                new Player("Player Name 1"),
+                new Player("Player Name 2"),
+            };
 
             // When
-            _playerController.RpcOnPlayerAdded(player);
+            _playerController.RpcOnPlayerAdded(players);
 
             // Then
             _uiController
                 .DidNotReceive()
-                .UpdateLobby();
+                .UpdateLobby(players);
         }
     }
 }

@@ -26,8 +26,6 @@ namespace Main.Infrastructure
         private void InstallInterfaceImplementations()
         {
             Container.Bind<IRandom>().To<SpotTheDefuserRandom>().AsSingle();
-            Container.Bind<IDefusingListener>().To<AllPlayerControllers>().FromResolve();
-            Container.Bind<IPlayerAddedListener>().To<AllPlayerControllers>().FromResolve();
             Container.Bind<IViewManager>().To<ViewManager>().AsSingle();
         }
 
@@ -49,13 +47,16 @@ namespace Main.Infrastructure
             Container.Bind<AllPlayers>().AsSingle();
             Container.Bind<DefusingState>().AsSingle();
             Container.Bind<AllPlayerControllers>().AsSingle();
+            Container.Bind<IDefusingListener>().To<AllPlayerControllers>().FromResolve();
+            Container.Bind<IPlayerAddedListener>().To<AllPlayerControllers>().FromResolve();
         }
 
         private void InstallFromComponentInHierarchy()
         {
-            Container.Bind<IUIController>().To<UIController>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<IUIController>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<ILobbyLayer>().FromComponentInHierarchy().AsSingle();
             Container.Bind<IViewLayer>().FromComponentsInHierarchy().AsSingle();
-            Container.Bind<ISpotTheDefuserNetworkManager>().To<SpotTheDefuserNetworkManager>().FromComponentInHierarchy().AsSingle();;
+            Container.Bind<ISpotTheDefuserNetworkManager>().FromComponentInHierarchy().AsSingle();;
             Container.Bind<ISpotTheDefuserNetworkDiscovery>().FromComponentInHierarchy().AsSingle();
         }
     }

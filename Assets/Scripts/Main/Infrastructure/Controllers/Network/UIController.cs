@@ -1,3 +1,4 @@
+using Main.Domain.Players;
 using Main.Domain.UI;
 using Main.UseCases.UI;
 using UnityEngine;
@@ -11,11 +12,13 @@ namespace Main.Infrastructure.Controllers.Network
 		[FormerlySerializedAs("StartingView")] public View startingView;
 		
 		private ChangeCurrentView _changeCurrentView;
+		private ILobbyLayer _lobbyLayer;
 
 
 		[Inject]
-		public void Init(ChangeCurrentView changeCurrentView)
+		public void Init(ChangeCurrentView changeCurrentView, ILobbyLayer lobbyLayer)
 		{
+			_lobbyLayer = lobbyLayer;
 			_changeCurrentView = changeCurrentView;
 		}
 
@@ -24,9 +27,10 @@ namespace Main.Infrastructure.Controllers.Network
 			_changeCurrentView.Change(startingView);
 		}
 
-		public void UpdateLobby()
+		public void UpdateLobby(Player[] allPlayers)
 		{
-			Debug.Log("Update Lobby");
+			_lobbyLayer.UpdatePlayerList(allPlayers);
+			Debug.Log($"Update Lobby, nb allPlayers: {allPlayers.Length}");
 		}
 	}
 }

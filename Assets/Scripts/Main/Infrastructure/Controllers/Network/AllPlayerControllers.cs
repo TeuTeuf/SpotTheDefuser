@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
 
@@ -54,9 +55,10 @@ namespace Main.Infrastructure.Controllers.Network
 
         public virtual void OnPlayerAdded(Player player)
         {
+            
             foreach (var playerController in _playerControllersOnServer)
             {
-                playerController.RpcOnPlayerAdded(player);
+                playerController.RpcOnPlayerAdded(_allPlayers.GetAll().ToArray());
             }
         }
     }
