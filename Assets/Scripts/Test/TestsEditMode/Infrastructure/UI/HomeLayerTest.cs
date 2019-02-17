@@ -36,6 +36,13 @@ namespace Test.TestsEditMode.Infrastructure.UI
             
             _homeLayer.Init(_hostNewGame, _startWaitingForNewGame);
         }
+
+        [Test]
+        public void GetView_ShouldReturnHomeView()
+        {
+            // Then
+            Assert.That(_homeLayer.GetView(), Is.EqualTo(View.Home));
+        }
         
         [Test]
         public void OnEndEditOnPlayerName_OnClickOnHost_ShouldStartHostingNewGameForGivenPlayerName()

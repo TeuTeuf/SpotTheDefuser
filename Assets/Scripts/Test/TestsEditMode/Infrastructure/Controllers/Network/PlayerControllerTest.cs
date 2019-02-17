@@ -8,8 +8,6 @@ using Main.UseCases.Players;
 using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.Networking;
-using PlayerController = Main.Infrastructure.Controllers.Network.PlayerController;
 
 namespace Test.TestsEditMode.Infrastructure.Controllers.Network
 {
