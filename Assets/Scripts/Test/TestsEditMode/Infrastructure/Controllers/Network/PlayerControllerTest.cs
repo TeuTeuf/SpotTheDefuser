@@ -29,11 +29,12 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             var random = Substitute.For<IRandom>();
             var allPlayers = Substitute.For<AllPlayers>();
             var defusingState = Substitute.For<DefusingState>();
+            var defuserCounter = new DefuserCounter();
             var defusingListener = Substitute.For<IDefusingListener>();
 
             _uiController = Substitute.For<IUIController>();
 
-            _setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(random, allPlayers, defusingState);
+            _setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(random, allPlayers, defusingState, defuserCounter);
             _addNewPlayer = Substitute.For<AddNewPlayer>(allPlayers, null);
             _tryToDefuse = Substitute.For<TryToDefuse>(defusingState, defusingListener);
             

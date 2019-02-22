@@ -18,12 +18,14 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
             var random = Substitute.For<IRandom>();
             random.Range(Arg.Any<int>(), Arg.Any<int>()).Returns(0);
             
+            var defuserCounter = new DefuserCounter();
+            
             var allPlayers = Substitute.For<AllPlayers>();
             allPlayers.GetAll().Returns(new List<Player>().AsReadOnly());
             
             var defusingState = new DefusingState();
             
-            var setNewDefuseAttempt = new SetNewDefuseAttempt(random, allPlayers, defusingState);
+            var setNewDefuseAttempt = new SetNewDefuseAttempt(random, allPlayers, defusingState, defuserCounter);
             
             // When
             setNewDefuseAttempt.Set();

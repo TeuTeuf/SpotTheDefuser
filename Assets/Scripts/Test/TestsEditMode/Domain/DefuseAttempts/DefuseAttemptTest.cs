@@ -10,12 +10,6 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
     [TestFixture]
     public class DefuseAttemptTest
     {
-        [SetUp]
-        public void Setup()
-        {
-            _random = Substitute.For<IRandom>();
-        }
-
         private readonly Player _player1 = new Player("Player");
         private readonly Player _player2 = new Player("Player");
         private readonly Player _player3 = new Player("Player");
@@ -24,6 +18,14 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
         private readonly Player _player6 = new Player("Player");
 
         private IRandom _random;
+        private DefuserCounter _defuserCounter;
+        
+        [SetUp]
+        public void Setup()
+        {
+            _random = Substitute.For<IRandom>();
+            _defuserCounter = new DefuserCounter();
+        }
 
         [Test]
         public void
@@ -36,7 +38,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
                 .Returns(0);
 
             // When
-            var defuseAttempt = new DefuseAttempt(_random, players);
+            var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, players);
 
             // Then
             Assert.IsTrue(defuseAttempt.IsDefuser(_player1));
@@ -55,7 +57,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
                 .Returns(players.Count - 1);
 
             // When
-            var defuseAttempt = new DefuseAttempt(_random, players);
+            var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, players);
 
             // Then
             Assert.IsFalse(defuseAttempt.IsDefuser(_player1));
@@ -75,7 +77,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
                 .Returns(0);
 
             // When
-            var defuseAttempt = new DefuseAttempt(_random, players);
+            var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, players);
 
             // Then
             Assert.IsTrue(defuseAttempt.IsDefuser(_player1));
@@ -97,7 +99,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
             _random.Range(0, 5).Returns(4);
 
             // When
-            var defuseAttempt = new DefuseAttempt(_random, players);
+            var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, players);
 
             // Then
             Assert.IsFalse(defuseAttempt.IsDefuser(_player1));

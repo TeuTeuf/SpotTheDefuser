@@ -7,11 +7,12 @@ namespace Main.Domain.DefuseAttempts
     public class DefuseAttempt
     {
         private readonly IList<Player> _defuserPlayers;
+        private readonly DefuserCounter _defuserCounter;
 
-        public DefuseAttempt(IRandom random, ReadOnlyCollection<Player> allPlayers)
+        public DefuseAttempt(IRandom random, DefuserCounter defuserCounter, ReadOnlyCollection<Player> allPlayers)
         {
-            var numberOfDefuserPlayers = GetNumberOfDefuserPlayers(allPlayers.Count);
-            _defuserPlayers = GetDefuserPlayers(random, numberOfDefuserPlayers, allPlayers);
+            _defuserCounter = defuserCounter;
+            _defuserPlayers = GetDefuserPlayers(random, allPlayers);
         }
 
         public virtual bool IsDefuser(Player player)
@@ -19,8 +20,9 @@ namespace Main.Domain.DefuseAttempts
             return _defuserPlayers.Contains(player);
         }
 
-        private static List<Player> GetDefuserPlayers(IRandom random, int numberOfDefuserPlayers, ReadOnlyCollection<Player> allPlayers)
+        private List<Player> GetDefuserPlayers(IRandom random, ReadOnlyCollection<Player> allPlayers)
         {
+            var numberOfDefuserPlayers = _defuserCounter.GetNumberOfDefuserPlayers(allPlayers.Count);
             var players = new List<Player>(allPlayers);
             var defuserPlayers = new List<Player>();
             for (var i = 0; i < numberOfDefuserPlayers; i++)
@@ -31,19 +33,6 @@ namespace Main.Domain.DefuseAttempts
             }
 
             return defuserPlayers;
-        }
-
-        private static int GetNumberOfDefuserPlayers(int nbAllPlayers)
-        {
-            var isNumberOfPlayersEven = nbAllPlayers % 2 == 0;
-            var nbDefuserPlayers = nbAllPlayers / 2;
-
-            if (isNumberOfPlayersEven)
-            {
-                nbDefuserPlayers--;
-            }
-
-            return nbDefuserPlayers;
         }
     }
 }

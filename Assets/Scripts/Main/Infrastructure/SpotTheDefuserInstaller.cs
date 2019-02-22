@@ -46,6 +46,7 @@ namespace Main.Infrastructure
         {
             Container.Bind<AllPlayers>().AsSingle();
             Container.Bind<DefusingState>().AsSingle();
+            Container.Bind<DefuserCounter>().AsSingle();
             Container.Bind<AllPlayerControllers>().AsSingle();
             Container.Bind<IDefusingListener>().To<AllPlayerControllers>().FromResolve();
             Container.Bind<IPlayerAddedListener>().To<AllPlayerControllers>().FromResolve();

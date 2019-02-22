@@ -10,16 +10,19 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
     [TestFixture]
     public class DefusingStateTest
     {
+        private DefuseAttempt _currentDefuseAttempt;
+        private DefusingState _defusingState;
+        
         [SetUp]
         public void Init()
         {
-            _currentDefuseAttempt =
-                Substitute.For<DefuseAttempt>(Substitute.For<IRandom>(), new List<Player>().AsReadOnly());
+            _currentDefuseAttempt = Substitute.For<DefuseAttempt>(
+                Substitute.For<IRandom>(),
+                new DefuserCounter(),
+                new List<Player>().AsReadOnly()
+                );
             _defusingState = new DefusingState {CurrentDefuseAttempt = _currentDefuseAttempt};
         }
-
-        private DefuseAttempt _currentDefuseAttempt;
-        private DefusingState _defusingState;
 
         [Test]
         public void IsCurrentAttemptDefuser_ShouldReturnFalse_WhenCurrentDefuseAttemptReturnFalse()
