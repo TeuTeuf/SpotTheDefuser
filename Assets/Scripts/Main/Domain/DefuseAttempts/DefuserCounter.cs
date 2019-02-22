@@ -2,7 +2,7 @@ namespace Main.Domain.DefuseAttempts
 {
     public class DefuserCounter
     {
-        public int GetNumberOfDefuserPlayers(int nbAllPlayers)
+        public virtual int GetNumberOfDefuserPlayers(int nbAllPlayers)
         {
             var isNumberOfPlayersEven = nbAllPlayers % 2 == 0;
             var nbDefuserPlayers = nbAllPlayers / 2;
@@ -13,6 +13,11 @@ namespace Main.Domain.DefuseAttempts
             }
 
             return nbDefuserPlayers;
+        }
+
+        public virtual int GetNumberOfBombPlayers(int nbAllPlayers)
+        {
+            return nbAllPlayers - GetNumberOfDefuserPlayers(nbAllPlayers);
         }
     }
 }
