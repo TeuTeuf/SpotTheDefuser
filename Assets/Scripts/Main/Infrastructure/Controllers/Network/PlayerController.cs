@@ -12,7 +12,7 @@ namespace Main.Infrastructure.Controllers.Network
     public class PlayerController : NetworkBehaviour
     {
         private AddNewPlayer _addNewPlayer;
-        private SetNewDefuseAttempt _setNewDefuseAttempt;
+        private StartNewGame _startNewGame;
         private TryToDefuse _tryToDefuse;
 
         private AllPlayerControllers _allPlayerControllers;
@@ -21,11 +21,11 @@ namespace Main.Infrastructure.Controllers.Network
         private Player _player;
 
         [Inject]
-        public void Init(AddNewPlayer addNewPlayer, SetNewDefuseAttempt setNewDefuseAttempt, TryToDefuse tryToDefuse,
+        public void Init(AddNewPlayer addNewPlayer, StartNewGame startNewGame, TryToDefuse tryToDefuse,
             AllPlayerControllers allPlayerControllers, IUIController uiController)
         {
+            _startNewGame = startNewGame;
             _addNewPlayer = addNewPlayer;
-            _setNewDefuseAttempt = setNewDefuseAttempt;
             _tryToDefuse = tryToDefuse;
             _allPlayerControllers = allPlayerControllers;
             _uiController = uiController;
@@ -45,12 +45,6 @@ namespace Main.Infrastructure.Controllers.Network
         }
 
         [Command]
-        public void CmdSetNewDefuseAttempt()
-        {
-            _setNewDefuseAttempt.Set();
-        }
-
-        [Command]
         public void CmdAddNewPlayer(Player player)
         {
             _player = player;
@@ -61,6 +55,12 @@ namespace Main.Infrastructure.Controllers.Network
         public void CmdTryToDefuse()
         {
             _tryToDefuse.Try(_player);
+        }
+
+        [Command]
+        public void CmdStartNewGame()
+        {
+            _startNewGame.Start();
         }
 
         [ClientRpc]

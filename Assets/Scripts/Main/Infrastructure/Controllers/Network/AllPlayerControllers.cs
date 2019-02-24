@@ -30,14 +30,14 @@ namespace Main.Infrastructure.Controllers.Network
             return _playerControllersOnServer.AsReadOnly();
         }
 
-        public virtual void SetNewDefuseAttemptOnServer()
-        {
-            LocalPlayerController.CmdSetNewDefuseAttempt();
-        }
-
         public virtual void AddLocalPlayerOnServer()
         {
             LocalPlayerController.CmdAddNewPlayer(_allPlayers.LocalPlayer);
+        }
+
+        public virtual void StartNewGameOnServer()
+        {
+            LocalPlayerController.CmdStartNewGame();
         }
 
         public virtual void TryToDefuseOnServer()

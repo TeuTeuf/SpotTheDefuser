@@ -1,6 +1,7 @@
 using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
 using Main.Domain.UI;
+using Main.Infrastructure.Controllers.Network;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -18,11 +19,13 @@ namespace Main.Infrastructure.UI
         private const string DEFAULT_NB_BOMBS_DISPLAYED = "1";
 
         private DefuserCounter _defuserCounter;
-        
+        private AllPlayerControllers _allPlayerControllers;
+
         [Inject]
-        public void Init(DefuserCounter defuserCounter)
+        public void Init(DefuserCounter defuserCounter, AllPlayerControllers allPlayerControllers)
         {
             _defuserCounter = defuserCounter;
+            _allPlayerControllers = allPlayerControllers;
         }
 
         public void Start()
@@ -39,6 +42,11 @@ namespace Main.Infrastructure.UI
             var numberOfDefuserPlayers = _defuserCounter.GetNumberOfDefuserPlayers(allPlayers.Length);
             nbDefusersText.text = numberOfDefuserPlayers.ToString();
             playButton.interactable = numberOfDefuserPlayers > 0;
+        }
+
+        public void OnClickOnPlay()
+        {
+            _allPlayerControllers.StartNewGameOnServer();
         }
 
         public override View GetView()

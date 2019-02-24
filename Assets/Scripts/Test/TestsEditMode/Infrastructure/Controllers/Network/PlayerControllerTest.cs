@@ -13,9 +13,9 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
 {
     public class PlayerControllerTest
     {
-        private SetNewDefuseAttempt _setNewDefuseAttempt;
         private AddNewPlayer _addNewPlayer;
         private TryToDefuse _tryToDefuse;
+        private StartNewGame _startNewGame;
         
         private PlayerController _playerController;
 
@@ -26,23 +26,21 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         [SetUp]
         public void Init()
         {
-            var random = Substitute.For<IRandom>();
             var allPlayers = Substitute.For<AllPlayers>();
             var defusingState = Substitute.For<DefusingState>();
-            var defuserCounter = new DefuserCounter();
             var defusingListener = Substitute.For<IDefusingListener>();
 
             _uiController = Substitute.For<IUIController>();
 
-            _setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(random, allPlayers, defusingState, defuserCounter);
             _addNewPlayer = Substitute.For<AddNewPlayer>(allPlayers, null);
             _tryToDefuse = Substitute.For<TryToDefuse>(defusingState, defusingListener);
+            _startNewGame = Substitute.For<StartNewGame>();
             
             _allPlayerControllers = new AllPlayerControllers(allPlayers);
 
             _playerControllerGameObject = new GameObject();
             _playerController = _playerControllerGameObject.AddComponent<PlayerController>();
-            _playerController.Init(_addNewPlayer, _setNewDefuseAttempt, _tryToDefuse, _allPlayerControllers, _uiController);
+            _playerController.Init(_addNewPlayer, _startNewGame, _tryToDefuse, _allPlayerControllers, _uiController);
         }
 
         [Test]
@@ -68,7 +66,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             var allPlayerControllers = Substitute.For<AllPlayerControllers>(new AllPlayers());
             
             var playerController = new GameObject().AddComponent<PlayerController>();
-            playerController.Init(null, null, null, allPlayerControllers, null);
+            playerController.Init(null, null,null, allPlayerControllers, null);
             
             // When
             playerController.OnStartLocalPlayer();
@@ -84,7 +82,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             // Given
             var otherPlayerController = new GameObject().AddComponent<PlayerController>();
-            otherPlayerController.Init(null, null, null, _allPlayerControllers, null);
+            otherPlayerController.Init(null, null,null, _allPlayerControllers, null);
 
             // When
             _playerController.OnStartServer();
@@ -93,18 +91,6 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             // Then
             Assert.Contains(_playerController, _allPlayerControllers.GetPlayerControllersOnServer());
             Assert.Contains(otherPlayerController, _allPlayerControllers.GetPlayerControllersOnServer());
-        }
-
-        [Test]
-        public void CmdSetNewDefuseAttempt_ShouldExecuteSetNewDefuseAttemptUseCase()
-        {
-            // When
-            _playerController.CmdSetNewDefuseAttempt();
-
-            // Then
-            _setNewDefuseAttempt
-                .Received()
-                .Set();
         }
 
         [Test]
@@ -120,6 +106,18 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _addNewPlayer
                 .Received()
                 .Execute(Arg.Is<Player>(addedPlayer => addedPlayer == player));
+        }
+
+        [Test]
+        public void CmdStartNewGame_ShouldExecuteStartNewGameUseCase()
+        {
+            // When
+            _playerController.CmdStartNewGame();
+            
+            // Then
+            _startNewGame
+                .Received()
+                .Start();
         }
         
         [Test]

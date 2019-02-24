@@ -32,6 +32,7 @@ namespace Main.Infrastructure
         private void InstallUseCases()
         {
             Container.Bind<AddNewPlayer>().AsSingle();
+            Container.Bind<StartNewGame>().AsSingle();
             Container.Bind<GetAllPlayers>().AsSingle();
             Container.Bind<RemovePlayer>().AsSingle();
             Container.Bind<SetNewDefuseAttempt>().AsSingle();

@@ -1,6 +1,7 @@
 using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
 using Main.Domain.UI;
+using Main.Infrastructure.Controllers.Network;
 using Main.Infrastructure.UI;
 using NSubstitute;
 using NSubstitute.Exceptions;
@@ -15,14 +16,16 @@ namespace Test.TestsEditMode.Infrastructure.UI
     {
         private LobbyLayer _lobbyLayer;
         private DefuserCounter _defuserCounter;
+        private AllPlayerControllers _allPlayerControllers;
 
         [SetUp]
         public void Init()
         {
             _defuserCounter = Substitute.For<DefuserCounter>();
+            _allPlayerControllers = Substitute.For<AllPlayerControllers>(Substitute.For<AllPlayers>());
             _lobbyLayer = new GameObject().AddComponent<LobbyLayer>();
             
-            _lobbyLayer.Init(_defuserCounter);
+            _lobbyLayer.Init(_defuserCounter, _allPlayerControllers);
             _lobbyLayer.nbDefusersText = new GameObject().AddComponent<Text>();
             _lobbyLayer.nbBombsText = new GameObject().AddComponent<Text>();
             _lobbyLayer.playButton = new GameObject().AddComponent<Button>();
@@ -133,6 +136,18 @@ namespace Test.TestsEditMode.Infrastructure.UI
             
             // Then
             Assert.That(_lobbyLayer.playButton.interactable, Is.False);
+        }
+
+        [Test]
+        public void OnClickOnPlay_ShouldStartNewGameOnAllPlayerControllers()
+        {
+            // When
+            _lobbyLayer.OnClickOnPlay();
+            
+            // Then
+            _allPlayerControllers
+                .Received()
+                .StartNewGameOnServer();
         }
     }
 }
