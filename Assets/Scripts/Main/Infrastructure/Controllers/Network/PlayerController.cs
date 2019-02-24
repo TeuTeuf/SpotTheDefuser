@@ -85,5 +85,14 @@ namespace Main.Infrastructure.Controllers.Network
         {
             _uiController.UpdateLobby(allPlayers);
         }
+
+        [ClientRpc]
+        public void RpcOnNewGameStarted()
+        {
+            if (hasAuthority)
+            {
+                Debug.Log("OnNewGameStarted");
+            }
+        }
     }
 }

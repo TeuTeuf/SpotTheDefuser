@@ -34,7 +34,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
 
             _addNewPlayer = Substitute.For<AddNewPlayer>(allPlayers, null);
             _tryToDefuse = Substitute.For<TryToDefuse>(defusingState, defusingListener);
-            _startNewGame = Substitute.For<StartNewGame>();
+            _startNewGame = Substitute.For<StartNewGame>(Substitute.For<INewGameStartedListener>());
             
             _allPlayerControllers = new AllPlayerControllers(allPlayers);
 

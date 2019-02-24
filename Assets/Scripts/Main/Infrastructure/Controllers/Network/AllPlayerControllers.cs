@@ -3,10 +3,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
+using UnityEngine;
 
 namespace Main.Infrastructure.Controllers.Network
 {
-    public class AllPlayerControllers: IDefusingListener, IPlayerAddedListener
+    public class AllPlayerControllers: IDefusingListener, IPlayerAddedListener, INewGameStartedListener
     {
         private readonly AllPlayers _allPlayers;
         
@@ -55,11 +56,19 @@ namespace Main.Infrastructure.Controllers.Network
 
         public virtual void OnPlayerAdded(Player player)
         {
-            
             foreach (var playerController in _playerControllersOnServer)
             {
                 playerController.RpcOnPlayerAdded(_allPlayers.GetAll().ToArray());
             }
+        }
+
+        public void OnNewGameStarted()
+        {
+            foreach (var playerController in _playerControllersOnServer)
+            {
+                playerController.RpcOnNewGameStarted();
+            }
+            
         }
     }
 }
