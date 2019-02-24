@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using Main.Domain.Players;
 using Main.Domain.UI;
+using Main.Infrastructure.Network;
 using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
+using Main.UseCases.UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using Zenject;
@@ -14,16 +16,23 @@ namespace Main.Infrastructure.Controllers.Network
         private AddNewPlayer _addNewPlayer;
         private StartNewGame _startNewGame;
         private TryToDefuse _tryToDefuse;
+        private ChangeCurrentView _changeCurrentView;
 
         private AllPlayerControllers _allPlayerControllers;
         private IUIController _uiController;
 
+        private NetworkBehaviourChecker _networkBehaviourChecker;
+        
         private Player _player;
 
         [Inject]
         public void Init(AddNewPlayer addNewPlayer, StartNewGame startNewGame, TryToDefuse tryToDefuse,
-            AllPlayerControllers allPlayerControllers, IUIController uiController)
+            ChangeCurrentView changeCurrentView,
+            AllPlayerControllers allPlayerControllers, IUIController uiController,
+            NetworkBehaviourChecker networkBehaviourChecker)
         {
+            _networkBehaviourChecker = networkBehaviourChecker;
+            _changeCurrentView = changeCurrentView;
             _startNewGame = startNewGame;
             _addNewPlayer = addNewPlayer;
             _tryToDefuse = tryToDefuse;
@@ -75,23 +84,18 @@ namespace Main.Infrastructure.Controllers.Network
         [ClientRpc]
         public void RpcOnPlayerAdded(Player[] allPlayers)
         {
-            if (hasAuthority)
+            if (_networkBehaviourChecker.HasAuthority(this))
             {
-                OnPlayerAdded(allPlayers);
+                _uiController.UpdateLobby(allPlayers);
             }
-        }
-
-        public void OnPlayerAdded(Player[] allPlayers)
-        {
-            _uiController.UpdateLobby(allPlayers);
         }
 
         [ClientRpc]
         public void RpcOnNewGameStarted()
         {
-            if (hasAuthority)
+            if (_networkBehaviourChecker.HasAuthority(this))
             {
-                Debug.Log("OnNewGameStarted");
+                _changeCurrentView.Change(View.Defusing);
             }
         }
     }

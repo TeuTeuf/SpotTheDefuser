@@ -1,10 +1,11 @@
-﻿using Main.Domain;
-using Main.Domain.DefuseAttempts;
+﻿using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
 using Main.Domain.UI;
 using Main.Infrastructure.Controllers.Network;
+using Main.Infrastructure.Network;
 using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Players;
+using Main.UseCases.UI;
 using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
@@ -16,12 +17,14 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         private AddNewPlayer _addNewPlayer;
         private TryToDefuse _tryToDefuse;
         private StartNewGame _startNewGame;
+        private ChangeCurrentView _changeCurrentView;
+
+        private NetworkBehaviourChecker _networkBehaviourChecker;
         
         private PlayerController _playerController;
 
         private AllPlayerControllers _allPlayerControllers;
         private IUIController _uiController;
-        private GameObject _playerControllerGameObject;
 
         [SetUp]
         public void Init()
@@ -35,12 +38,14 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _addNewPlayer = Substitute.For<AddNewPlayer>(allPlayers, null);
             _tryToDefuse = Substitute.For<TryToDefuse>(defusingState, defusingListener);
             _startNewGame = Substitute.For<StartNewGame>(Substitute.For<INewGameStartedListener>());
+            _changeCurrentView = Substitute.For<ChangeCurrentView>(Substitute.For<IViewManager>());
+
+            _networkBehaviourChecker = Substitute.For<NetworkBehaviourChecker>();
             
             _allPlayerControllers = new AllPlayerControllers(allPlayers);
 
-            _playerControllerGameObject = new GameObject();
-            _playerController = _playerControllerGameObject.AddComponent<PlayerController>();
-            _playerController.Init(_addNewPlayer, _startNewGame, _tryToDefuse, _allPlayerControllers, _uiController);
+            _playerController = new GameObject().AddComponent<PlayerController>();
+            _playerController.Init(_addNewPlayer, _startNewGame, _tryToDefuse, _changeCurrentView, _allPlayerControllers, _uiController, _networkBehaviourChecker);
         }
 
         [Test]
@@ -50,7 +55,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             var allPlayerControllers = Substitute.For<AllPlayerControllers>(new AllPlayers());
             
             var playerController = new GameObject().AddComponent<PlayerController>();
-            playerController.Init(null, null, null, allPlayerControllers, null);
+            playerController.Init(null, null, null, _changeCurrentView, allPlayerControllers, null, _networkBehaviourChecker);
             
             // When
             playerController.OnStartLocalPlayer();
@@ -66,7 +71,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             var allPlayerControllers = Substitute.For<AllPlayerControllers>(new AllPlayers());
             
             var playerController = new GameObject().AddComponent<PlayerController>();
-            playerController.Init(null, null,null, allPlayerControllers, null);
+            playerController.Init(null, null,null, _changeCurrentView, allPlayerControllers, null, _networkBehaviourChecker);
             
             // When
             playerController.OnStartLocalPlayer();
@@ -82,7 +87,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             // Given
             var otherPlayerController = new GameObject().AddComponent<PlayerController>();
-            otherPlayerController.Init(null, null,null, _allPlayerControllers, null);
+            otherPlayerController.Init(null, null,null, _changeCurrentView, _allPlayerControllers, null, _networkBehaviourChecker);
 
             // When
             _playerController.OnStartServer();
@@ -138,7 +143,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         }
 
         [Test]
-        public void OnPlayerAdded_ShouldUpdateLobbyView()
+        public void RpcOnPlayerAdded_ShouldUpdateLobbyView_WhenPlayerHasAuthority()
         {
             // Given
             var players = new[]
@@ -146,9 +151,13 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
                 new Player("Player Name 1"),
                 new Player("Player Name 2"),
             };
+            
+            _networkBehaviourChecker
+                .HasAuthority(_playerController)
+                .Returns(true);
 
             // When
-            _playerController.OnPlayerAdded(players);
+            _playerController.RpcOnPlayerAdded(players);
 
             // Then
             _uiController
@@ -157,7 +166,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         }
 
         [Test]
-        public void RpcOnPlayerAdded_ShouldNotUpdateLobbyViewIfHasNotNetworkAuthority()
+        public void RpcOnPlayerAdded_ShouldNotUpdateLobbyView_WhenPlayerHasNotNetworkAuthority()
         {
             // Given
             var players = new[]
@@ -165,6 +174,10 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
                 new Player("Player Name 1"),
                 new Player("Player Name 2"),
             };
+            
+            _networkBehaviourChecker
+                .HasAuthority(_playerController)
+                .Returns(false);
 
             // When
             _playerController.RpcOnPlayerAdded(players);
@@ -173,6 +186,40 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _uiController
                 .DidNotReceive()
                 .UpdateLobby(players);
+        }
+
+        [Test]
+        public void RpcOnNewGameStarted_ShouldChangeCurrentViewOnPlayerWithAuthority()
+        {
+            // Given
+            _networkBehaviourChecker
+                .HasAuthority(_playerController)
+                .Returns(true);
+            
+            // When
+            _playerController.RpcOnNewGameStarted();
+
+            // Then
+            _changeCurrentView
+                .Received()
+                .Change(View.Defusing);
+        }
+
+        [Test]
+        public void RpcOnNewGameStarted_ShouldNotChangeCurrentViewWhenPlayerDoesntHaveAuthority()
+        {
+            // Given
+            _networkBehaviourChecker
+                .HasAuthority(_playerController)
+                .Returns(false);
+            
+            // When
+            _playerController.RpcOnNewGameStarted();
+
+            // Then
+            _changeCurrentView
+                .DidNotReceive()
+                .Change(View.Defusing);
         }
     }
 }

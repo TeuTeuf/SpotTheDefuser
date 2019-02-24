@@ -49,6 +49,7 @@ namespace Main.Infrastructure
             Container.Bind<DefusingState>().AsSingle();
             Container.Bind<DefuserCounter>().AsSingle();
             Container.Bind<AllPlayerControllers>().AsSingle();
+            Container.Bind<NetworkBehaviourChecker>().AsSingle();
             Container.Bind<IPlayerAddedListener>().To<AllPlayerControllers>().FromResolve();
             Container.Bind<INewGameStartedListener>().To<AllPlayerControllers>().FromResolve();
             Container.Bind<IDefusingListener>().To<AllPlayerControllers>().FromResolve();
