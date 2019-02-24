@@ -25,17 +25,28 @@ namespace Test.TestsEditMode.Infrastructure.UI
             _lobbyLayer.Init(_defuserCounter);
             _lobbyLayer.nbDefusersText = new GameObject().AddComponent<Text>();
             _lobbyLayer.nbBombsText = new GameObject().AddComponent<Text>();
+            _lobbyLayer.playButton = new GameObject().AddComponent<Button>();
         }
 
         [Test]
-        public void Start_ShouldSetNbDefusersTo1AndBombsTo0()
+        public void Start_ShouldSetNbDefusersTo0AndBombsTo1()
         {
             // When
             _lobbyLayer.Start();
 
             // Then
-            Assert.That(_lobbyLayer.nbDefusersText.text, Is.EqualTo("1"));
-            Assert.That(_lobbyLayer.nbBombsText.text, Is.EqualTo("0"));
+            Assert.That(_lobbyLayer.nbDefusersText.text, Is.EqualTo("0"));
+            Assert.That(_lobbyLayer.nbBombsText.text, Is.EqualTo("1"));
+        }
+
+        [Test]
+        public void Start_ShouldSetPlayButtonNotInteractable()
+        {
+            // When
+            _lobbyLayer.Start();
+            
+            // Then
+            Assert.That(_lobbyLayer.playButton.interactable, Is.False);
         }
         
         [Test]
@@ -53,18 +64,75 @@ namespace Test.TestsEditMode.Infrastructure.UI
             
             _defuserCounter
                 .GetNumberOfDefuserPlayers(players.Length)
-                .Returns(2);
+                .Returns(1);
             
             _defuserCounter
                 .GetNumberOfBombPlayers(players.Length)
-                .Returns(1);
+                .Returns(2);
             
             // When
             _lobbyLayer.UpdatePlayerList(players);
             
             // Then
-            Assert.That(_lobbyLayer.nbDefusersText.text, Is.EqualTo("2"));
-            Assert.That(_lobbyLayer.nbBombsText.text, Is.EqualTo("1"));
+            Assert.That(_lobbyLayer.nbDefusersText.text, Is.EqualTo("1"));
+            Assert.That(_lobbyLayer.nbBombsText.text, Is.EqualTo("2"));
+        }
+
+        [Test]
+        public void UpdatePlayerList_ShouldEnablePlayButtonWhenOneDefuser()
+        {
+            // Given
+            var players = new[] { new Player("player A"), new Player("player B"), new Player("player C")};
+
+            _defuserCounter
+                .GetNumberOfDefuserPlayers(players.Length)
+                .Returns(1);
+
+            _lobbyLayer.Start();
+            
+            // When
+            _lobbyLayer.UpdatePlayerList(players);
+            
+            // Then
+            Assert.That(_lobbyLayer.playButton.interactable, Is.True);
+        }
+        
+        [Test]
+        public void UpdatePlayerList_ShouldEnablePlayButtonWhenMoreThanOneDefuser()
+        {
+            // Given
+            var players = new[] { new Player("player A"), new Player("player B"), new Player("player C")};
+
+            _defuserCounter
+                .GetNumberOfDefuserPlayers(players.Length)
+                .Returns(3);
+
+            _lobbyLayer.Start();
+            
+            // When
+            _lobbyLayer.UpdatePlayerList(players);
+            
+            // Then
+            Assert.That(_lobbyLayer.playButton.interactable, Is.True);
+        }
+
+        [Test]
+        public void UpdatePlayerList_ShouldNotEnablePlayButtonNoDefuser()
+        {
+            // Given
+            var players = new[] { new Player("player A"), new Player("player B"), new Player("player C")};
+
+            _defuserCounter
+                .GetNumberOfDefuserPlayers(players.Length)
+                .Returns(0);
+
+            _lobbyLayer.Start();
+            
+            // When
+            _lobbyLayer.UpdatePlayerList(players);
+            
+            // Then
+            Assert.That(_lobbyLayer.playButton.interactable, Is.False);
         }
     }
 }
