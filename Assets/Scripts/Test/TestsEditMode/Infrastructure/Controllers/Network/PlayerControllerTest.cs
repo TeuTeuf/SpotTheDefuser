@@ -157,7 +157,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             };
             
             _networkBehaviourChecker
-                .HasAuthority(_playerController)
+                .IsLocalPlayer(_playerController)
                 .Returns(true);
 
             // When
@@ -180,7 +180,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             };
             
             _networkBehaviourChecker
-                .HasAuthority(_playerController)
+                .IsLocalPlayer(_playerController)
                 .Returns(false);
 
             // When
@@ -197,7 +197,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             // Given
             _networkBehaviourChecker
-                .HasAuthority(_playerController)
+                .IsLocalPlayer(_playerController)
                 .Returns(true);
             
             // When
@@ -214,7 +214,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             // Given
             _networkBehaviourChecker
-                .HasAuthority(_playerController)
+                .IsLocalPlayer(_playerController)
                 .Returns(false);
             
             // When
@@ -231,7 +231,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             // Given
             _networkBehaviourChecker
-                .IsServer(_playerController)
+                .IsHostingLocalPlayer(_playerController)
                 .Returns(true);
             
             // When
@@ -248,7 +248,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             // Given
             _networkBehaviourChecker
-                .IsServer(_playerController)
+                .IsHostingLocalPlayer(_playerController)
                 .Returns(false);
             
             // When

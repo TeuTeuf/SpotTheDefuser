@@ -88,7 +88,7 @@ namespace Main.Infrastructure.Controllers.Network
         [ClientRpc]
         public void RpcOnPlayerAdded(Player[] allPlayers)
         {
-            if (_networkBehaviourChecker.HasAuthority(this))
+            if (_networkBehaviourChecker.IsLocalPlayer(this))
             {
                 _uiController.UpdateLobby(allPlayers);
             }
@@ -97,12 +97,12 @@ namespace Main.Infrastructure.Controllers.Network
         [ClientRpc]
         public void RpcOnNewGameStarted()
         {
-            if (_networkBehaviourChecker.HasAuthority(this))
+            if (_networkBehaviourChecker.IsLocalPlayer(this))
             {
                 _changeCurrentView.Change(View.Defusing);
             }
 
-            if (_networkBehaviourChecker.IsServer(this))
+            if (_networkBehaviourChecker.IsHostingLocalPlayer(this))
             {
                 _spotTheDefuserNetworkDiscovery.StopBroadcastingOnLAN();
             }

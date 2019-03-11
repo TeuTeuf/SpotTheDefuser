@@ -1,18 +1,19 @@
 using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Main.Infrastructure.Network
 {
     public class NetworkBehaviourChecker
     {
-        public virtual bool HasAuthority(NetworkBehaviour networkBehaviour)
+        public virtual bool IsLocalPlayer(NetworkBehaviour networkBehaviour)
         {
             return networkBehaviour.hasAuthority;
         }
         
-        public virtual bool IsServer(NetworkBehaviour networkBehaviour)
+        public virtual bool IsHostingLocalPlayer(NetworkBehaviour networkBehaviour)
         {
-            return networkBehaviour.isServer;
+            return networkBehaviour.hasAuthority && networkBehaviour.isServer;
         }
     }
 }
