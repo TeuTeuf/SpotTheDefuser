@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Main.Domain.Network;
 using Main.Domain.Players;
 using Main.Domain.UI;
 using Main.Infrastructure.Network;
@@ -22,15 +23,18 @@ namespace Main.Infrastructure.Controllers.Network
         private IUIController _uiController;
 
         private NetworkBehaviourChecker _networkBehaviourChecker;
-        
+        private ISpotTheDefuserNetworkDiscovery _spotTheDefuserNetworkDiscovery;
+
         private Player _player;
 
         [Inject]
         public void Init(AddNewPlayer addNewPlayer, StartNewGame startNewGame, TryToDefuse tryToDefuse,
             ChangeCurrentView changeCurrentView,
             AllPlayerControllers allPlayerControllers, IUIController uiController,
-            NetworkBehaviourChecker networkBehaviourChecker)
+            NetworkBehaviourChecker networkBehaviourChecker,
+            ISpotTheDefuserNetworkDiscovery spotTheDefuserNetworkDiscovery)
         {
+            _spotTheDefuserNetworkDiscovery = spotTheDefuserNetworkDiscovery;
             _networkBehaviourChecker = networkBehaviourChecker;
             _changeCurrentView = changeCurrentView;
             _startNewGame = startNewGame;
@@ -96,6 +100,11 @@ namespace Main.Infrastructure.Controllers.Network
             if (_networkBehaviourChecker.HasAuthority(this))
             {
                 _changeCurrentView.Change(View.Defusing);
+            }
+
+            if (_networkBehaviourChecker.IsServer(this))
+            {
+                _spotTheDefuserNetworkDiscovery.StopBroadcastingOnLAN();
             }
         }
     }

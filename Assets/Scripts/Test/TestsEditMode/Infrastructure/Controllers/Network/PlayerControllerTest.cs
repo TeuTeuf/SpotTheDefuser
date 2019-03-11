@@ -1,4 +1,5 @@
 ﻿using Main.Domain.DefuseAttempts;
+using Main.Domain.Network;
 using Main.Domain.Players;
 using Main.Domain.UI;
 using Main.Infrastructure.Controllers.Network;
@@ -25,6 +26,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
 
         private AllPlayerControllers _allPlayerControllers;
         private IUIController _uiController;
+        private ISpotTheDefuserNetworkDiscovery _spotTheDefuserNetworkDiscovery;
 
         [SetUp]
         public void Init()
@@ -44,8 +46,10 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             
             _allPlayerControllers = new AllPlayerControllers(allPlayers);
 
+            _spotTheDefuserNetworkDiscovery = Substitute.For<ISpotTheDefuserNetworkDiscovery>();
+
             _playerController = new GameObject().AddComponent<PlayerController>();
-            _playerController.Init(_addNewPlayer, _startNewGame, _tryToDefuse, _changeCurrentView, _allPlayerControllers, _uiController, _networkBehaviourChecker);
+            _playerController.Init(_addNewPlayer, _startNewGame, _tryToDefuse, _changeCurrentView, _allPlayerControllers, _uiController, _networkBehaviourChecker, _spotTheDefuserNetworkDiscovery);
         }
 
         [Test]
@@ -55,7 +59,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             var allPlayerControllers = Substitute.For<AllPlayerControllers>(new AllPlayers());
             
             var playerController = new GameObject().AddComponent<PlayerController>();
-            playerController.Init(null, null, null, _changeCurrentView, allPlayerControllers, null, _networkBehaviourChecker);
+            playerController.Init(null, null, null, _changeCurrentView, allPlayerControllers, null, _networkBehaviourChecker, _spotTheDefuserNetworkDiscovery);
             
             // When
             playerController.OnStartLocalPlayer();
@@ -71,7 +75,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             var allPlayerControllers = Substitute.For<AllPlayerControllers>(new AllPlayers());
             
             var playerController = new GameObject().AddComponent<PlayerController>();
-            playerController.Init(null, null,null, _changeCurrentView, allPlayerControllers, null, _networkBehaviourChecker);
+            playerController.Init(null, null,null, _changeCurrentView, allPlayerControllers, null, _networkBehaviourChecker, _spotTheDefuserNetworkDiscovery);
             
             // When
             playerController.OnStartLocalPlayer();
@@ -87,7 +91,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             // Given
             var otherPlayerController = new GameObject().AddComponent<PlayerController>();
-            otherPlayerController.Init(null, null,null, _changeCurrentView, _allPlayerControllers, null, _networkBehaviourChecker);
+            otherPlayerController.Init(null, null,null, _changeCurrentView, _allPlayerControllers, null, _networkBehaviourChecker, _spotTheDefuserNetworkDiscovery);
 
             // When
             _playerController.OnStartServer();
@@ -206,7 +210,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         }
 
         [Test]
-        public void RpcOnNewGameStarted_ShouldNotChangeCurrentViewWhenPlayerDoesntHaveAuthority()
+        public void RpcOnNewGameStarted_ShouldNotChangeCurrentView_WhenPlayerDoesntHaveAuthority()
         {
             // Given
             _networkBehaviourChecker
@@ -220,6 +224,40 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _changeCurrentView
                 .DidNotReceive()
                 .Change(View.Defusing);
+        }
+        
+        [Test]
+        public void RpcOnNewGameStarted_ShouldStopBroadcastingOnNetwork_WhenPlayerIsServer()
+        {
+            // Given
+            _networkBehaviourChecker
+                .IsServer(_playerController)
+                .Returns(true);
+            
+            // When
+            _playerController.RpcOnNewGameStarted();
+
+            // Then
+            _spotTheDefuserNetworkDiscovery
+                .Received()
+                .StopBroadcastingOnLAN();
+        }
+        
+        [Test]
+        public void RpcOnNewGameStarted_ShouldNOTStopBroadcastingOnNetwork_WhenPlayerIsNOTServer()
+        {
+            // Given
+            _networkBehaviourChecker
+                .IsServer(_playerController)
+                .Returns(false);
+            
+            // When
+            _playerController.RpcOnNewGameStarted();
+
+            // Then
+            _spotTheDefuserNetworkDiscovery
+                .DidNotReceive()
+                .StopBroadcastingOnLAN();
         }
     }
 }
