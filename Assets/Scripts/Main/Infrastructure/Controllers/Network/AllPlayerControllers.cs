@@ -64,11 +64,11 @@ namespace Main.Infrastructure.Controllers.Network
 
         public void OnNewGameStarted()
         {
+            LocalPlayerController.CmdOnNewGameStarted();
             foreach (var playerController in _playerControllersOnServer)
             {
                 playerController.RpcOnNewGameStarted();
             }
-            
         }
     }
 }

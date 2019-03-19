@@ -16,6 +16,7 @@ namespace Main.Infrastructure.Controllers.Network
     {
         private AddNewPlayer _addNewPlayer;
         private StartNewGame _startNewGame;
+        private SetNewDefuseAttempt _setNewDefuseAttempt;
         private TryToDefuse _tryToDefuse;
         private ChangeCurrentView _changeCurrentView;
 
@@ -28,12 +29,14 @@ namespace Main.Infrastructure.Controllers.Network
         private Player _player;
 
         [Inject]
-        public void Init(AddNewPlayer addNewPlayer, StartNewGame startNewGame, TryToDefuse tryToDefuse,
+        public void Init(AddNewPlayer addNewPlayer, StartNewGame startNewGame, SetNewDefuseAttempt setNewDefuseAttempt,
+            TryToDefuse tryToDefuse,
             ChangeCurrentView changeCurrentView,
             AllPlayerControllers allPlayerControllers, IUIController uiController,
             NetworkBehaviourChecker networkBehaviourChecker,
             ISpotTheDefuserNetworkDiscovery spotTheDefuserNetworkDiscovery)
         {
+            _setNewDefuseAttempt = setNewDefuseAttempt;
             _spotTheDefuserNetworkDiscovery = spotTheDefuserNetworkDiscovery;
             _networkBehaviourChecker = networkBehaviourChecker;
             _changeCurrentView = changeCurrentView;
@@ -106,6 +109,12 @@ namespace Main.Infrastructure.Controllers.Network
             {
                 _spotTheDefuserNetworkDiscovery.StopBroadcastingOnLAN();
             }
+        }
+
+        [Command]
+        public void CmdOnNewGameStarted()
+        {
+            _setNewDefuseAttempt.Set();
         }
     }
 }
