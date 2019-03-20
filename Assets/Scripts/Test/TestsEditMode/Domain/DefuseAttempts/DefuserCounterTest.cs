@@ -13,7 +13,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
             var defuserCounter = new DefuserCounter();
 
             // When
-            var numberOfBombs = defuserCounter.GetNumberOfBombPlayers(5);
+            var numberOfBombs = defuserCounter.GetNumberOfExplosivePlayers(5);
 
             // Then
             Assert.That(numberOfBombs, Is.EqualTo(3));

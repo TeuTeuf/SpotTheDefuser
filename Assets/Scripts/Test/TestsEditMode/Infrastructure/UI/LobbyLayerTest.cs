@@ -70,7 +70,7 @@ namespace Test.TestsEditMode.Infrastructure.UI
                 .Returns(1);
             
             _defuserCounter
-                .GetNumberOfBombPlayers(players.Length)
+                .GetNumberOfExplosivePlayers(players.Length)
                 .Returns(2);
             
             // When

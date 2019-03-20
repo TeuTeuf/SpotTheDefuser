@@ -37,7 +37,7 @@ namespace Main.Infrastructure.UI
 
         public void UpdatePlayerList(Player[] allPlayers)
         {
-            nbBombsText.text = _defuserCounter.GetNumberOfBombPlayers(allPlayers.Length).ToString();
+            nbBombsText.text = _defuserCounter.GetNumberOfExplosivePlayers(allPlayers.Length).ToString();
             
             var numberOfDefuserPlayers = _defuserCounter.GetNumberOfDefuserPlayers(allPlayers.Length);
             nbDefusersText.text = numberOfDefuserPlayers.ToString();

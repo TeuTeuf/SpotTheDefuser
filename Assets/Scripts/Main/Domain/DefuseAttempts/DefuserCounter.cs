@@ -15,7 +15,7 @@ namespace Main.Domain.DefuseAttempts
             return nbDefuserPlayers;
         }
 
-        public virtual int GetNumberOfBombPlayers(int nbAllPlayers)
+        public virtual int GetNumberOfExplosivePlayers(int nbAllPlayers)
         {
             return nbAllPlayers - GetNumberOfDefuserPlayers(nbAllPlayers);
         }
