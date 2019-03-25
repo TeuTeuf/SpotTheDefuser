@@ -19,6 +19,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
             _currentDefuseAttempt = Substitute.For<DefuseAttempt>(
                 Substitute.For<IRandom>(),
                 new DefuserCounter(),
+                Substitute.For<AllBombs>(),
                 new List<Player>().AsReadOnly()
                 );
             _defusingState = new DefusingState {CurrentDefuseAttempt = _currentDefuseAttempt};

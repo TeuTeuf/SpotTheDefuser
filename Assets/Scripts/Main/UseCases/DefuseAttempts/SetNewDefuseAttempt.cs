@@ -9,11 +9,14 @@ namespace Main.UseCases.DefuseAttempts
     {
         private readonly IRandom _random;
         private readonly AllPlayers _allPlayers;
+        private readonly AllBombs _allBombs;
         private readonly DefusingState _defusingState;
         private readonly DefuserCounter _defuserCounter;
 
-        public SetNewDefuseAttempt(IRandom random, AllPlayers allPlayers, DefusingState defusingState, DefuserCounter defuserCounter)
+        public SetNewDefuseAttempt(IRandom random, AllPlayers allPlayers, AllBombs allBombs,
+            DefusingState defusingState, DefuserCounter defuserCounter)
         {
+            _allBombs = allBombs;
             _random = random;
             _allPlayers = allPlayers;
             _defusingState = defusingState;
@@ -22,7 +25,7 @@ namespace Main.UseCases.DefuseAttempts
 
         public virtual void Set()
         {
-            _defusingState.CurrentDefuseAttempt = new DefuseAttempt(_random, _defuserCounter, _allPlayers.GetAll());
+            _defusingState.CurrentDefuseAttempt = new DefuseAttempt(_random, _defuserCounter, _allBombs, _allPlayers.GetAll());
             Debug.Log("New Defuse Attempt Set!");
         }
     }

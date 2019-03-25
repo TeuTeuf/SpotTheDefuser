@@ -24,8 +24,10 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
             allPlayers.GetAll().Returns(new List<Player>().AsReadOnly());
             
             var defusingState = new DefusingState();
+
+            var allBombs = Substitute.For<AllBombs>();
             
-            var setNewDefuseAttempt = new SetNewDefuseAttempt(random, allPlayers, defusingState, defuserCounter);
+            var setNewDefuseAttempt = new SetNewDefuseAttempt(random, allPlayers, allBombs, defusingState, defuserCounter);
             
             // When
             setNewDefuseAttempt.Set();

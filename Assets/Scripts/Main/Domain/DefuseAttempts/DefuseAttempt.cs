@@ -6,13 +6,17 @@ namespace Main.Domain.DefuseAttempts
 {
     public class DefuseAttempt
     {
-        private readonly IList<Player> _defuserPlayers;
+        public string PickedBombName { get; }
+        
         private readonly DefuserCounter _defuserCounter;
+        private readonly IList<Player> _defuserPlayers;
 
-        public DefuseAttempt(IRandom random, DefuserCounter defuserCounter, ReadOnlyCollection<Player> allPlayers)
+        public DefuseAttempt(IRandom random, DefuserCounter defuserCounter, AllBombs allBombs,
+            ReadOnlyCollection<Player> allPlayers)
         {
             _defuserCounter = defuserCounter;
             _defuserPlayers = GetDefuserPlayers(random, allPlayers);
+            PickedBombName = allBombs.PickRandomBombName();
         }
 
         public virtual bool IsDefuser(Player player)

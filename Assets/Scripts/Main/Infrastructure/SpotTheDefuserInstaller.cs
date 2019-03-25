@@ -46,6 +46,7 @@ namespace Main.Infrastructure
         private void InstallOtherSingletons()
         {
             Container.Bind<AllPlayers>().AsSingle();
+            Container.Bind<AllBombs>().AsSingle();
             Container.Bind<DefusingState>().AsSingle();
             Container.Bind<DefuserCounter>().AsSingle();
             Container.Bind<AllPlayerControllers>().AsSingle();

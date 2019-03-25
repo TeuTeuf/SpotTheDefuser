@@ -19,17 +19,19 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
 
         private IRandom _random;
         private DefuserCounter _defuserCounter;
-        
+        private AllBombs _allBombs;
+
         [SetUp]
         public void Setup()
         {
             _random = Substitute.For<IRandom>();
             _defuserCounter = new DefuserCounter();
+            _allBombs = Substitute.For<AllBombs>();
         }
 
         [Test]
         public void
-            Execute_ShouldReturnDefuseAttemptReturningIsDefuserTrueForFirstPlayerAndFalseForOthers_WhenRandomReturnZero_WithThreePlayers()
+            DefuseAttempt_ShouldReturnDefuseAttemptReturningIsDefuserTrueForFirstPlayerAndFalseForOthers_WhenRandomReturnZero_WithThreePlayers()
         {
             // Given
             var players = new List<Player> {_player1, _player2, _player3}.AsReadOnly();
@@ -38,7 +40,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
                 .Returns(0);
 
             // When
-            var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, players);
+            var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, _allBombs, players);
 
             // Then
             Assert.IsTrue(defuseAttempt.IsDefuser(_player1));
@@ -48,7 +50,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
 
         [Test]
         public void
-        Execute_ShouldReturnDefuseAttemptReturningIsDefuserTrueForLastPlayerAndFalseForOthers_WhenRandomReturnMaxValue_WithThreePlayers()
+        DefuseAttempt_ShouldReturnDefuseAttemptReturningIsDefuserTrueForLastPlayerAndFalseForOthers_WhenRandomReturnMaxValue_WithThreePlayers()
         {
             // Given
             var players = new List<Player> {_player1, _player2, _player3}.AsReadOnly();
@@ -57,7 +59,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
                 .Returns(players.Count - 1);
 
             // When
-            var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, players);
+            var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, _allBombs, players);
 
             // Then
             Assert.IsFalse(defuseAttempt.IsDefuser(_player1));
@@ -68,7 +70,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
 
         [Test]
         public void
-            Execute_ShouldReturnDefuseAttemptReturningIsDefuserTrueForTwoFirstPlayersAndFalseForOthers_WhenRandomReturnAlwaysZero_WithFivePlayers()
+            DefuseAttempt_ShouldReturnDefuseAttemptReturningIsDefuserTrueForTwoFirstPlayersAndFalseForOthers_WhenRandomReturnAlwaysZero_WithFivePlayers()
         {
             // Given
             var players = new List<Player> {_player1, _player2, _player3, _player4, _player5}.AsReadOnly();
@@ -77,7 +79,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
                 .Returns(0);
 
             // When
-            var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, players);
+            var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, _allBombs, players);
 
             // Then
             Assert.IsTrue(defuseAttempt.IsDefuser(_player1));
@@ -90,7 +92,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
 
         [Test]
         public void
-            Execute_ShouldReturnDefuseAttemptReturningIsDefuserTrueForTwoLastPlayersAndFalseForOthers_WhenRandomReturnMaxValue_WithSixPlayers()
+            DefuseAttempt_ShouldReturnDefuseAttemptReturningIsDefuserTrueForTwoLastPlayersAndFalseForOthers_WhenRandomReturnMaxValue_WithSixPlayers()
         {
             // Given
             var players = new List<Player> {_player1, _player2, _player3, _player4, _player5, _player6}.AsReadOnly();
@@ -99,7 +101,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
             _random.Range(0, 5).Returns(4);
 
             // When
-            var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, players);
+            var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, _allBombs, players);
 
             // Then
             Assert.IsFalse(defuseAttempt.IsDefuser(_player1));
@@ -108,6 +110,24 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
             Assert.IsFalse(defuseAttempt.IsDefuser(_player4));
             Assert.IsTrue(defuseAttempt.IsDefuser(_player5));
             Assert.IsTrue(defuseAttempt.IsDefuser(_player6));
+        }
+
+        [Test]
+        public void DefuseAttempt_ShouldPickARandomBombName()
+        {
+            // Given
+            const string pickedBombName = "RandomBombPicked";
+            var players = new List<Player>().AsReadOnly();
+
+            _allBombs.PickRandomBombName()
+                .Returns(pickedBombName);
+
+            // When
+            var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, _allBombs, players);
+
+
+            // Then
+            Assert.That(defuseAttempt.PickedBombName, Is.EqualTo(pickedBombName));
         }
     }
 }
