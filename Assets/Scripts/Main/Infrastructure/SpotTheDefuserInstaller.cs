@@ -4,6 +4,7 @@ using Main.Domain.Network;
 using Main.Domain.Players;
 using Main.Domain.UI;
 using Main.Infrastructure.Controllers.Network;
+using Main.Infrastructure.Data;
 using Main.Infrastructure.Network;
 using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Network;
@@ -21,6 +22,7 @@ namespace Main.Infrastructure
             InstallUseCases();
             InstallOtherSingletons();
             InstallFromComponentInHierarchy();
+            InstallFromResources();
         }
 
         private void InstallInterfaceImplementations()
@@ -61,8 +63,14 @@ namespace Main.Infrastructure
             Container.Bind<IUIController>().FromComponentInHierarchy().AsSingle();
             Container.Bind<ILobbyLayer>().FromComponentInHierarchy().AsSingle();
             Container.Bind<IViewLayer>().FromComponentsInHierarchy().AsSingle();
-            Container.Bind<ISpotTheDefuserNetworkManager>().FromComponentInHierarchy().AsSingle();;
+            Container.Bind<ISpotTheDefuserNetworkManager>().FromComponentInHierarchy().AsSingle();
             Container.Bind<ISpotTheDefuserNetworkDiscovery>().FromComponentInHierarchy().AsSingle();
+        }
+
+        private void InstallFromResources()
+        {
+            Container.Bind<Bomb>().FromScriptableObjectResource("Bombs").AsSingle();
+            Container.Bind<IBomb>().To<Bomb>().FromResolveAll();
         }
     }
 }

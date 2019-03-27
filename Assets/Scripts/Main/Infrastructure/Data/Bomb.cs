@@ -9,6 +9,8 @@ namespace Main.Infrastructure.Data
         public Sprite defuserSprite;
         public Sprite explosiveSprite;
 
+        public string Id => name;
+
         public Sprite GetSprite(bool isDefuser)
         {
             return isDefuser ? defuserSprite : explosiveSprite;

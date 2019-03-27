@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Main.Domain;
 using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
@@ -26,7 +27,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
         {
             _random = Substitute.For<IRandom>();
             _defuserCounter = new DefuserCounter();
-            _allBombs = Substitute.For<AllBombs>();
+            _allBombs = Substitute.For<AllBombs>(new IBomb[1]);
         }
 
         [Test]
