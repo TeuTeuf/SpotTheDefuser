@@ -27,7 +27,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
         {
             _random = Substitute.For<IRandom>();
             _defuserCounter = new DefuserCounter();
-            _allBombs = Substitute.For<AllBombs>(new IBomb[1]);
+            _allBombs = Substitute.For<AllBombs>(_random, new IBomb[1]);
         }
 
         [Test]
@@ -114,21 +114,21 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
         }
 
         [Test]
-        public void DefuseAttempt_ShouldPickARandomBombName()
+        public void DefuseAttempt_ShouldPickARandomBombId()
         {
             // Given
-            const string pickedBombName = "RandomBombPicked";
+            const string pickedBombId = "RandomBombPicked";
             var players = new List<Player>().AsReadOnly();
 
-            _allBombs.PickRandomBombName()
-                .Returns(pickedBombName);
+            _allBombs.PickRandomBombId()
+                .Returns(pickedBombId);
 
             // When
             var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, _allBombs, players);
 
 
             // Then
-            Assert.That(defuseAttempt.PickedBombName, Is.EqualTo(pickedBombName));
+            Assert.That(defuseAttempt.BombId, Is.EqualTo(pickedBombId));
         }
     }
 }

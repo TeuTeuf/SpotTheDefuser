@@ -6,7 +6,7 @@ namespace Main.Domain.DefuseAttempts
 {
     public class DefuseAttempt
     {
-        public string PickedBombName { get; }
+        public string BombId { get; }
         
         private readonly DefuserCounter _defuserCounter;
         private readonly IList<Player> _defuserPlayers;
@@ -16,7 +16,7 @@ namespace Main.Domain.DefuseAttempts
         {
             _defuserCounter = defuserCounter;
             _defuserPlayers = GetDefuserPlayers(random, allPlayers);
-            PickedBombName = allBombs.PickRandomBombName();
+            BombId = allBombs.PickRandomBombId();
         }
 
         public virtual bool IsDefuser(Player player)

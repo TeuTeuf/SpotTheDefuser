@@ -7,12 +7,12 @@ namespace Main.Domain.DefuseAttempts
     {
         private readonly IBomb[] _bombs;
 
-        public AllBombs(IBomb[] bombs)
+        public AllBombs(IRandom random, IBomb[] bombs)
         {
             _bombs = bombs;
         }
         
-        public virtual string PickRandomBombName()
+        public virtual string PickRandomBombId()
         {
             foreach (var bomb in _bombs)
             {

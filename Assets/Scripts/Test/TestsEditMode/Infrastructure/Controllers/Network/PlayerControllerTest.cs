@@ -42,7 +42,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
 
             _addNewPlayer = Substitute.For<AddNewPlayer>(allPlayers, null);
             _startNewGame = Substitute.For<StartNewGame>(Substitute.For<INewGameStartedListener>());
-            _setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(stdRandom, allPlayers, Substitute.For<AllBombs>(new IBomb[1]), defusingState, new DefuserCounter());
+            _setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(stdRandom, allPlayers, Substitute.For<AllBombs>(stdRandom, new IBomb[1]), defusingState, new DefuserCounter());
             _tryToDefuse = Substitute.For<TryToDefuse>(defusingState, defusingListener);
             _changeCurrentView = Substitute.For<ChangeCurrentView>(Substitute.For<IViewManager>());
 
