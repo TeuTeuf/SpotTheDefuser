@@ -1,4 +1,3 @@
-using Main.Infrastructure.Data;
 using UnityEngine;
 
 namespace Main.Domain.DefuseAttempts
