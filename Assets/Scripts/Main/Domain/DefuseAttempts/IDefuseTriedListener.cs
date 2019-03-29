@@ -2,7 +2,7 @@
 
 namespace Main.Domain.DefuseAttempts
 {
-    public interface IDefusingListener
+    public interface IDefuseTriedListener
     {
         void OnDefuseTried(bool defuseSucceeded, Player player);
     }

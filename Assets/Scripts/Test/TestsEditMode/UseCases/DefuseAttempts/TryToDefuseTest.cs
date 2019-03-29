@@ -9,17 +9,17 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
     [TestFixture]
     public class TryToDefuseTest
     {
-        private IDefusingListener _defusingListener;
+        private IDefuseTriedListener _defuseTriedListener;
         private DefusingState _defusingState;
         private TryToDefuse _tryToDefuse;
 
         [SetUp]
         public void Init()
         {
-            _defusingListener = Substitute.For<IDefusingListener>();
+            _defuseTriedListener = Substitute.For<IDefuseTriedListener>();
             _defusingState = Substitute.For<DefusingState>();
 
-            _tryToDefuse = new TryToDefuse(_defusingState, _defusingListener); 
+            _tryToDefuse = new TryToDefuse(_defusingState, _defuseTriedListener); 
         }
         
         [Test]
@@ -35,7 +35,7 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
             _tryToDefuse.Try(player);
 
             // Then
-            _defusingListener.Received().OnDefuseTried(true, player);
+            _defuseTriedListener.Received().OnDefuseTried(true, player);
         }
         
         [Test]
@@ -51,7 +51,7 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
             _tryToDefuse.Try(player);
 
             // Then
-            _defusingListener.Received().OnDefuseTried(false, player);
+            _defuseTriedListener.Received().OnDefuseTried(false, player);
         }
     }
 }

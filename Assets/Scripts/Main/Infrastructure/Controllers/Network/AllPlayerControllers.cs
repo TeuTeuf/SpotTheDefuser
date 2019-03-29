@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Main.Infrastructure.Controllers.Network
 {
-    public class AllPlayerControllers: IDefusingListener, IPlayerAddedListener, INewGameStartedListener
+    public class AllPlayerControllers: IDefuseTriedListener, IPlayerAddedListener, INewGameStartedListener, INewDefuseAttemptSetListener
     {
         private readonly AllPlayers _allPlayers;
         
@@ -68,6 +68,14 @@ namespace Main.Infrastructure.Controllers.Network
             foreach (var playerController in _playerControllersOnServer)
             {
                 playerController.RpcOnNewGameStarted();
+            }
+        }
+
+        public void OnNewDefuseAttemptSet(DefuseAttempt defuseAttempt)
+        {
+            foreach (var playerController in _playerControllersOnServer)
+            {
+                playerController.RpcOnNewDefuseAttemptSet(defuseAttempt.BombId);
             }
         }
     }

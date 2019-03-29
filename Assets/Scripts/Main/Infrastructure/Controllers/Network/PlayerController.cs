@@ -116,5 +116,13 @@ namespace Main.Infrastructure.Controllers.Network
         {
             _setNewDefuseAttempt.Set();
         }
+
+        [ClientRpc]
+        public void RpcOnNewDefuseAttemptSet(string defuseAttemptBombId)
+        {
+            if (_networkBehaviourChecker.IsLocalPlayer(this))
+                Debug.Log($"New Defuse Attempt set with bomb {defuseAttemptBombId}!");
+            Debug.LogWarning("Implement me!");
+        }
     }
 }

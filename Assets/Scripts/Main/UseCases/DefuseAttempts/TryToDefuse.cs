@@ -6,18 +6,18 @@ namespace Main.UseCases.DefuseAttempts
     public class TryToDefuse
     {
         private readonly DefusingState _defusingState;
-        private readonly IDefusingListener _defusingListener;
+        private readonly IDefuseTriedListener _defuseTriedListener;
 
-        public TryToDefuse(DefusingState defusingState, IDefusingListener defusingListener)
+        public TryToDefuse(DefusingState defusingState, IDefuseTriedListener defuseTriedListener)
         {
             _defusingState = defusingState;
-            _defusingListener = defusingListener;
+            _defuseTriedListener = defuseTriedListener;
         }
 
         public virtual void Try(Player player)
         {
             var isDefuser = _defusingState.IsCurrentAttemptDefuser(player);
-            _defusingListener.OnDefuseTried(isDefuser, player);
+            _defuseTriedListener.OnDefuseTried(isDefuser, player);
         }
     }
 }
