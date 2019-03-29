@@ -26,7 +26,7 @@ namespace Main.UseCases.DefuseAttempts
         public virtual void Set()
         {
             _defusingState.CurrentDefuseAttempt = new DefuseAttempt(_random, _defuserCounter, _allBombs, _allPlayers.GetAll());
-            Debug.Log("New Defuse Attempt Set!");
+            Debug.Log($"New Defuse Attempt set with bomb {_defusingState.CurrentDefuseAttempt.BombId}!");
         }
     }
 }

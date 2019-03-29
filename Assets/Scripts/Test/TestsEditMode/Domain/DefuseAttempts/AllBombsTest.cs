@@ -29,5 +29,19 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
             _random = Substitute.For<IRandom>();
             _allBombs = new AllBombs(_random, _bombs);
         }
+
+        [Test]
+        public void PickRandomBombId_ShouldReturnABombIdPickedWithRandom()
+        {
+            // Given
+            _random.Range(0, _bombs.Length)
+                .Returns(1);
+
+            // When
+            var randomBombId = _allBombs.PickRandomBombId();
+
+            // Then
+            Assert.That(randomBombId, Is.EqualTo("bomb2"));
+        }
     }
 }
