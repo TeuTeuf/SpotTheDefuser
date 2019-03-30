@@ -1,5 +1,6 @@
 ﻿using Main.Domain.Players;
 using Main.Domain.UI;
+using Main.Domain.UI.Layers;
 using Main.Infrastructure.Controllers.Network;
 using Main.UseCases.UI;
 using NSubstitute;
@@ -14,6 +15,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         private UIController _uiController;
         private ChangeCurrentView _changeCurrentView;
         private ILobbyLayer _lobbyLayer;
+        private IDefusingLayer _defusingLayer;
 
         [SetUp]
         public void Init()
@@ -22,9 +24,10 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _changeCurrentView = Substitute.For<ChangeCurrentView>(viewManager);
 
             _lobbyLayer = Substitute.For<ILobbyLayer>();
+            _defusingLayer = Substitute.For<IDefusingLayer>();
 
             _uiController = new GameObject().AddComponent<UIController>();
-            _uiController.Init(_changeCurrentView, _lobbyLayer);
+            _uiController.Init(_changeCurrentView, _lobbyLayer, _defusingLayer);
         }
 
         [Test]
@@ -59,6 +62,22 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _lobbyLayer
                 .Received()
                 .UpdatePlayerList(players);
+        }
+
+        [Test]
+        public void UpdateDefusing_ShouldUpdateBombOfDefusingLayer()
+        {
+            // Given
+            const string bombId = "bombId";
+            const bool isPlayerDefuser = true;
+
+            // When
+            _uiController.UpdateDefusing(bombId, isPlayerDefuser);
+
+            // Then
+            _defusingLayer
+                .Received()
+                .UpdateDisplayedBomb(bombId, isPlayerDefuser);
         }
     }
 }

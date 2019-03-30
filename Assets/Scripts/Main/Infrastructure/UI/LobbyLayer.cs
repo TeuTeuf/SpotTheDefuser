@@ -1,6 +1,7 @@
 using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
 using Main.Domain.UI;
+using Main.Domain.UI.Layers;
 using Main.Infrastructure.Controllers.Network;
 using UnityEngine;
 using UnityEngine.Serialization;

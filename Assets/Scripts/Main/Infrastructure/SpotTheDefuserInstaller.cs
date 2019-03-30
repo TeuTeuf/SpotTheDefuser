@@ -3,6 +3,7 @@ using Main.Domain.DefuseAttempts;
 using Main.Domain.Network;
 using Main.Domain.Players;
 using Main.Domain.UI;
+using Main.Domain.UI.Layers;
 using Main.Infrastructure.Controllers.Network;
 using Main.Infrastructure.Data;
 using Main.Infrastructure.Network;
@@ -63,6 +64,7 @@ namespace Main.Infrastructure
         {
             Container.Bind<IUIController>().FromComponentInHierarchy().AsSingle();
             Container.Bind<ILobbyLayer>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<IDefusingLayer>().FromComponentInHierarchy().AsSingle();
             Container.Bind<IViewLayer>().FromComponentsInHierarchy().AsSingle();
             Container.Bind<ISpotTheDefuserNetworkManager>().FromComponentInHierarchy().AsSingle();
             Container.Bind<ISpotTheDefuserNetworkDiscovery>().FromComponentInHierarchy().AsSingle();

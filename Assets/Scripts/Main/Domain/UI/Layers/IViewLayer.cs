@@ -1,4 +1,4 @@
-namespace Main.Domain.UI
+namespace Main.Domain.UI.Layers
 {
     public interface IViewLayer
     {

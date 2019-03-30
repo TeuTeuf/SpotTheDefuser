@@ -26,7 +26,7 @@ namespace Main.Infrastructure.Controllers.Network
         private NetworkBehaviourChecker _networkBehaviourChecker;
         private ISpotTheDefuserNetworkDiscovery _spotTheDefuserNetworkDiscovery;
 
-        private Player _player;
+        public Player Player { get; private set; }
 
         [Inject]
         public void Init(AddNewPlayer addNewPlayer, StartNewGame startNewGame, SetNewDefuseAttempt setNewDefuseAttempt,
@@ -63,14 +63,14 @@ namespace Main.Infrastructure.Controllers.Network
         [Command]
         public void CmdAddNewPlayer(Player player)
         {
-            _player = player;
+            Player = player;
             _addNewPlayer.Execute(player);
         }
 
         [Command]
         public void CmdTryToDefuse()
         {
-            _tryToDefuse.Try(_player);
+            _tryToDefuse.Try(Player);
         }
 
         [Command]
@@ -118,11 +118,13 @@ namespace Main.Infrastructure.Controllers.Network
         }
 
         [ClientRpc]
-        public void RpcOnNewDefuseAttemptSet(string defuseAttemptBombId)
+        public void RpcOnNewDefuseAttemptSet(string defuseAttemptBombId, bool isPlayerDefuser)
         {
             if (_networkBehaviourChecker.IsLocalPlayer(this))
+            {
+                _uiController.UpdateDefusing(defuseAttemptBombId, isPlayerDefuser);
                 Debug.Log($"New Defuse Attempt set with bomb {defuseAttemptBombId}!");
-            Debug.LogWarning("Implement me!");
+            }
         }
     }
 }

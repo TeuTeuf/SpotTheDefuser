@@ -1,6 +1,6 @@
 using Main.Domain.Players;
 
-namespace Main.Domain.UI
+namespace Main.Domain.UI.Layers
 {
     public interface ILobbyLayer
     {

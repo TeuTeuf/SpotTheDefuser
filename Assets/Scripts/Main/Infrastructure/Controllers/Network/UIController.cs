@@ -1,5 +1,6 @@
 using Main.Domain.Players;
 using Main.Domain.UI;
+using Main.Domain.UI.Layers;
 using Main.UseCases.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -9,15 +10,16 @@ namespace Main.Infrastructure.Controllers.Network
 {
 	public class UIController : MonoBehaviour, IUIController
 	{
-		[FormerlySerializedAs("StartingView")] public View startingView;
+		public View startingView;
 		
 		private ChangeCurrentView _changeCurrentView;
 		private ILobbyLayer _lobbyLayer;
-
+		private IDefusingLayer _defusingLayer;
 
 		[Inject]
-		public void Init(ChangeCurrentView changeCurrentView, ILobbyLayer lobbyLayer)
+		public void Init(ChangeCurrentView changeCurrentView, ILobbyLayer lobbyLayer, IDefusingLayer defusingLayer)
 		{
+			_defusingLayer = defusingLayer;
 			_lobbyLayer = lobbyLayer;
 			_changeCurrentView = changeCurrentView;
 		}
@@ -31,6 +33,11 @@ namespace Main.Infrastructure.Controllers.Network
 		{
 			_lobbyLayer.UpdatePlayerList(allPlayers);
 			Debug.Log($"Update Lobby, nb allPlayers: {allPlayers.Length}");
+		}
+
+		public void UpdateDefusing(string defuseAttemptBombId, bool isPlayerDefuser)
+		{
+			_defusingLayer.UpdateDisplayedBomb(defuseAttemptBombId, isPlayerDefuser);
 		}
 	}
 }

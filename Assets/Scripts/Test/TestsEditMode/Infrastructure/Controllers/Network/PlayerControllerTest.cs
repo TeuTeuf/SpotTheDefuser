@@ -275,5 +275,43 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
                 .Received()
                 .Set();
         }
+
+        [Test]
+        public void RpcOnNewDefuseAttemptSet_ShouldUpdateDisplayedBomb_WhenPlayerIsLocalPlayer()
+        {
+            // Given
+            const string defuseAttemptBombId = "bombId";
+            const bool isPlayerDefuser = true;
+            
+            _networkBehaviourChecker
+                .IsLocalPlayer(_playerController)
+                .Returns(true);
+
+            // When
+            _playerController.RpcOnNewDefuseAttemptSet(defuseAttemptBombId, isPlayerDefuser);
+
+            // Then
+            _uiController
+                .Received()
+                .UpdateDefusing(defuseAttemptBombId, isPlayerDefuser);
+        }
+        
+        [Test]
+        public void RpcOnNewDefuseAttemptSet_ShouldNOTUpdateDisplayedBomb_WhenPlayerIsNOTLocalPlayer()
+        {
+            // Given
+
+            _networkBehaviourChecker
+                .IsLocalPlayer(_playerController)
+                .Returns(false);
+
+            // When
+            _playerController.RpcOnNewDefuseAttemptSet("bombId", true);
+
+            // Then
+            _uiController
+                .DidNotReceive()
+                .UpdateDefusing(Arg.Any<string>(), Arg.Any<bool>());
+        }
     }
 }

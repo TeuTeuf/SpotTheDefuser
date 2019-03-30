@@ -75,7 +75,8 @@ namespace Main.Infrastructure.Controllers.Network
         {
             foreach (var playerController in _playerControllersOnServer)
             {
-                playerController.RpcOnNewDefuseAttemptSet(defuseAttempt.BombId);
+                var isPlayerDefuser = defuseAttempt.IsDefuser(playerController.Player);
+                playerController.RpcOnNewDefuseAttemptSet(defuseAttempt.BombId, isPlayerDefuser);
             }
         }
     }
