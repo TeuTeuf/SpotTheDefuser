@@ -43,5 +43,19 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
             // Then
             Assert.That(randomBombId, Is.EqualTo("bomb2"));
         }
+
+        [Test]
+        public void GetByBombId_ReturnBombCorrespondingToId()
+        {
+            // Given
+            var expectedBomb = _bombs[1];
+            var idExpectedBomb = expectedBomb.Id;
+            
+            // When
+            var bomb = _allBombs.GetByBombId(idExpectedBomb);
+
+            // Then
+            Assert.That(bomb, Is.EqualTo(expectedBomb));
+        }
     }
 }

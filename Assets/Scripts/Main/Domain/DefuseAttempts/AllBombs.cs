@@ -1,3 +1,6 @@
+using System.Linq;
+using UnityEngine;
+
 namespace Main.Domain.DefuseAttempts
 {
     public class AllBombs
@@ -15,6 +18,11 @@ namespace Main.Domain.DefuseAttempts
         {
             var bombIndex = _random.Range(0, _bombs.Length);
             return _bombs[bombIndex].Id;
+        }
+        
+        public virtual IBomb GetByBombId(string bombId)
+        {
+            return _bombs.First(bomb => bomb.Id == bombId);
         }
     }
 }

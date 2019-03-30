@@ -12,9 +12,9 @@ namespace Main.Infrastructure.UI
 {
     public class LobbyLayer : BaseLayer, ILobbyLayer
     {
-        [FormerlySerializedAs("NbDefusersText")] public Text nbDefusersText;
-        [FormerlySerializedAs("NbBombsText")] public Text nbBombsText;
-        [FormerlySerializedAs("PlayButton")] public Button playButton;
+        public Text nbDefusersText;
+        public Text nbBombsText;
+        public Button playButton;
 
         private const string DEFAULT_NB_DEFUSERS_DISPLAYED = "0";
         private const string DEFAULT_NB_BOMBS_DISPLAYED = "1";

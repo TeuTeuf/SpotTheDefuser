@@ -997,6 +997,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ee9d18577ce4172a9b049d372074f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  countdownText: {fileID: 546804095}
+  bombImage: {fileID: 1006979070}
 --- !u!114 &530167827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2566,7 +2568,7 @@ GameObject:
   - component: {fileID: 1006979071}
   - component: {fileID: 1006979070}
   m_Layer: 0
-  m_Name: Image_ToDefuse
+  m_Name: Image_Bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
