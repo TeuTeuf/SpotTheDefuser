@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Main.Infrastructure.Controllers.Network
 {
-    public class AllPlayerControllers: IDefuseTriedListener, IPlayerAddedListener, INewGameStartedListener, INewDefuseAttemptSetListener
+    public class AllPlayerControllers: IPlayerAddedListener, INewGameStartedListener, INewDefuseAttemptSetListener, IDefuseSucceededListener, IDefuseFailedListener
     {
         private readonly AllPlayers _allPlayers;
         
@@ -72,9 +72,14 @@ namespace Main.Infrastructure.Controllers.Network
             }
         }
 
-        public virtual void OnDefuseTried(bool defuseSucceeded, Player player)
+        public virtual void OnDefuseSucceeded()
         {
-            LocalPlayerController.CmdOnDefuseTried(defuseSucceeded);
+            LocalPlayerController.CmdOnDefuseSucceeded();
+        }
+
+        public void OnDefuseFailed()
+        {
+            LocalPlayerController.CmdOnDefuseFailed();
         }
     }
 }

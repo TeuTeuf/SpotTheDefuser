@@ -119,12 +119,15 @@ namespace Main.Infrastructure.Controllers.Network
         }
 
         [Command]
-        public void CmdOnDefuseTried(bool defuseSucceeded)
+        public void CmdOnDefuseSucceeded()
         {
-            if (defuseSucceeded)
-            {
-                _setNewDefuseAttempt.Set();
-            }
+            _setNewDefuseAttempt.Set();
+        }
+
+        [Command]
+        public void CmdOnDefuseFailed()
+        {
+            _changeCurrentView.Change(View.End);
         }
     }
 }

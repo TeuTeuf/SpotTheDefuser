@@ -35,7 +35,8 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             var allPlayers = Substitute.For<AllPlayers>();
             var defusingState = Substitute.For<DefusingState>();
-            var defusingListener = Substitute.For<IDefuseTriedListener>();
+            var defuseSucceededListener = Substitute.For<IDefuseSucceededListener>();
+            var defuseFailedListener = Substitute.For<IDefuseFailedListener>();
             var stdRandom = Substitute.For<IRandom>();
 
             _uiController = Substitute.For<IUIController>();
@@ -43,7 +44,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _addNewPlayer = Substitute.For<AddNewPlayer>(allPlayers, null);
             _startNewGame = Substitute.For<StartNewGame>(Substitute.For<INewGameStartedListener>());
             _setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(stdRandom, allPlayers, Substitute.For<AllBombs>(stdRandom, new IBomb[1]), defusingState, new DefuserCounter(), Substitute.For<INewDefuseAttemptSetListener>());
-            _tryToDefuse = Substitute.For<TryToDefuse>(defusingState, defusingListener);
+            _tryToDefuse = Substitute.For<TryToDefuse>(defusingState, defuseSucceededListener, defuseFailedListener);
             _changeCurrentView = Substitute.For<ChangeCurrentView>(Substitute.For<IViewManager>());
 
             _networkBehaviourChecker = Substitute.For<NetworkBehaviourChecker>();
@@ -315,10 +316,10 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         }
 
         [Test]
-        public void CmdOnDefuseTried_ShouldSetNewDefuseAttemptWhenDefuseSucceeded()
+        public void CmdOnDefuseSucceeded_ShouldSetNewDefuseAttemptWhenDefuseSucceeded()
         {
             // When
-            _playerController.CmdOnDefuseTried(true);
+            _playerController.CmdOnDefuseSucceeded();
 
             // Then
             _setNewDefuseAttempt
@@ -327,15 +328,15 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         }
 
         [Test]
-        public void CmdOnDefuseTried_ShouldNOTSetNewDefuseAttemptWhenDefuseFailed()
+        public void CmdOnDefuseFailed_ShouldMoveToEndView()
         {
             // When
-            _playerController.CmdOnDefuseTried(false);
+            _playerController.CmdOnDefuseFailed();
 
             // Then
-            _setNewDefuseAttempt
-                .DidNotReceive()
-                .Set();
+            _changeCurrentView
+                .Received()
+                .Change(View.End);
         }
     }
-};
+}

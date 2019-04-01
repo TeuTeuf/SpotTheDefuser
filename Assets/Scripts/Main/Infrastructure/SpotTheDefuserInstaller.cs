@@ -56,7 +56,8 @@ namespace Main.Infrastructure
             Container.Bind<NetworkBehaviourChecker>().AsSingle();
             Container.Bind<IPlayerAddedListener>().To<AllPlayerControllers>().FromResolve();
             Container.Bind<INewGameStartedListener>().To<AllPlayerControllers>().FromResolve();
-            Container.Bind<IDefuseTriedListener>().To<AllPlayerControllers>().FromResolve();
+            Container.Bind<IDefuseSucceededListener>().To<AllPlayerControllers>().FromResolve();
+            Container.Bind<IDefuseFailedListener>().To<AllPlayerControllers>().FromResolve();
             Container.Bind<INewDefuseAttemptSetListener>().To<AllPlayerControllers>().FromResolve();
         }
 
