@@ -1,6 +1,8 @@
 using Main.Domain;
 using Main.Domain.DefuseAttempts;
+using Main.Domain.Players;
 using Main.Domain.UI;
+using Main.Infrastructure.Controllers.Network;
 using Main.Infrastructure.UI;
 using NSubstitute;
 using NUnit.Framework;
@@ -14,14 +16,16 @@ namespace Test.TestsEditMode.Infrastructure.UI
     {
         private DefusingLayer _defusingLayer;
         private AllBombs _allBombs;
+        private AllPlayerControllers _allPlayerControllers;
 
         [SetUp]
         public void Init()
         {
             _allBombs = Substitute.For<AllBombs>(Substitute.For<IRandom>(), new IBomb[1]);
+            _allPlayerControllers = Substitute.For<AllPlayerControllers>(Substitute.For<AllPlayers>());
             _defusingLayer = new GameObject().AddComponent<DefusingLayer>();
             _defusingLayer.bombImage = new GameObject().AddComponent<Image>();
-            _defusingLayer.Init(_allBombs);
+            _defusingLayer.Init(_allBombs, _allPlayerControllers);
         }
 
         [Test]
@@ -42,6 +46,18 @@ namespace Test.TestsEditMode.Infrastructure.UI
 
             // Then
             Assert.That(_defusingLayer.bombImage.sprite, Is.EqualTo(aSprite));
+        }
+
+        [Test]
+        public void OnClickOnDefuse_ShouldTryToDefuseOnServer()
+        {
+            // When
+            _defusingLayer.OnClickOnDefuse();
+
+            // Then
+            _allPlayerControllers
+                .Received()
+                .TryToDefuseOnServer();
         }
 
         [Test]

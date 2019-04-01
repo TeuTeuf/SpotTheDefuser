@@ -48,6 +48,7 @@ namespace Main.Infrastructure.Controllers.Network
 
         public virtual void OnDefuseTried(bool defuseSucceeded, Player player)
         {
+            LocalPlayerController.CmdOnDefuseTried();
             foreach (var playerController in _playerControllersOnServer)
             {
                 playerController.RpcOnDefuseTried(defuseSucceeded, player);

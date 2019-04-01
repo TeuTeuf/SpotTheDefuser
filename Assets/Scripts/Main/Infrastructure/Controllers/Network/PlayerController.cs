@@ -80,15 +80,6 @@ namespace Main.Infrastructure.Controllers.Network
         }
 
         [ClientRpc]
-        public void RpcOnDefuseTried(bool defuseSucceeded, Player player)
-        {
-            if (hasAuthority)
-            {
-                Debug.Log($"{player.Name} tried to defuse. Success: {defuseSucceeded}");
-            }
-        }
-
-        [ClientRpc]
         public void RpcOnPlayerAdded(Player[] allPlayers)
         {
             if (_networkBehaviourChecker.IsLocalPlayer(this))
@@ -124,6 +115,23 @@ namespace Main.Infrastructure.Controllers.Network
             {
                 _uiController.UpdateDefusing(defuseAttemptBombId, isPlayerDefuser);
                 Debug.Log($"New Defuse Attempt set with bomb {defuseAttemptBombId}!");
+            }
+        }
+
+        [Command]
+        public void CmdOnDefuseTried()
+        {
+            // TODO
+            Debug.LogWarning("Implement me!");
+        }
+
+        [ClientRpc]
+        public void RpcOnDefuseTried(bool defuseSucceeded, Player player)
+        {
+            // TODO
+            if (hasAuthority)
+            {
+                Debug.Log($"{player.Name} tried to defuse. Success: {defuseSucceeded}");
             }
         }
     }

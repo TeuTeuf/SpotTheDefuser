@@ -313,5 +313,18 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
                 .DidNotReceive()
                 .UpdateDefusing(Arg.Any<string>(), Arg.Any<bool>());
         }
+
+        [Test]
+        public void RpcOnDefuseTried_Should()
+        {
+            // Given
+            // TODO
+
+            // When
+
+
+            // Then
+            Debug.LogWarning("Implement me!");
+        }
     }
 }
