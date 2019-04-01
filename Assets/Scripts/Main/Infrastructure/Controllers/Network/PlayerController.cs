@@ -119,19 +119,11 @@ namespace Main.Infrastructure.Controllers.Network
         }
 
         [Command]
-        public void CmdOnDefuseTried()
+        public void CmdOnDefuseTried(bool defuseSucceeded)
         {
-            // TODO
-            Debug.LogWarning("Implement me!");
-        }
-
-        [ClientRpc]
-        public void RpcOnDefuseTried(bool defuseSucceeded, Player player)
-        {
-            // TODO
-            if (hasAuthority)
+            if (defuseSucceeded)
             {
-                Debug.Log($"{player.Name} tried to defuse. Success: {defuseSucceeded}");
+                _setNewDefuseAttempt.Set();
             }
         }
     }

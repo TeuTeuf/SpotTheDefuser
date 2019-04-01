@@ -315,16 +315,27 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         }
 
         [Test]
-        public void RpcOnDefuseTried_Should()
+        public void CmdOnDefuseTried_ShouldSetNewDefuseAttemptWhenDefuseSucceeded()
         {
-            // Given
-            // TODO
-
             // When
-
+            _playerController.CmdOnDefuseTried(true);
 
             // Then
-            Debug.LogWarning("Implement me!");
+            _setNewDefuseAttempt
+                .Received()
+                .Set();
+        }
+
+        [Test]
+        public void CmdOnDefuseTried_ShouldNOTSetNewDefuseAttemptWhenDefuseFailed()
+        {
+            // When
+            _playerController.CmdOnDefuseTried(false);
+
+            // Then
+            _setNewDefuseAttempt
+                .DidNotReceive()
+                .Set();
         }
     }
-}
+};

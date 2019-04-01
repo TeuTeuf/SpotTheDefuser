@@ -46,15 +46,6 @@ namespace Main.Infrastructure.Controllers.Network
             LocalPlayerController.CmdTryToDefuse();
         }
 
-        public virtual void OnDefuseTried(bool defuseSucceeded, Player player)
-        {
-            LocalPlayerController.CmdOnDefuseTried();
-            foreach (var playerController in _playerControllersOnServer)
-            {
-                playerController.RpcOnDefuseTried(defuseSucceeded, player);
-            }
-        }
-
         public virtual void OnPlayerAdded(Player player)
         {
             foreach (var playerController in _playerControllersOnServer)
@@ -79,6 +70,11 @@ namespace Main.Infrastructure.Controllers.Network
                 var isPlayerDefuser = defuseAttempt.IsDefuser(playerController.Player);
                 playerController.RpcOnNewDefuseAttemptSet(defuseAttempt.BombId, isPlayerDefuser);
             }
+        }
+
+        public virtual void OnDefuseTried(bool defuseSucceeded, Player player)
+        {
+            LocalPlayerController.CmdOnDefuseTried(defuseSucceeded);
         }
     }
 }
