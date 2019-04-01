@@ -301,7 +301,6 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         public void RpcOnNewDefuseAttemptSet_ShouldNOTUpdateDisplayedBomb_WhenPlayerIsNOTLocalPlayer()
         {
             // Given
-
             _networkBehaviourChecker
                 .IsLocalPlayer(_playerController)
                 .Returns(false);
@@ -328,14 +327,36 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         }
 
         [Test]
-        public void CmdOnDefuseFailed_ShouldMoveToEndView()
+        public void RpcOnDefuseFailed_ShouldMoveToEndView_WhenPlayerIsLocalPlayer()
         {
+            // Given
+            _networkBehaviourChecker
+                .IsLocalPlayer(_playerController)
+                .Returns(true);
+            
             // When
-            _playerController.CmdOnDefuseFailed();
+            _playerController.RpcOnDefuseFailed();
 
             // Then
             _changeCurrentView
                 .Received()
+                .Change(View.End);
+        }
+        
+        [Test]
+        public void RpcOnDefuseFailed_ShouldNOTMoveToEndView_WhenPlayerIsNOTLocalPlayer()
+        {
+            // Given
+            _networkBehaviourChecker
+                .IsLocalPlayer(_playerController)
+                .Returns(false);
+            
+            // When
+            _playerController.RpcOnDefuseFailed();
+
+            // Then
+            _changeCurrentView
+                .DidNotReceive()
                 .Change(View.End);
         }
     }

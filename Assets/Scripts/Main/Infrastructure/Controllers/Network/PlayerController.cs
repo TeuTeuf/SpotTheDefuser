@@ -114,7 +114,6 @@ namespace Main.Infrastructure.Controllers.Network
             if (_networkBehaviourChecker.IsLocalPlayer(this))
             {
                 _uiController.UpdateDefusing(defuseAttemptBombId, isPlayerDefuser);
-                Debug.Log($"New Defuse Attempt set with bomb {defuseAttemptBombId}!");
             }
         }
 
@@ -124,10 +123,13 @@ namespace Main.Infrastructure.Controllers.Network
             _setNewDefuseAttempt.Set();
         }
 
-        [Command]
-        public void CmdOnDefuseFailed()
+        [ClientRpc]
+        public void RpcOnDefuseFailed()
         {
-            _changeCurrentView.Change(View.End);
+            if (_networkBehaviourChecker.IsLocalPlayer(this))
+            {
+                _changeCurrentView.Change(View.End);
+            }
         }
     }
 }

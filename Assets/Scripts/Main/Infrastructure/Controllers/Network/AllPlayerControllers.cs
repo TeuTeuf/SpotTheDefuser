@@ -79,7 +79,10 @@ namespace Main.Infrastructure.Controllers.Network
 
         public void OnDefuseFailed()
         {
-            LocalPlayerController.CmdOnDefuseFailed();
+            foreach (var playerController in _playerControllersOnServer)
+            {
+                playerController.RpcOnDefuseFailed();
+            }
         }
     }
 }
