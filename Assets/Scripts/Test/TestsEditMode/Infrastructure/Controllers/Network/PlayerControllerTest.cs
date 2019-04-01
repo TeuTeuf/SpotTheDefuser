@@ -334,13 +334,19 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
                 .IsLocalPlayer(_playerController)
                 .Returns(true);
             
+            const int nbBombsDefused = 3;
+            
             // When
-            _playerController.RpcOnDefuseFailed();
+            _playerController.RpcOnDefuseFailed(nbBombsDefused);
 
             // Then
             _changeCurrentView
                 .Received()
                 .Change(View.End);
+
+            _uiController
+                .Received()
+                .UpdateEnd(nbBombsDefused);
         }
         
         [Test]
@@ -352,12 +358,16 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
                 .Returns(false);
             
             // When
-            _playerController.RpcOnDefuseFailed();
+            _playerController.RpcOnDefuseFailed(3);
 
             // Then
             _changeCurrentView
                 .DidNotReceive()
                 .Change(View.End);
+            
+            _uiController
+                .DidNotReceive()
+                .UpdateEnd(Arg.Any<int>());
         }
     }
 }

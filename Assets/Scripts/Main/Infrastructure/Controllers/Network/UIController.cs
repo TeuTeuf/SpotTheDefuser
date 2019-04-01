@@ -39,5 +39,11 @@ namespace Main.Infrastructure.Controllers.Network
 		{
 			_defusingLayer.UpdateDisplayedBomb(defuseAttemptBombId, isPlayerDefuser);
 		}
+
+		public void UpdateEnd(int nbBombsDefused)
+		{
+			Debug.Log($"nbBombsDefused: {nbBombsDefused}");
+			Debug.LogWarning("Implement me!");
+		}
 	}
 }

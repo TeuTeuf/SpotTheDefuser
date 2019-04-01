@@ -77,11 +77,11 @@ namespace Main.Infrastructure.Controllers.Network
             LocalPlayerController.CmdOnDefuseSucceeded();
         }
 
-        public void OnDefuseFailed()
+        public void OnDefuseFailed(int nbBombsDefused)
         {
             foreach (var playerController in _playerControllersOnServer)
             {
-                playerController.RpcOnDefuseFailed();
+                playerController.RpcOnDefuseFailed(nbBombsDefused);
             }
         }
     }

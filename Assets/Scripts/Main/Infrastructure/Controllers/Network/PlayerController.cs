@@ -124,10 +124,11 @@ namespace Main.Infrastructure.Controllers.Network
         }
 
         [ClientRpc]
-        public void RpcOnDefuseFailed()
+        public void RpcOnDefuseFailed(int nbBombsDefused)
         {
             if (_networkBehaviourChecker.IsLocalPlayer(this))
             {
+                _uiController.UpdateEnd(nbBombsDefused);
                 _changeCurrentView.Change(View.End);
             }
         }

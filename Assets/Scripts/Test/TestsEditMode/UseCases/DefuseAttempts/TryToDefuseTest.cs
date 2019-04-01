@@ -57,7 +57,46 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
             // Then
             _defuseFailedListener
                 .DidNotReceive()
-                .OnDefuseFailed();
+                .OnDefuseFailed(Arg.Any<int>());
+        }
+        
+        [Test]
+        public void Try_ShouldIncrementBombsDefused_WhenPlayerIsDefuser()
+        {
+            // Given
+            var player = new Player("Player");
+
+            _defusingState.IsCurrentAttemptDefuser(player)
+                .Returns(true);
+
+            // When
+            _tryToDefuse.Try(player);
+
+            // Then
+            _defusingState
+                .Received()
+                .IncrementBombsDefused();
+        }
+
+        [Test]
+        public void Try_ShouldNotifyOnDefuseFailedListener_WhenPlayerIsNOTDefuser()
+        {
+            // Given
+            var player = new Player("Player");
+
+            _defusingState.IsCurrentAttemptDefuser(player)
+                .Returns(false);
+
+            const int nbBombsDefused = 12;
+            _defusingState.NbBombsDefused.Returns(nbBombsDefused);
+
+            // When
+            _tryToDefuse.Try(player);
+
+            // Then
+            _defuseFailedListener
+                .Received()
+                .OnDefuseFailed(nbBombsDefused);
         }
 
         [Test]
@@ -79,7 +118,7 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
         }
 
         [Test]
-        public void Try_ShouldNotifyOnDefuseFailedListener_WhenPlayerIsNOTDefuser()
+        public void Try_ShouldNOTIncrementBombsDefused_WhenPlayerIsNOTDefuser()
         {
             // Given
             var player = new Player("Player");
@@ -91,9 +130,9 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
             _tryToDefuse.Try(player);
 
             // Then
-            _defuseFailedListener
-                .Received()
-                .OnDefuseFailed();
+            _defusingState
+                .DidNotReceive()
+                .IncrementBombsDefused();
         }
     }
 }

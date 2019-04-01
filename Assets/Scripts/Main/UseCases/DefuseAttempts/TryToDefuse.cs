@@ -21,11 +21,12 @@ namespace Main.UseCases.DefuseAttempts
         {
             if (_defusingState.IsCurrentAttemptDefuser(player))
             {
+                _defusingState.IncrementBombsDefused();
                 _defuseSucceededListener.OnDefuseSucceeded();
             }
             else
             {
-                _defuseFailedListener.OnDefuseFailed();
+                _defuseFailedListener.OnDefuseFailed(_defusingState.NbBombsDefused);
             }
         }
     }

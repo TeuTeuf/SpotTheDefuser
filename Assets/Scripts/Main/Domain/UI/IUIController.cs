@@ -6,5 +6,6 @@ namespace Main.Domain.UI
     {
         void UpdateLobby(Player[] allPlayers);
         void UpdateDefusing(string defuseAttemptBombId, bool isPlayerDefuser);
+        void UpdateEnd(int nbBombsDefused);
     }
 }

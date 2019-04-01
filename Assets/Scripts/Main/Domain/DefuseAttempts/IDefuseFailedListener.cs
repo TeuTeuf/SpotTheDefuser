@@ -4,6 +4,6 @@ namespace Main.Domain.DefuseAttempts
 {
     public interface IDefuseFailedListener
     {
-        void OnDefuseFailed();
+        void OnDefuseFailed(int nbBombsDefused);
     }
 }

@@ -52,5 +52,21 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
             // Then
             Assert.IsTrue(isCurrentAttemptDefuser);
         }
+
+        [Test]
+        public void IncrementBombsDefused_ShouldIncrementNumberOfBombsDefused()
+        {
+            // When
+            _defusingState.IncrementBombsDefused();
+
+            // Then
+            Assert.That(_defusingState.NbBombsDefused, Is.EqualTo(1));
+            
+            // When
+            _defusingState.IncrementBombsDefused();
+
+            // Then
+            Assert.That(_defusingState.NbBombsDefused, Is.EqualTo(2));
+        }
     }
 }
