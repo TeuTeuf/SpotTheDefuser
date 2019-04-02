@@ -1912,7 +1912,7 @@ GameObject:
   - component: {fileID: 707294068}
   - component: {fileID: 707294067}
   m_Layer: 0
-  m_Name: Text_Bombs
+  m_Name: Text_Explosives
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1970,7 +1970,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Bombs: '
+  m_Text: 'Explosives: '
 --- !u!222 &707294068
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2908,7 +2908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nbDefusersText: {fileID: 396398907}
-  nbBombsText: {fileID: 1534069306}
+  nbExplosivesText: {fileID: 1534069306}
   playButton: {fileID: 2125013547}
 --- !u!114 &1289493518
 MonoBehaviour:
@@ -3409,7 +3409,7 @@ GameObject:
   - component: {fileID: 1534069307}
   - component: {fileID: 1534069306}
   m_Layer: 0
-  m_Name: Text_NbBombs
+  m_Name: Text_NbExplosives
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

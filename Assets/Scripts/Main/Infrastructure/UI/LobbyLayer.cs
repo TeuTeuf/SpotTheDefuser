@@ -13,11 +13,11 @@ namespace Main.Infrastructure.UI
     public class LobbyLayer : BaseLayer, ILobbyLayer
     {
         public Text nbDefusersText;
-        public Text nbBombsText; //TODO: Should be nbExplosivesText
+        public Text nbExplosivesText;
         public Button playButton;
 
         private const string DEFAULT_NB_DEFUSERS_DISPLAYED = "0";
-        private const string DEFAULT_NB_BOMBS_DISPLAYED = "1";
+        private const string DEFAULT_NB_EXPLOSIVES_DISPLAYED = "1";
 
         private DefuserCounter _defuserCounter;
         private AllPlayerControllers _allPlayerControllers;
@@ -32,13 +32,13 @@ namespace Main.Infrastructure.UI
         public void Start()
         {
             nbDefusersText.text = DEFAULT_NB_DEFUSERS_DISPLAYED;
-            nbBombsText.text = DEFAULT_NB_BOMBS_DISPLAYED;
+            nbExplosivesText.text = DEFAULT_NB_EXPLOSIVES_DISPLAYED;
             playButton.interactable = false;
         }
 
         public void UpdatePlayerList(Player[] allPlayers)
         {
-            nbBombsText.text = _defuserCounter.GetNumberOfExplosivePlayers(allPlayers.Length).ToString();
+            nbExplosivesText.text = _defuserCounter.GetNumberOfExplosivePlayers(allPlayers.Length).ToString();
             
             var numberOfDefuserPlayers = _defuserCounter.GetNumberOfDefuserPlayers(allPlayers.Length);
             nbDefusersText.text = numberOfDefuserPlayers.ToString();

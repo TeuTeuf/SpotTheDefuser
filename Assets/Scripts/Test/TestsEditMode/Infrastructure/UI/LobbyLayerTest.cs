@@ -27,19 +27,19 @@ namespace Test.TestsEditMode.Infrastructure.UI
             
             _lobbyLayer.Init(_defuserCounter, _allPlayerControllers);
             _lobbyLayer.nbDefusersText = new GameObject().AddComponent<Text>();
-            _lobbyLayer.nbBombsText = new GameObject().AddComponent<Text>();
+            _lobbyLayer.nbExplosivesText = new GameObject().AddComponent<Text>();
             _lobbyLayer.playButton = new GameObject().AddComponent<Button>();
         }
 
         [Test]
-        public void Start_ShouldSetNbDefusersTo0AndBombsTo1()
+        public void Start_ShouldSetNbDefusersTo0AndExplosivesTo1()
         {
             // When
             _lobbyLayer.Start();
 
             // Then
             Assert.That(_lobbyLayer.nbDefusersText.text, Is.EqualTo("0"));
-            Assert.That(_lobbyLayer.nbBombsText.text, Is.EqualTo("1"));
+            Assert.That(_lobbyLayer.nbExplosivesText.text, Is.EqualTo("1"));
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace Test.TestsEditMode.Infrastructure.UI
         }
 
         [Test]
-        public void UpdatePlayerList_ShouldSetCorrectNumberOfPlayerBombsAndDefusers()
+        public void UpdatePlayerList_ShouldSetCorrectNumberOfPlayerExplosivesAndDefusers()
         {
             // Given
             var players = new[] { new Player("player A"), new Player("player B"), new Player("player C")};
@@ -78,7 +78,7 @@ namespace Test.TestsEditMode.Infrastructure.UI
             
             // Then
             Assert.That(_lobbyLayer.nbDefusersText.text, Is.EqualTo("1"));
-            Assert.That(_lobbyLayer.nbBombsText.text, Is.EqualTo("2"));
+            Assert.That(_lobbyLayer.nbExplosivesText.text, Is.EqualTo("2"));
         }
 
         [Test]
