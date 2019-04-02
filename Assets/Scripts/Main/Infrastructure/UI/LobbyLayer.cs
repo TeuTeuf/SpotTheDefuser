@@ -13,7 +13,7 @@ namespace Main.Infrastructure.UI
     public class LobbyLayer : BaseLayer, ILobbyLayer
     {
         public Text nbDefusersText;
-        public Text nbBombsText;
+        public Text nbBombsText; //TODO: Should be nbExplosivesText
         public Button playButton;
 
         private const string DEFAULT_NB_DEFUSERS_DISPLAYED = "0";

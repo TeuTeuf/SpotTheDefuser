@@ -66,6 +66,7 @@ namespace Main.Infrastructure
             Container.Bind<IUIController>().FromComponentInHierarchy().AsSingle();
             Container.Bind<ILobbyLayer>().FromComponentInHierarchy().AsSingle();
             Container.Bind<IDefusingLayer>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<IEndLayer>().FromComponentInHierarchy().AsSingle();
             Container.Bind<IViewLayer>().FromComponentsInHierarchy().AsSingle();
             Container.Bind<ISpotTheDefuserNetworkManager>().FromComponentInHierarchy().AsSingle();
             Container.Bind<ISpotTheDefuserNetworkDiscovery>().FromComponentInHierarchy().AsSingle();

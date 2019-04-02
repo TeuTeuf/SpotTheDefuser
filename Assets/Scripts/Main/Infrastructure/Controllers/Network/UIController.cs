@@ -15,10 +15,12 @@ namespace Main.Infrastructure.Controllers.Network
 		private ChangeCurrentView _changeCurrentView;
 		private ILobbyLayer _lobbyLayer;
 		private IDefusingLayer _defusingLayer;
+		private IEndLayer _endLayer;
 
 		[Inject]
-		public void Init(ChangeCurrentView changeCurrentView, ILobbyLayer lobbyLayer, IDefusingLayer defusingLayer)
+		public void Init(ChangeCurrentView changeCurrentView, ILobbyLayer lobbyLayer, IDefusingLayer defusingLayer, IEndLayer endLayer)
 		{
+			_endLayer = endLayer;
 			_defusingLayer = defusingLayer;
 			_lobbyLayer = lobbyLayer;
 			_changeCurrentView = changeCurrentView;
@@ -42,8 +44,7 @@ namespace Main.Infrastructure.Controllers.Network
 
 		public void UpdateEnd(int nbBombsDefused)
 		{
-			Debug.Log($"nbBombsDefused: {nbBombsDefused}");
-			Debug.LogWarning("Implement me!");
+			_endLayer.UpdateNbBombsDefused(nbBombsDefused);
 		}
 	}
 }

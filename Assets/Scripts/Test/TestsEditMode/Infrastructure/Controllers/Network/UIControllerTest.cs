@@ -16,6 +16,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         private ChangeCurrentView _changeCurrentView;
         private ILobbyLayer _lobbyLayer;
         private IDefusingLayer _defusingLayer;
+        private IEndLayer _endLayer;
 
         [SetUp]
         public void Init()
@@ -25,9 +26,10 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
 
             _lobbyLayer = Substitute.For<ILobbyLayer>();
             _defusingLayer = Substitute.For<IDefusingLayer>();
+            _endLayer = Substitute.For<IEndLayer>();
 
             _uiController = new GameObject().AddComponent<UIController>();
-            _uiController.Init(_changeCurrentView, _lobbyLayer, _defusingLayer);
+            _uiController.Init(_changeCurrentView, _lobbyLayer, _defusingLayer, _endLayer);
         }
 
         [Test]
@@ -78,6 +80,21 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _defusingLayer
                 .Received()
                 .UpdateDisplayedBomb(bombId, isPlayerDefuser);
+        }
+
+        [Test]
+        public void UpdateEnd_ShouldUpdateNbBombsDefusedOfEndLayer()
+        {
+            // Given
+            const int nbBombsDefused = 42;
+
+            // When
+            _uiController.UpdateEnd(nbBombsDefused);
+
+            // Then
+            _endLayer
+                .Received()
+                .UpdateNbBombsDefused(nbBombsDefused);
         }
     }
 }
