@@ -6,6 +6,7 @@ using Main.UseCases.Network;
 using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Test.TestsEditMode.Infrastructure.UI
 {
@@ -22,6 +23,8 @@ namespace Test.TestsEditMode.Infrastructure.UI
         [SetUp]
         public void Init()
         {
+            PlayerPrefs.DeleteAll();
+            
             _viewManager = Substitute.For<IViewManager>();
 
             var allPlayers = new AllPlayers();
@@ -33,17 +36,26 @@ namespace Test.TestsEditMode.Infrastructure.UI
             _startWaitingForNewGame = Substitute.For<StartWaitingForNewGame>(networkDiscovery, _viewManager, allPlayers);
             
             _homeLayer = new GameObject().AddComponent<HomeLayer>();
-            
             _homeLayer.Init(_hostNewGame, _startWaitingForNewGame);
+
+            _homeLayer.playerNameInputField = new GameObject().AddComponent<InputField>();
         }
 
         [Test]
-        public void GetView_ShouldReturnHomeView()
+        public void OnStart_ShouldDisplaySavedPlayerName()
         {
+            // Given
+            
+            const string playerName = "Player Name";
+            PlayerPrefs.SetString(HomeLayer.PLAYER_NAME_KEY, playerName);
+
+            // When
+            _homeLayer.Start();
+
             // Then
-            Assert.That(_homeLayer.GetView(), Is.EqualTo(View.Home));
+            Assert.That(_homeLayer.playerNameInputField.text, Is.EqualTo(playerName));
         }
-        
+
         [Test]
         public void OnEndEditOnPlayerName_OnClickOnHost_ShouldStartHostingNewGameForGivenPlayerName()
         {
@@ -58,7 +70,23 @@ namespace Test.TestsEditMode.Infrastructure.UI
             // Then
             _hostNewGame.Received().Host(playerName);
         }
-        
+
+        [Test]
+        public void OnStart_OnClickOnHost_ShouldStartHostingNewGameForSavedPlayerName()
+        {
+            // Given
+            const string playerName = "Player Name";
+            PlayerPrefs.SetString(HomeLayer.PLAYER_NAME_KEY, playerName);
+
+            // When
+            _homeLayer.Start();
+            _homeLayer.OnClickOnHost();
+
+
+            // Then
+            _hostNewGame.Received().Host(playerName);
+        }
+
         [Test]
         public void OnEndEditOnPlayerName_OnClickOnJoin_ShouldStartWaitingForNewGame()
         {
@@ -71,6 +99,27 @@ namespace Test.TestsEditMode.Infrastructure.UI
             
             // Then
             _startWaitingForNewGame.Received().Start(playerName);
+        }
+
+        [Test]
+        public void OnEndEditOnPlayerName_ShouldUpdatePlayerPrefs()
+        {
+            // Given
+            const string playerName = "Player Name";
+            
+            // When
+            _homeLayer.OnEndEditOnPlayerName(playerName);
+
+
+            // Then
+            Assert.That(PlayerPrefs.GetString(HomeLayer.PLAYER_NAME_KEY), Is.EqualTo(playerName));
+        }
+
+        [Test]
+        public void GetView_ShouldReturnHomeView()
+        {
+            // Then
+            Assert.That(_homeLayer.GetView(), Is.EqualTo(View.Home));
         }
     }
 }
