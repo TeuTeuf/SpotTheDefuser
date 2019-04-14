@@ -823,7 +823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &487711481
 RectTransform:
   m_ObjectHideFlags: 0
@@ -962,7 +962,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &530167825
 RectTransform:
   m_ObjectHideFlags: 0
@@ -997,7 +997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ee9d18577ce4172a9b049d372074f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countdownText: {fileID: 546804095}
+  timerText: {fileID: 546804095}
   bombImage: {fileID: 1006979070}
 --- !u!114 &530167827
 MonoBehaviour:
@@ -1093,7 +1093,7 @@ GameObject:
   - component: {fileID: 546804096}
   - component: {fileID: 546804095}
   m_Layer: 0
-  m_Name: Text_Countdown
+  m_Name: Text_Timer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1151,7 +1151,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '00 : 00 : 00'
+  m_Text: 00:00:00
 --- !u!222 &546804096
 CanvasRenderer:
   m_ObjectHideFlags: 0

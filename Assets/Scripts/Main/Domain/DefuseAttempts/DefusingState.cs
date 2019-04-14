@@ -11,7 +11,7 @@ namespace Main.Domain.DefuseAttempts
         public virtual float RemainingTime { get; private set; }
         public bool TimerEnabled { get; set; }
 
-        private IDefusingTime _defusingTime;
+        private readonly IDefusingTime _defusingTime;
 
         public DefusingState(IDefusingTime defusingTime)
         {

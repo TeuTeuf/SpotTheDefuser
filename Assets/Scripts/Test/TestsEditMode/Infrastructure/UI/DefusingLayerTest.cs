@@ -14,18 +14,21 @@ namespace Test.TestsEditMode.Infrastructure.UI
     [TestFixture]
     public class DefusingLayerTest
     {
-        private DefusingLayer _defusingLayer;
         private AllBombs _allBombs;
+        private DefusingState _defusingState;
         private AllPlayerControllers _allPlayerControllers;
+        
+        private DefusingLayer _defusingLayer;
 
         [SetUp]
         public void Init()
         {
             _allBombs = Substitute.For<AllBombs>(Substitute.For<IRandom>(), new IBomb[1]);
             _allPlayerControllers = Substitute.For<AllPlayerControllers>(Substitute.For<AllPlayers>());
+            _defusingState = Substitute.For<DefusingState>(Substitute.For<IDefusingTime>());
             _defusingLayer = new GameObject().AddComponent<DefusingLayer>();
             _defusingLayer.bombImage = new GameObject().AddComponent<Image>();
-            _defusingLayer.Init(_allBombs, _allPlayerControllers);
+            _defusingLayer.Init(_allBombs, _allPlayerControllers, _defusingState);
         }
 
         [Test]
@@ -68,6 +71,20 @@ namespace Test.TestsEditMode.Infrastructure.UI
 
             // Then
             Assert.That(view, Is.EqualTo(View.Defusing));
+        }
+
+        [Test]
+        public void Update_ShouldUpdateTimerCorrespondingToRemainingDefusingTime()
+        {
+            // Given
+            _defusingLayer.timerText = new GameObject().AddComponent<Text>();
+            _defusingState.RemainingTime.Returns(72.143f);
+
+            // When
+            _defusingLayer.Update();
+
+            // Then
+            Assert.That(_defusingLayer.timerText.text, Is.EqualTo("01:12:14"));
         }
     }
 }
