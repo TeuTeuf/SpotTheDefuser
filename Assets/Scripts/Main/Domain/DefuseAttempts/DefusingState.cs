@@ -8,10 +8,14 @@ namespace Main.Domain.DefuseAttempts
     {
         public DefuseAttempt CurrentDefuseAttempt { get; private set; }
         public virtual int NbBombsDefused { get; private set; }
-        public virtual int RemainingTime { get; private set; }
+        public virtual float RemainingTime { get; private set; }
+        public bool TimerEnabled { get; set; }
 
-        public DefusingState()
+        private IDefusingTime _defusingTime;
+
+        public DefusingState(IDefusingTime defusingTime)
         {
+            _defusingTime = defusingTime;
             NbBombsDefused = 0;
         }
 
@@ -19,11 +23,6 @@ namespace Main.Domain.DefuseAttempts
         {
             CurrentDefuseAttempt = defuseAttempt;
             RemainingTime += defuseAttempt.TimeToDefuse;
-        }
-
-        public void Tick()
-        {
-            Debug.Log($"Tick: {Time.time}");
         }
 
         public virtual bool IsCurrentAttemptDefuser(Player player)
@@ -34,6 +33,15 @@ namespace Main.Domain.DefuseAttempts
         public virtual void IncrementBombsDefused()
         {
             NbBombsDefused++;
+        }
+
+        public void Tick()
+        {
+            if (TimerEnabled)
+            {
+                RemainingTime -= _defusingTime.GetDeltaTime();
+            }
+            Debug.Log($"Remaining time: {RemainingTime}");
         }
     }
 }

@@ -28,8 +28,14 @@ namespace Main.UseCases.DefuseAttempts
 
         public virtual void Set()
         {
+            if (!_defusingState.TimerEnabled)
+            {
+                _defusingState.TimerEnabled = true;
+            }
+
             var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, _allBombs, _allPlayers.GetAll());
             _defusingState.SetNewDefuseAttempt(defuseAttempt);
+            
             _newDefuseAttemptSetListener.OnNewDefuseAttemptSet(defuseAttempt);
         }
     }

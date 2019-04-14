@@ -34,7 +34,8 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         public void Init()
         {
             var allPlayers = Substitute.For<AllPlayers>();
-            var defusingState = Substitute.For<DefusingState>();
+            var defusingTime = Substitute.For<IDefusingTime>(); 
+            var defusingState = Substitute.For<DefusingState>(defusingTime);
             var defuseSucceededListener = Substitute.For<IDefuseSucceededListener>();
             var defuseFailedListener = Substitute.For<IDefuseFailedListener>();
             var stdRandom = Substitute.For<IRandom>();

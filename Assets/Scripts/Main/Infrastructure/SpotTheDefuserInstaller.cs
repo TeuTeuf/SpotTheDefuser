@@ -29,6 +29,7 @@ namespace Main.Infrastructure
         private void InstallInterfaceImplementations()
         {
             Container.Bind<IRandom>().To<SpotTheDefuserRandom>().AsSingle();
+            Container.Bind<IDefusingTime>().To<DefusingTime>().AsSingle();
             Container.Bind<IViewManager>().To<ViewManager>().AsSingle();
         }
 

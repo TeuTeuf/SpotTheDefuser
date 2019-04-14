@@ -30,7 +30,7 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
             _allPlayers = Substitute.For<AllPlayers>();
             _allPlayers.GetAll().Returns(new List<Player>().AsReadOnly());
             
-            _defusingState = new DefusingState();
+            _defusingState = new DefusingState(Substitute.For<IDefusingTime>());
 
             _allBombs = Substitute.For<AllBombs>(_random, new IBomb[1]);
 
@@ -48,6 +48,16 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
 
             // Then
             Assert.IsInstanceOf<DefuseAttempt>(_defusingState.CurrentDefuseAttempt);
+        }
+        
+        [Test]
+        public void Set_ShouldEnableTimerInDefusingState()
+        {
+            // When
+            _setNewDefuseAttempt.Set();
+
+            // Then
+            Assert.That(_defusingState.TimerEnabled, Is.True);
         }
 
         [Test]
