@@ -32,7 +32,8 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
             
             _defusingState = new DefusingState(
                 Substitute.For<IDefusingTime>(),
-                Substitute.For<IDefusingTimerUpdatedListener>()
+                Substitute.For<IDefusingTimerUpdatedListener>(),
+                Substitute.For<IDefuseFailedListener>()
             );
 
             _allBombs = Substitute.For<AllBombs>(_random, new IBomb[1]);

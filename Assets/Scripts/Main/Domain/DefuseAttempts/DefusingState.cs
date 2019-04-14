@@ -8,17 +8,20 @@ namespace Main.Domain.DefuseAttempts
     public class DefusingState : ITickable
     {
         public const float STARTING_DEFUSING_TIME = 10f;
-        
+
         public DefuseAttempt CurrentDefuseAttempt { get; private set; }
         public virtual int NbBombsDefused { get; private set; }
         public virtual float RemainingTime { get; private set; }
         public bool TimerEnabled { get; private set; }
 
         private readonly IDefusingTime _defusingTime;
-        private IDefusingTimerUpdatedListener _defusingTimerUpdatedListener;
+        private readonly IDefusingTimerUpdatedListener _defusingTimerUpdatedListener;
+        private readonly IDefuseFailedListener _defuseFailedListener;
 
-        public DefusingState(IDefusingTime defusingTime, IDefusingTimerUpdatedListener defusingTimerUpdatedListener)
+        public DefusingState(IDefusingTime defusingTime, IDefusingTimerUpdatedListener defusingTimerUpdatedListener,
+            IDefuseFailedListener defuseFailedListener)
         {
+            _defuseFailedListener = defuseFailedListener;
             _defusingTimerUpdatedListener = defusingTimerUpdatedListener;
             _defusingTime = defusingTime;
             NbBombsDefused = 0;
@@ -50,10 +53,18 @@ namespace Main.Domain.DefuseAttempts
 
         public void Tick()
         {
-            if (TimerEnabled)
-            {
-                RemainingTime -= _defusingTime.GetDeltaTime();
-            }
+            if (!TimerEnabled) return;
+            
+            RemainingTime -= _defusingTime.GetDeltaTime();
+            CheckTimerBelowZero();
+        }
+
+        private void CheckTimerBelowZero()
+        {
+            if (RemainingTime > 0) return;
+
+            _defuseFailedListener.OnDefuseFailed(NbBombsDefused);
+            TimerEnabled = false;
         }
     }
 }

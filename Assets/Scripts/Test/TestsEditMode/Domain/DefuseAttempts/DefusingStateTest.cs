@@ -14,7 +14,8 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
         
         private IDefusingTime _defusingTime;
         private IDefusingTimerUpdatedListener _defusingTimerUpdatedListener;
-        
+        private IDefuseFailedListener _defuseFailedListener;
+
         private DefusingState _defusingState;
 
         [SetUp]
@@ -22,6 +23,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
         {
             _defusingTime = Substitute.For<IDefusingTime>();
             _defusingTimerUpdatedListener = Substitute.For<IDefusingTimerUpdatedListener>();
+            _defuseFailedListener = Substitute.For<IDefuseFailedListener>();
             
             _currentDefuseAttempt = Substitute.For<DefuseAttempt>(
                 Substitute.For<IRandom>(),
@@ -30,7 +32,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
                 new List<Player>().AsReadOnly()
             );
             
-            _defusingState = new DefusingState(_defusingTime, _defusingTimerUpdatedListener);
+            _defusingState = new DefusingState(_defusingTime, _defusingTimerUpdatedListener, _defuseFailedListener);
         }
 
         [Test]
@@ -182,6 +184,73 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
 
             // Then
             Assert.That(_defusingState.RemainingTime, Is.EqualTo(timeBeforeTick));
+        }
+
+        [Test]
+        public void Tick_ShouldNOTTriggerFailListenerNeitherDisableTimer_WhenTimerAboveZero()
+        {
+            // Given
+            _defusingState.StartNewTimer();
+            _defusingTime.GetDeltaTime().Returns(DefusingState.STARTING_DEFUSING_TIME / 2);
+
+            // When
+            _defusingState.Tick();
+
+            // Then
+            _defuseFailedListener
+                .DidNotReceive()
+                .OnDefuseFailed(Arg.Any<int>());
+            
+            Assert.That(_defusingState.TimerEnabled, Is.True);
+        }
+
+        [Test]
+        public void Tick_ShouldTriggerFailingListener_WhenTimerReachingZero()
+        {
+            // Given
+            _defusingState.StartNewTimer();
+            _defusingState.IncrementBombsDefused();
+            _defusingTime.GetDeltaTime().Returns(DefusingState.STARTING_DEFUSING_TIME + 1);
+
+            // When
+            _defusingState.Tick();
+
+            // Then
+            _defuseFailedListener
+                .Received()
+                .OnDefuseFailed(1);
+        }
+        
+        [Test]
+        public void Tick_ShouldDisableTimer_WhenTimerReachingZero()
+        {
+            // Given
+            _defusingState.StartNewTimer();
+            _defusingTime.GetDeltaTime().Returns(DefusingState.STARTING_DEFUSING_TIME + 1);
+
+            // When
+            _defusingState.Tick();
+
+            // Then
+            Assert.That(_defusingState.TimerEnabled, Is.False);
+        }
+        
+        [Test]
+        public void Tick_ShouldNotCallFailListenerMoreThanOnce_WhenTimerReachingZero()
+        {
+            // Given
+            _defusingState.StartNewTimer();
+            _defusingState.IncrementBombsDefused();
+            _defusingTime.GetDeltaTime().Returns(DefusingState.STARTING_DEFUSING_TIME + 1);
+
+            // When
+            _defusingState.Tick();
+            _defusingState.Tick();
+
+            // Then
+            _defuseFailedListener
+                .Received(1)
+                .OnDefuseFailed(1);
         }
 
         [Test]
