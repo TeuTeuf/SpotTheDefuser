@@ -50,7 +50,7 @@ namespace Main.Infrastructure
         {
             Container.Bind<AllPlayers>().AsSingle();
             Container.Bind<AllBombs>().AsSingle();
-            Container.Bind<DefusingState>().AsSingle();
+            Container.BindInterfacesAndSelfTo<DefusingState>().AsSingle();
             Container.Bind<DefuserCounter>().AsSingle();
             Container.Bind<AllPlayerControllers>().AsSingle();
             Container.Bind<NetworkBehaviourChecker>().AsSingle();

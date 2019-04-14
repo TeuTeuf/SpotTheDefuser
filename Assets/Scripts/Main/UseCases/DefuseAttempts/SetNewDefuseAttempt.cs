@@ -29,7 +29,7 @@ namespace Main.UseCases.DefuseAttempts
         public virtual void Set()
         {
             var defuseAttempt = new DefuseAttempt(_random, _defuserCounter, _allBombs, _allPlayers.GetAll());
-            _defusingState.CurrentDefuseAttempt = defuseAttempt;
+            _defusingState.SetNewDefuseAttempt(defuseAttempt);
             _newDefuseAttemptSetListener.OnNewDefuseAttemptSet(defuseAttempt);
         }
     }

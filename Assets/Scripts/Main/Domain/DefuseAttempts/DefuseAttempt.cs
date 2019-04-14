@@ -6,8 +6,11 @@ namespace Main.Domain.DefuseAttempts
 {
     public class DefuseAttempt
     {
-        public string BombId { get; }
+        private const int DEFAULT_TIME_TO_DEFUSE = 30;
         
+        public string BombId { get; }
+        public virtual int TimeToDefuse { get; } = DEFAULT_TIME_TO_DEFUSE;
+
         private readonly DefuserCounter _defuserCounter;
         private readonly IList<Player> _defuserPlayers;
 
