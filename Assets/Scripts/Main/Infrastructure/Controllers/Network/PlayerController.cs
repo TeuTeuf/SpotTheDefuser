@@ -4,6 +4,7 @@ using Main.Domain.Players;
 using Main.Domain.UI;
 using Main.Infrastructure.Network;
 using Main.UseCases.DefuseAttempts;
+using Main.UseCases.Network;
 using Main.UseCases.Players;
 using Main.UseCases.UI;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Main.Infrastructure.Controllers.Network
     {
         private AddNewPlayer _addNewPlayer;
         private StartNewGame _startNewGame;
+        private InitDefusing _initDefusing;
         private SetNewDefuseAttempt _setNewDefuseAttempt;
         private TryToDefuse _tryToDefuse;
         private ChangeCurrentView _changeCurrentView;
@@ -29,13 +31,15 @@ namespace Main.Infrastructure.Controllers.Network
         public Player Player { get; private set; }
 
         [Inject]
-        public void Init(AddNewPlayer addNewPlayer, StartNewGame startNewGame, SetNewDefuseAttempt setNewDefuseAttempt,
+        public void Init(AddNewPlayer addNewPlayer, StartNewGame startNewGame, InitDefusing initDefusing,
+            SetNewDefuseAttempt setNewDefuseAttempt,
             TryToDefuse tryToDefuse,
             ChangeCurrentView changeCurrentView,
             AllPlayerControllers allPlayerControllers, IUIController uiController,
             NetworkBehaviourChecker networkBehaviourChecker,
             ISpotTheDefuserNetworkDiscovery spotTheDefuserNetworkDiscovery)
         {
+            _initDefusing = initDefusing;
             _setNewDefuseAttempt = setNewDefuseAttempt;
             _spotTheDefuserNetworkDiscovery = spotTheDefuserNetworkDiscovery;
             _networkBehaviourChecker = networkBehaviourChecker;
@@ -105,6 +109,7 @@ namespace Main.Infrastructure.Controllers.Network
         [Command]
         public void CmdOnNewGameStarted()
         {
+            _initDefusing.Init();
             _setNewDefuseAttempt.Set();
         }
 
@@ -131,6 +136,12 @@ namespace Main.Infrastructure.Controllers.Network
                 _uiController.UpdateEnd(nbBombsDefused);
                 _changeCurrentView.Change(View.End);
             }
+        }
+
+        [ClientRpc]
+        public void RpcOnDefusingTimerUpdated(float remainingTime)
+        {
+            _uiController.UpdateDefusingTimer(remainingTime);
         }
     }
 }

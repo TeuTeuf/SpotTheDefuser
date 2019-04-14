@@ -1,10 +1,10 @@
 using Main.Domain.DefuseAttempts;
 
-namespace Main.UseCases.DefuseAttempts
+namespace Main.UseCases.Network
 {
     public class StartNewGame
     {
-        private INewGameStartedListener _newGameStartedListener;
+        private readonly INewGameStartedListener _newGameStartedListener;
 
         public StartNewGame(INewGameStartedListener newGameStartedListener)
         {

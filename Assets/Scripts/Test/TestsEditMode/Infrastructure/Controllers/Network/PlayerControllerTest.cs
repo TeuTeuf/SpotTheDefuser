@@ -6,6 +6,7 @@ using Main.Domain.UI;
 using Main.Infrastructure.Controllers.Network;
 using Main.Infrastructure.Network;
 using Main.UseCases.DefuseAttempts;
+using Main.UseCases.Network;
 using Main.UseCases.Players;
 using Main.UseCases.UI;
 using NSubstitute;
@@ -23,19 +24,21 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         private ChangeCurrentView _changeCurrentView;
 
         private NetworkBehaviourChecker _networkBehaviourChecker;
-        
+
         private PlayerController _playerController;
 
         private AllPlayerControllers _allPlayerControllers;
         private IUIController _uiController;
         private ISpotTheDefuserNetworkDiscovery _spotTheDefuserNetworkDiscovery;
+        private InitDefusing _initDefusing;
 
         [SetUp]
         public void Init()
         {
             var allPlayers = Substitute.For<AllPlayers>();
-            var defusingTime = Substitute.For<IDefusingTime>(); 
-            var defusingState = Substitute.For<DefusingState>(defusingTime);
+            var defusingTime = Substitute.For<IDefusingTime>();
+            var defusingTimerUpdatedListener = Substitute.For<IDefusingTimerUpdatedListener>();
+            var defusingState = Substitute.For<DefusingState>(defusingTime, defusingTimerUpdatedListener);
             var defuseSucceededListener = Substitute.For<IDefuseSucceededListener>();
             var defuseFailedListener = Substitute.For<IDefuseFailedListener>();
             var stdRandom = Substitute.For<IRandom>();
@@ -43,19 +46,24 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _uiController = Substitute.For<IUIController>();
 
             _addNewPlayer = Substitute.For<AddNewPlayer>(allPlayers, null);
+            _setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(stdRandom, allPlayers,
+                Substitute.For<AllBombs>(stdRandom, new IBomb[1]), defusingState, new DefuserCounter(),
+                Substitute.For<INewDefuseAttemptSetListener>());
+            _initDefusing = Substitute.For<InitDefusing>(defusingState);
             _startNewGame = Substitute.For<StartNewGame>(Substitute.For<INewGameStartedListener>());
-            _setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(stdRandom, allPlayers, Substitute.For<AllBombs>(stdRandom, new IBomb[1]), defusingState, new DefuserCounter(), Substitute.For<INewDefuseAttemptSetListener>());
             _tryToDefuse = Substitute.For<TryToDefuse>(defusingState, defuseSucceededListener, defuseFailedListener);
             _changeCurrentView = Substitute.For<ChangeCurrentView>(Substitute.For<IViewManager>());
 
             _networkBehaviourChecker = Substitute.For<NetworkBehaviourChecker>();
-            
+
             _allPlayerControllers = new AllPlayerControllers(allPlayers);
 
             _spotTheDefuserNetworkDiscovery = Substitute.For<ISpotTheDefuserNetworkDiscovery>();
 
             _playerController = new GameObject().AddComponent<PlayerController>();
-            _playerController.Init(_addNewPlayer, _startNewGame, _setNewDefuseAttempt, _tryToDefuse, _changeCurrentView, _allPlayerControllers, _uiController, _networkBehaviourChecker, _spotTheDefuserNetworkDiscovery);
+            _playerController.Init(_addNewPlayer, _startNewGame, _initDefusing, _setNewDefuseAttempt, _tryToDefuse,
+                _changeCurrentView, _allPlayerControllers, _uiController, _networkBehaviourChecker,
+                _spotTheDefuserNetworkDiscovery);
         }
 
         [Test]
@@ -63,10 +71,11 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             // Given
             var allPlayerControllers = Substitute.For<AllPlayerControllers>(new AllPlayers());
-            
+
             var playerController = new GameObject().AddComponent<PlayerController>();
-            playerController.Init(null, null, _setNewDefuseAttempt, null, _changeCurrentView, allPlayerControllers, null, _networkBehaviourChecker, _spotTheDefuserNetworkDiscovery);
-            
+            playerController.Init(null, null, _initDefusing, _setNewDefuseAttempt, null, _changeCurrentView,
+                allPlayerControllers, null, _networkBehaviourChecker, _spotTheDefuserNetworkDiscovery);
+
             // When
             playerController.OnStartLocalPlayer();
 
@@ -79,10 +88,11 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             // Given
             var allPlayerControllers = Substitute.For<AllPlayerControllers>(new AllPlayers());
-            
+
             var playerController = new GameObject().AddComponent<PlayerController>();
-            playerController.Init(null, null, _setNewDefuseAttempt,null, _changeCurrentView, allPlayerControllers, null, _networkBehaviourChecker, _spotTheDefuserNetworkDiscovery);
-            
+            playerController.Init(null, null, _initDefusing, _setNewDefuseAttempt, null, _changeCurrentView,
+                allPlayerControllers, null, _networkBehaviourChecker, _spotTheDefuserNetworkDiscovery);
+
             // When
             playerController.OnStartLocalPlayer();
 
@@ -97,7 +107,8 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             // Given
             var otherPlayerController = new GameObject().AddComponent<PlayerController>();
-            otherPlayerController.Init(null, null, _setNewDefuseAttempt,null, _changeCurrentView, _allPlayerControllers, null, _networkBehaviourChecker, _spotTheDefuserNetworkDiscovery);
+            otherPlayerController.Init(null, null, _initDefusing, _setNewDefuseAttempt, null, _changeCurrentView,
+                _allPlayerControllers, null, _networkBehaviourChecker, _spotTheDefuserNetworkDiscovery);
 
             // When
             _playerController.OnStartServer();
@@ -128,13 +139,13 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         {
             // When
             _playerController.CmdStartNewGame();
-            
+
             // Then
             _startNewGame
                 .Received()
                 .Start();
         }
-        
+
         [Test]
         public void CmdTryToDefuse_ShouldExecuteTryToDefuseUseCase()
         {
@@ -142,10 +153,10 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             var player = new Player("Player Name");
 
             _playerController.CmdAddNewPlayer(player);
-            
+
             // When
             _playerController.CmdTryToDefuse();
-            
+
             // Then
             _tryToDefuse
                 .Received()
@@ -161,7 +172,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
                 new Player("Player Name 1"),
                 new Player("Player Name 2"),
             };
-            
+
             _networkBehaviourChecker
                 .IsLocalPlayer(_playerController)
                 .Returns(true);
@@ -184,7 +195,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
                 new Player("Player Name 1"),
                 new Player("Player Name 2"),
             };
-            
+
             _networkBehaviourChecker
                 .IsLocalPlayer(_playerController)
                 .Returns(false);
@@ -205,7 +216,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _networkBehaviourChecker
                 .IsLocalPlayer(_playerController)
                 .Returns(true);
-            
+
             // When
             _playerController.RpcOnNewGameStarted();
 
@@ -222,7 +233,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _networkBehaviourChecker
                 .IsLocalPlayer(_playerController)
                 .Returns(false);
-            
+
             // When
             _playerController.RpcOnNewGameStarted();
 
@@ -231,7 +242,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
                 .DidNotReceive()
                 .Change(View.Defusing);
         }
-        
+
         [Test]
         public void RpcOnNewGameStarted_ShouldStopBroadcastingOnNetwork_WhenPlayerIsServer()
         {
@@ -239,7 +250,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _networkBehaviourChecker
                 .IsHostingLocalPlayer(_playerController)
                 .Returns(true);
-            
+
             // When
             _playerController.RpcOnNewGameStarted();
 
@@ -248,7 +259,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
                 .Received()
                 .StopBroadcastingOnLAN();
         }
-        
+
         [Test]
         public void RpcOnNewGameStarted_ShouldNOTStopBroadcastingOnNetwork_WhenPlayerIsNOTServer()
         {
@@ -256,7 +267,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _networkBehaviourChecker
                 .IsHostingLocalPlayer(_playerController)
                 .Returns(false);
-            
+
             // When
             _playerController.RpcOnNewGameStarted();
 
@@ -279,12 +290,24 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
         }
 
         [Test]
+        public void CmdOnNewGameStarted_ShouldInitDefusing()
+        {
+            // When
+            _playerController.CmdOnNewGameStarted();
+
+            // Then
+            _initDefusing
+                .Received()
+                .Init();
+        }
+
+        [Test]
         public void RpcOnNewDefuseAttemptSet_ShouldUpdateDisplayedBomb_WhenPlayerIsLocalPlayer()
         {
             // Given
             const string defuseAttemptBombId = "bombId";
             const bool isPlayerDefuser = true;
-            
+
             _networkBehaviourChecker
                 .IsLocalPlayer(_playerController)
                 .Returns(true);
@@ -297,7 +320,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
                 .Received()
                 .UpdateDefusing(defuseAttemptBombId, isPlayerDefuser);
         }
-        
+
         [Test]
         public void RpcOnNewDefuseAttemptSet_ShouldNOTUpdateDisplayedBomb_WhenPlayerIsNOTLocalPlayer()
         {
@@ -334,9 +357,9 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _networkBehaviourChecker
                 .IsLocalPlayer(_playerController)
                 .Returns(true);
-            
+
             const int nbBombsDefused = 3;
-            
+
             // When
             _playerController.RpcOnDefuseFailed(nbBombsDefused);
 
@@ -349,7 +372,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
                 .Received()
                 .UpdateEnd(nbBombsDefused);
         }
-        
+
         [Test]
         public void RpcOnDefuseFailed_ShouldNOTMoveToEndView_WhenPlayerIsNOTLocalPlayer()
         {
@@ -357,7 +380,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _networkBehaviourChecker
                 .IsLocalPlayer(_playerController)
                 .Returns(false);
-            
+
             // When
             _playerController.RpcOnDefuseFailed(3);
 
@@ -365,10 +388,30 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             _changeCurrentView
                 .DidNotReceive()
                 .Change(View.End);
-            
+
             _uiController
                 .DidNotReceive()
                 .UpdateEnd(Arg.Any<int>());
+        }
+
+        [Test]
+        public void RpcOnDefusingTimerUpdated_ShouldUpdateDefusingTimerOnUI()
+        {
+            // Given
+            _networkBehaviourChecker
+                .IsLocalPlayer(_playerController)
+                .Returns(true);
+            
+            const float remainingTime = 42f;
+
+            // When
+            _playerController.RpcOnDefusingTimerUpdated(remainingTime);
+
+
+            // Then
+            _uiController
+                .Received()
+                .UpdateDefusingTimer(remainingTime);
         }
     }
 }

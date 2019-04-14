@@ -16,12 +16,14 @@ namespace Main.Infrastructure.UI
         
         private AllBombs _allBombs;
         private AllPlayerControllers _allPlayerControllers;
-        private DefusingState _defusingState;
+        
+        private float _remainingTime;
+        private IDefusingTime _defusingTime;
 
         [Inject]
-        public void Init(AllBombs allBombs, AllPlayerControllers allPlayerControllers, DefusingState defusingState)
+        public void Init(AllBombs allBombs, AllPlayerControllers allPlayerControllers, IDefusingTime defusingTime)
         {
-            _defusingState = defusingState;
+            _defusingTime = defusingTime;
             _allPlayerControllers = allPlayerControllers;
             _allBombs = allBombs;
         }
@@ -30,6 +32,12 @@ namespace Main.Infrastructure.UI
         {
             var bomb = _allBombs.GetByBombId(bombId);
             bombImage.sprite = bomb.GetSprite(isPlayerDefuser);
+        }
+
+        public void UpdateTimer(float remainingTime)
+        {
+            _remainingTime = remainingTime;
+            UpdateDisplayedRemainingTime();
         }
 
         public void OnClickOnDefuse()
@@ -44,8 +52,14 @@ namespace Main.Infrastructure.UI
 
         public void Update()
         {
-            var remainingTime = TimeSpan.FromSeconds(_defusingState.RemainingTime);
-            timerText.text = remainingTime.ToString(@"mm\:ss\:ff");
+            _remainingTime -= _defusingTime.GetDeltaTime();
+            UpdateDisplayedRemainingTime();
+        }
+
+        private void UpdateDisplayedRemainingTime()
+        {
+            var remainingTimeAsTimeSpan = TimeSpan.FromSeconds(_remainingTime);
+            timerText.text = remainingTimeAsTimeSpan.ToString(@"mm\:ss\:ff");
         }
     }
 }

@@ -15,9 +15,9 @@ namespace Test.TestsEditMode.Infrastructure.UI
     public class DefusingLayerTest
     {
         private AllBombs _allBombs;
-        private DefusingState _defusingState;
         private AllPlayerControllers _allPlayerControllers;
-        
+        private IDefusingTime _defusingTime;
+
         private DefusingLayer _defusingLayer;
 
         [SetUp]
@@ -25,10 +25,11 @@ namespace Test.TestsEditMode.Infrastructure.UI
         {
             _allBombs = Substitute.For<AllBombs>(Substitute.For<IRandom>(), new IBomb[1]);
             _allPlayerControllers = Substitute.For<AllPlayerControllers>(Substitute.For<AllPlayers>());
-            _defusingState = Substitute.For<DefusingState>(Substitute.For<IDefusingTime>());
+            _defusingTime = Substitute.For<IDefusingTime>();
+
             _defusingLayer = new GameObject().AddComponent<DefusingLayer>();
             _defusingLayer.bombImage = new GameObject().AddComponent<Image>();
-            _defusingLayer.Init(_allBombs, _allPlayerControllers, _defusingState);
+            _defusingLayer.Init(_allBombs, _allPlayerControllers, _defusingTime);
         }
 
         [Test]
@@ -74,11 +75,25 @@ namespace Test.TestsEditMode.Infrastructure.UI
         }
 
         [Test]
+        public void UpdateTimer_ShouldSetValueOfDisplayedTimer()
+        {
+            // Given
+            _defusingLayer.timerText = new GameObject().AddComponent<Text>();
+            
+            // When
+            _defusingLayer.UpdateTimer(42f);
+
+            // Then
+            Assert.That(_defusingLayer.timerText.text, Is.EqualTo("00:42:00"));
+        }
+
+        [Test]
         public void Update_ShouldUpdateTimerCorrespondingToRemainingDefusingTime()
         {
             // Given
             _defusingLayer.timerText = new GameObject().AddComponent<Text>();
-            _defusingState.RemainingTime.Returns(72.143f);
+            _defusingLayer.UpdateTimer(82.14f);
+            _defusingTime.GetDeltaTime().Returns(10f);
 
             // When
             _defusingLayer.Update();

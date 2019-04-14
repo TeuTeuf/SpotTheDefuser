@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Main.Infrastructure.Controllers.Network
 {
-    public class AllPlayerControllers: IPlayerAddedListener, INewGameStartedListener, INewDefuseAttemptSetListener, IDefuseSucceededListener, IDefuseFailedListener
+    public class AllPlayerControllers: IPlayerAddedListener, INewGameStartedListener, INewDefuseAttemptSetListener, IDefuseSucceededListener, IDefuseFailedListener, IDefusingTimerUpdatedListener
     {
         private readonly AllPlayers _allPlayers;
         
@@ -60,6 +60,14 @@ namespace Main.Infrastructure.Controllers.Network
             foreach (var playerController in _playerControllersOnServer)
             {
                 playerController.RpcOnNewGameStarted();
+            }
+        }
+
+        public void OnDefusingTimerUpdated(float remainingTime)
+        {
+            foreach (var playerController in _playerControllersOnServer)
+            {
+                playerController.RpcOnDefusingTimerUpdated(remainingTime);
             }
         }
 

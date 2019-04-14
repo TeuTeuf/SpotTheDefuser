@@ -11,7 +11,9 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
     public class DefusingStateTest
     {
         private DefuseAttempt _currentDefuseAttempt;
+        
         private IDefusingTime _defusingTime;
+        private IDefusingTimerUpdatedListener _defusingTimerUpdatedListener;
         
         private DefusingState _defusingState;
 
@@ -19,14 +21,16 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
         public void Init()
         {
             _defusingTime = Substitute.For<IDefusingTime>();
+            _defusingTimerUpdatedListener = Substitute.For<IDefusingTimerUpdatedListener>();
             
             _currentDefuseAttempt = Substitute.For<DefuseAttempt>(
                 Substitute.For<IRandom>(),
                 new DefuserCounter(),
                 Substitute.For<AllBombs>(Substitute.For<IRandom>(), new IBomb[1]),
                 new List<Player>().AsReadOnly()
-                );
-            _defusingState = new DefusingState(_defusingTime);
+            );
+            
+            _defusingState = new DefusingState(_defusingTime, _defusingTimerUpdatedListener);
         }
 
         [Test]
@@ -52,6 +56,22 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
             // Then
             Assert.That(_defusingState.RemainingTime, Is.EqualTo(timeToDefuse));
         }
+
+        [Test]
+        public void SetNewDefuseAttempt_ShouldTriggerTimerListener()
+        {
+            // Given
+            const int timeToDefuse = 25;
+            _currentDefuseAttempt.TimeToDefuse.Returns(timeToDefuse);
+
+            // When
+            _defusingState.SetNewDefuseAttempt(_currentDefuseAttempt);
+
+            // Then
+            _defusingTimerUpdatedListener
+                .Received()
+                .OnDefusingTimerUpdated(timeToDefuse);
+        }
         
         [Test]
         public void SetNewDefuseAttempt_ShouldIncrementTimerWhenSettingASecondNewDefuseAttempt()
@@ -70,6 +90,10 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
 
             // Then
             Assert.That(_defusingState.RemainingTime, Is.EqualTo(firstTimeToDefuse + secondTimeToDefuse));
+            
+            _defusingTimerUpdatedListener
+                .Received()
+                .OnDefusingTimerUpdated(firstTimeToDefuse + secondTimeToDefuse);
         }
 
         [Test]
@@ -129,13 +153,15 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
             _currentDefuseAttempt.TimeToDefuse.Returns(timeToDefuse);
             _defusingState.SetNewDefuseAttempt(_currentDefuseAttempt);
             
-            _defusingState.TimerEnabled = true;
+            _defusingState.StartNewTimer();
+
+            var timeBeforeTick = _defusingState.RemainingTime;
 
             // When
             _defusingState.Tick();
 
             // Then
-            Assert.That(_defusingState.RemainingTime, Is.EqualTo(timeToDefuse - deltaTime));
+            Assert.That(_defusingState.RemainingTime, Is.EqualTo(timeBeforeTick - deltaTime));
         }
         
         [Test]
@@ -149,13 +175,45 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
             _currentDefuseAttempt.TimeToDefuse.Returns(timeToDefuse);
             _defusingState.SetNewDefuseAttempt(_currentDefuseAttempt);
 
-            _defusingState.TimerEnabled = false;
+            var timeBeforeTick = _defusingState.RemainingTime;
 
             // When
             _defusingState.Tick();
 
             // Then
-            Assert.That(_defusingState.RemainingTime, Is.EqualTo(timeToDefuse));
+            Assert.That(_defusingState.RemainingTime, Is.EqualTo(timeBeforeTick));
+        }
+
+        [Test]
+        public void StartNewTimer_ShouldEnableTimer()
+        {
+            // When
+            _defusingState.StartNewTimer();
+
+            // Then
+            Assert.That(_defusingState.TimerEnabled, Is.True);
+        }
+        
+        [Test]
+        public void StartNewTimer_ShouldSetTimerWithDefaultValue()
+        {
+            // When
+            _defusingState.StartNewTimer();
+
+            // Then
+            Assert.That(_defusingState.RemainingTime, Is.EqualTo(DefusingState.STARTING_DEFUSING_TIME));
+        }
+        
+        [Test]
+        public void StartNewTimer_ShouldCallTimerListener()
+        {
+            // When
+            _defusingState.StartNewTimer();
+
+            // Then
+            _defusingTimerUpdatedListener
+                .Received()
+                .OnDefusingTimerUpdated(DefusingState.STARTING_DEFUSING_TIME);
         }
     }
 }

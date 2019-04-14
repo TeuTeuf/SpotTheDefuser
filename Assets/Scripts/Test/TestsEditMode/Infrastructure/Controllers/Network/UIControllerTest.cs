@@ -81,6 +81,21 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
                 .Received()
                 .UpdateDisplayedBomb(bombId, isPlayerDefuser);
         }
+        
+        [Test]
+        public void UpdateDefusingTimer_ShouldUpdateTimerOfDefusingLayer()
+        {
+            // Given
+            const float remainingTime = 43f;
+
+            // When
+            _uiController.UpdateDefusingTimer(remainingTime);
+
+            // Then
+            _defusingLayer
+                .Received()
+                .UpdateTimer(remainingTime);
+        }
 
         [Test]
         public void UpdateEnd_ShouldUpdateNbBombsDefusedOfEndLayer()

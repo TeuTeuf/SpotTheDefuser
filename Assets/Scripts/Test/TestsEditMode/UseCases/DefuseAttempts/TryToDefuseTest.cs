@@ -19,7 +19,10 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
         {
             _defuseSucceededListener = Substitute.For<IDefuseSucceededListener>();
             _defuseFailedListener = Substitute.For<IDefuseFailedListener>();
-            _defusingState = Substitute.For<DefusingState>(Substitute.For<IDefusingTime>());
+            _defusingState = Substitute.For<DefusingState>(
+                Substitute.For<IDefusingTime>(),
+                Substitute.For<IDefusingTimerUpdatedListener>()
+            );
 
             _tryToDefuse = new TryToDefuse(_defusingState, _defuseSucceededListener, _defuseFailedListener); 
         }

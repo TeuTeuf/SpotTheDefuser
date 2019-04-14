@@ -39,6 +39,7 @@ namespace Main.Infrastructure
             Container.Bind<StartNewGame>().AsSingle();
             Container.Bind<GetAllPlayers>().AsSingle();
             Container.Bind<RemovePlayer>().AsSingle();
+            Container.Bind<InitDefusing>().AsSingle();
             Container.Bind<SetNewDefuseAttempt>().AsSingle();
             Container.Bind<TryToDefuse>().AsSingle();
             Container.Bind<ChangeCurrentView>().AsSingle();
@@ -57,6 +58,7 @@ namespace Main.Infrastructure
             Container.Bind<NetworkBehaviourChecker>().AsSingle();
             Container.Bind<IPlayerAddedListener>().To<AllPlayerControllers>().FromResolve();
             Container.Bind<INewGameStartedListener>().To<AllPlayerControllers>().FromResolve();
+            Container.Bind<IDefusingTimerUpdatedListener>().To<AllPlayerControllers>().FromResolve();
             Container.Bind<IDefuseSucceededListener>().To<AllPlayerControllers>().FromResolve();
             Container.Bind<IDefuseFailedListener>().To<AllPlayerControllers>().FromResolve();
             Container.Bind<INewDefuseAttemptSetListener>().To<AllPlayerControllers>().FromResolve();

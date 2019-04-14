@@ -42,6 +42,11 @@ namespace Main.Infrastructure.Controllers.Network
 			_defusingLayer.UpdateDisplayedBomb(defuseAttemptBombId, isPlayerDefuser);
 		}
 
+		public void UpdateDefusingTimer(float remainingTime)
+		{
+			_defusingLayer.UpdateTimer(remainingTime);
+		}
+
 		public void UpdateEnd(int nbBombsDefused)
 		{
 			_endLayer.UpdateNbBombsDefused(nbBombsDefused);

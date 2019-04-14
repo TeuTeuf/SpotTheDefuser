@@ -1,9 +1,9 @@
 using Main.Domain.DefuseAttempts;
-using Main.UseCases.DefuseAttempts;
+using Main.UseCases.Network;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Test.TestsEditMode.UseCases.DefuseAttempts
+namespace Test.TestsEditMode.UseCases.Network
 {
     [TestFixture]
     public class StartNewGameTest
