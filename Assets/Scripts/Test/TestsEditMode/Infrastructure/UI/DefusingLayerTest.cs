@@ -39,7 +39,7 @@ namespace Test.TestsEditMode.Infrastructure.UI
             const string bombId = "bombId";
             const bool isDefuser = true;
             var aBomb = Substitute.For<IBomb>();
-            var aSprite = Sprite.Create(Texture2D.whiteTexture, Rect.zero, Vector2.up);
+            var aSprite = Sprite.Create(Texture2D.whiteTexture, new Rect(0f, 0f, 1f, 1f), Vector2.up);
             
             aBomb.GetSprite(isDefuser).Returns(aSprite);
 
