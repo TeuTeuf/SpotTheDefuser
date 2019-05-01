@@ -1,10 +1,11 @@
 using Main.Domain.Network;
-using UnityEngine.Networking;
+using Mirror;
+using Mirror.LiteNetLib4Mirror;
 using Zenject;
 
 namespace Main.Infrastructure.Network
 {
-    public class SpotTheDefuserNetworkManager : NetworkManager, ISpotTheDefuserNetworkManager
+    public class SpotTheDefuserNetworkManager : LiteNetLib4MirrorNetworkManager, ISpotTheDefuserNetworkManager
     {
         private ISpotTheDefuserNetworkDiscovery _spotTheDefuserNetworkDiscovery;
 

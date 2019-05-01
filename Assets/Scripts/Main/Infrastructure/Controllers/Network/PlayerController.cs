@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Main.Domain.Network;
+﻿using Main.Domain.Network;
 using Main.Domain.Players;
 using Main.Domain.UI;
 using Main.Infrastructure.Network;
@@ -7,8 +6,7 @@ using Main.UseCases.DefuseAttempts;
 using Main.UseCases.Network;
 using Main.UseCases.Players;
 using Main.UseCases.UI;
-using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 using Zenject;
 
 namespace Main.Infrastructure.Controllers.Network

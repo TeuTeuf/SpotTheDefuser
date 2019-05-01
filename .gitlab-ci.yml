@@ -1,4 +1,4 @@
-image: "teuteuf/unity:2018.3.12f1"
+image: "teuteuf/unity:2019.1.0f2_Full"
 
 stages:
 - check
@@ -17,7 +17,6 @@ check-cleanarchi:
 
 .test: &test
   stage: test
-  before_script:
   script: |
     export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_LINUX
     chmod +x Tools/setUnityLicense.sh && ./Tools/setUnityLicense.sh
@@ -82,7 +81,6 @@ build-StandaloneLinux64:
     BUILD_TARGET: StandaloneLinux64
 
 build-StandaloneOSX:
-  image: teuteuf/unity:2018.3.12f1_Mac
   <<: *build
   before_script:
   - export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_OSX
@@ -91,7 +89,6 @@ build-StandaloneOSX:
     BUILD_TARGET: StandaloneOSX
 
 build-StandaloneWindows64:
-  image: teuteuf/unity:2018.3.12f1_Windows
   <<: *build
   before_script:
   - export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_WINDOWS

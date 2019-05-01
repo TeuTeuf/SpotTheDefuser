@@ -1,13 +1,20 @@
+using System.Collections;
+using System.Net;
 using Main.Domain.Network;
 using Main.UseCases.Network;
-using UnityEngine.Networking;
+using Mirror;
+using Mirror.LiteNetLib4Mirror;
+using UnityEngine;
 using Zenject;
 
 namespace Main.Infrastructure.Network
 {
-    public class SpotTheDefuserNetworkDiscovery : NetworkDiscovery, ISpotTheDefuserNetworkDiscovery
+    public class SpotTheDefuserNetworkDiscovery : LiteNetLib4MirrorDiscovery, ISpotTheDefuserNetworkDiscovery
     {
         private ConnectToNewGame _connectToNewGame;
+
+        private bool _listeningForClient = false;
+        private bool _listeningForHost = false;
 
         [Inject]
         public void Init(ConnectToNewGame connectToNewGame)
@@ -15,29 +22,53 @@ namespace Main.Infrastructure.Network
             _connectToNewGame = connectToNewGame;
         }
 
-        public void Start()
-        {
-            Initialize();
-        }
-
         public void StartBroadcastingOnLAN()
         {
-            StartAsServer();
+            _listeningForClient = true;
         }
 
         public void StopBroadcastingOnLAN()
         {
-            StopBroadcast();
+            _listeningForClient = false;
+        }
+
+        protected override bool ProcessDiscoveryRequest(IPEndPoint ipEndPoint, string text, out string response)
+        {
+            var responseStatus = _listeningForClient ? "accepted" : "rejected";
+            response = $"{text}::{responseStatus}";
+            
+            Debug.Log($"Received request from {ipEndPoint}: {response}");
+
+            return _listeningForClient;
         }
 
         public void StartListeningBroadcastOnLAN()
         {
-            StartAsClient();
+            _listeningForHost = true;
+            InitializeFinder();
+            onDiscoveryResponse.AddListener(OnDiscoveryAccepted);
+            StartCoroutine(SendDiscoveryRequests());
         }
 
-        public override void OnReceivedBroadcast(string fromAddress, string data)
+        private IEnumerator SendDiscoveryRequests()
         {
-            _connectToNewGame.Connect(fromAddress);
+            while (_listeningForHost)
+            {
+                SendDiscoveryRequest("SpotTheDefuser::LookingForHost");
+                Debug.Log("Sending Discovery Request...");
+                yield return new WaitForSeconds(1);
+            }
+        }
+
+        private void OnDiscoveryAccepted(IPEndPoint ipEndPoint, string text)
+        {
+            if (!_listeningForHost)
+                return;
+            
+            Debug.Log($"Discovery request accepted: {ipEndPoint}");
+            _listeningForHost = false;
+            _connectToNewGame.Connect(ipEndPoint.Address.ToString());
+            StopDiscovery();
         }
     }
 }

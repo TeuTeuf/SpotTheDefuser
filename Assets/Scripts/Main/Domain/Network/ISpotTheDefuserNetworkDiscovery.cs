@@ -6,6 +6,5 @@ namespace Main.Domain.Network
         void StopBroadcastingOnLAN();
 
         void StartListeningBroadcastOnLAN();
-        void OnReceivedBroadcast(string fromAddress, string data);
     }
 }

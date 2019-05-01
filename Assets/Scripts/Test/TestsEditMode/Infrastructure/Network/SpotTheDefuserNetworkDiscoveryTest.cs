@@ -24,18 +24,18 @@ namespace Test.TestsEditMode.Infrastructure.Network
             _spotTheDefuserNetworkDiscovery.Init(_connectToNewGame);
         }
         
-        [Test]
-        public void OnReceivedBroadcast_ShouldConnectToHost()
-        {
-            // Given
-            const string fromAddress = "fromAddress";
-            _spotTheDefuserNetworkDiscovery.Start();
-            
-            // When
-            _spotTheDefuserNetworkDiscovery.OnReceivedBroadcast(fromAddress, "data");
-
-            // Then
-            _connectToNewGame.Received().Connect(fromAddress);
-        }
+//        [Test]
+//        public void OnReceivedBroadcast_ShouldConnectToHost()
+//        {
+//            // Given
+//            const string fromAddress = "fromAddress";
+//            _spotTheDefuserNetworkDiscovery.Start();
+//            
+//            // When
+//            _spotTheDefuserNetworkDiscovery.OnReceivedBroadcast(fromAddress, "data");
+//
+//            // Then
+//            _connectToNewGame.Received().Connect(fromAddress);
+//        }
     }
 }
