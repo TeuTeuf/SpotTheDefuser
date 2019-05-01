@@ -29,6 +29,7 @@ check-cleanarchi:
         -logFile \
         -username "$UNITY_USERNAME" \
         -password "$UNITY_PASSWORD" \
+        -nographics \
         -batchmode
 
   artifacts:
@@ -63,6 +64,7 @@ test-playmode:
       -logFile \
       -username "$UNITY_USERNAME" \
       -password "$UNITY_PASSWORD" \
+      -nographics \
       -batchmode \
       -quit
     ls -la $BUILD_PATH
