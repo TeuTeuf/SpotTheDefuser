@@ -97,7 +97,7 @@ build-StandaloneWindows64:
     BUILD_TARGET: StandaloneWindows64
 
 build-Android:
-  image: teuteuf/unity-androidsdk:latest
+  image: teuteuf/unity-androidsdk:2019.1.0f2
   <<: *build
   before_script:
   - export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_ANDROID
