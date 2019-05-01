@@ -1,4 +1,4 @@
-image: "teuteuf/unity:2019.1.0f2_Full"
+image: "teuteuf/unity:2019.1.0f2"
 
 stages:
 - check
