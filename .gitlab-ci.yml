@@ -1,4 +1,4 @@
-image: "gableroux/unity3d:2019.1.0f2"
+image: "gableroux/unity3d:2019.1.4f1"
 
 stages:
 - check
@@ -80,19 +80,25 @@ build-StandaloneLinux64:
     BUILD_TARGET: StandaloneLinux64
 
 build-StandaloneOSX:
-  image: gableroux/unity3d:2019.1.0f2-mac
+  before_script:
+    - export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_CONTENT_OSX
+  image: gableroux/unity3d:2019.1.4f1-mac
   <<: *build
   variables:
     BUILD_TARGET: StandaloneOSX
 
 build-StandaloneWindows64:
-  image: gableroux/unity3d:2019.1.0f2-windows
+  before_script:
+    - export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_CONTENT_WINDOWS
+  image: gableroux/unity3d:2019.1.4f1-windows
   <<: *build
   variables:
     BUILD_TARGET: StandaloneWindows64
 
 build-Android:
-  image: teuteuf/unity-androidsdk:latest
+  before_script:
+    - export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_CONTENT_ANDROID
+  image: gableroux/unity3d:2019.1.4f1-android
   <<: *build
   variables:
     BUILD_TARGET: Android
