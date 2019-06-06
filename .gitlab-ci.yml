@@ -92,7 +92,7 @@ build-StandaloneWindows64:
     BUILD_TARGET: StandaloneWindows64
 
 build-Android:
-  image: teuteuf/unity-androidsdk:2019.1.4f1
+  image: gableroux/unity3d:2019.1.4f1-android
   <<: *build
   variables:
     BUILD_TARGET: Android
