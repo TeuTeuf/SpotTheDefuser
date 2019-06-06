@@ -1,4 +1,4 @@
-image: "teuteuf/unity:2019.1.0f2"
+image: "gableroux/unity3d:2019.1.0f2"
 
 stages:
 - check
@@ -18,7 +18,6 @@ check-cleanarchi:
 .test: &test
   stage: test
   script: |
-    export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_LINUX
     chmod +x Tools/setUnityLicense.sh && ./Tools/setUnityLicense.sh
     xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' \
       /opt/Unity/Editor/Unity \
@@ -49,6 +48,7 @@ test-playmode:
 .build: &build
   stage: build
   script: |
+    chmod +x Tools/setUnityLicense.sh && ./Tools/setUnityLicense.sh
     echo "Building for $BUILD_TARGET"
     export BUILD_PATH=./Builds/$BUILD_TARGET/
     mkdir -p $BUILD_PATH
@@ -76,34 +76,24 @@ test-playmode:
 
 build-StandaloneLinux64:
   <<: *build
-  before_script:
-  - export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_LINUX
-  - chmod +x Tools/setUnityLicense.sh && ./Tools/setUnityLicense.sh
   variables:
     BUILD_TARGET: StandaloneLinux64
 
 build-StandaloneOSX:
+  image: gableroux/unity3d:2019.1.0f2-mac
   <<: *build
-  before_script:
-  - export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_OSX
-  - chmod +x Tools/setUnityLicense.sh && ./Tools/setUnityLicense.sh
   variables:
     BUILD_TARGET: StandaloneOSX
 
 build-StandaloneWindows64:
+  image: gableroux/unity3d:2019.1.0f2-windows
   <<: *build
-  before_script:
-  - export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_WINDOWS
-  - chmod +x Tools/setUnityLicense.sh && ./Tools/setUnityLicense.sh
   variables:
     BUILD_TARGET: StandaloneWindows64
 
 build-Android:
-  image: teuteuf/unity-androidsdk:2019.1.0f2
+  image: teuteuf/unity-androidsdk:latest
   <<: *build
-  before_script:
-  - export UNITY_LICENSE_CONTENT=$UNITY_LICENSE_ANDROID
-  - chmod +x Tools/setUnityLicense.sh && ./Tools/setUnityLicense.sh
   variables:
     BUILD_TARGET: Android
 
