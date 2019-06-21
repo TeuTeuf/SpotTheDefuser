@@ -8,10 +8,12 @@ namespace Main.Domain.DefuseAttempts
         private readonly IBomb[] _bombs;
         private readonly IRandom _random;
 
-        public AllBombs(IRandom random, IBomb[] bombs)
+        public AllBombs(IRandom random, IBomb[] bombs, IDeviceInfo deviceInfo)
         {
             _random = random;
-            _bombs = bombs;
+            _bombs = bombs
+                .Where(bomb => bomb.Language == BombLanguage.NONE || bomb.Language == deviceInfo.GetDeviceBombLanguage())
+                .ToArray();
         }
         
         public virtual string PickRandomBombId()

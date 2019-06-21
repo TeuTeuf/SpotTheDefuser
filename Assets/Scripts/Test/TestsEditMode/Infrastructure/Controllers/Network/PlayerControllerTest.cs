@@ -42,12 +42,14 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             var defuseSucceededListener = Substitute.For<IDefuseSucceededListener>();
             var defusingState = Substitute.For<DefusingState>(defusingTime, defusingTimerUpdatedListener, defuseFailedListener);
             var stdRandom = Substitute.For<IRandom>();
+            var deviceInfo = Substitute.For<IDeviceInfo>();
 
             _uiController = Substitute.For<IUIController>();
 
             _addNewPlayer = Substitute.For<AddNewPlayer>(allPlayers, null);
             _setNewDefuseAttempt = Substitute.For<SetNewDefuseAttempt>(stdRandom, allPlayers,
-                Substitute.For<AllBombs>(stdRandom, new IBomb[1]), defusingState, new DefuserCounter(),
+                Substitute.For<AllBombs>(stdRandom, new IBomb[0], deviceInfo),
+                defusingState, new DefuserCounter(),
                 Substitute.For<INewDefuseAttemptSetListener>());
             _initDefusing = Substitute.For<InitDefusing>(defusingState);
             _startNewGame = Substitute.For<StartNewGame>(Substitute.For<INewGameStartedListener>());

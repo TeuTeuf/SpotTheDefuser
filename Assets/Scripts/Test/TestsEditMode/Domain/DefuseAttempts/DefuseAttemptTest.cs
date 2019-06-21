@@ -19,6 +19,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
         private readonly Player _player6 = new Player("Player");
 
         private IRandom _random;
+        private IDeviceInfo _deviceInfo;
         private DefuserCounter _defuserCounter;
         private AllBombs _allBombs;
 
@@ -27,7 +28,8 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
         {
             _random = Substitute.For<IRandom>();
             _defuserCounter = new DefuserCounter();
-            _allBombs = Substitute.For<AllBombs>(_random, new IBomb[1]);
+            _deviceInfo = Substitute.For<IDeviceInfo>();
+            _allBombs = Substitute.For<AllBombs>(_random, new IBomb[0], _deviceInfo);
         }
 
         [Test]

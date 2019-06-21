@@ -23,7 +23,11 @@ namespace Test.TestsEditMode.Infrastructure.UI
         [SetUp]
         public void Init()
         {
-            _allBombs = Substitute.For<AllBombs>(Substitute.For<IRandom>(), new IBomb[1]);
+            _allBombs = Substitute.For<AllBombs>(
+                Substitute.For<IRandom>(), 
+                new IBomb[0],
+                Substitute.For<IDeviceInfo>()
+            );
             _allPlayerControllers = Substitute.For<AllPlayerControllers>(Substitute.For<AllPlayers>());
             _defusingTime = Substitute.For<IDefusingTime>();
 

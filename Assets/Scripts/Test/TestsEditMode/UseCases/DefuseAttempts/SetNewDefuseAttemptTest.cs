@@ -12,6 +12,7 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
     public class SetNewDefuseAttemptTest
     {
         private IRandom _random;
+        private IDeviceInfo _deviceInfo;
         private DefuserCounter _defuserCounter;
         private AllPlayers _allPlayers;
         private DefusingState _defusingState;
@@ -24,6 +25,8 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
         {
             _random = Substitute.For<IRandom>();
             _random.Range(Arg.Any<int>(), Arg.Any<int>()).Returns(0);
+
+            _deviceInfo = Substitute.For<IDeviceInfo>();
             
             _defuserCounter = new DefuserCounter();
             
@@ -36,7 +39,7 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
                 Substitute.For<IDefuseFailedListener>()
             );
 
-            _allBombs = Substitute.For<AllBombs>(_random, new IBomb[1]);
+            _allBombs = Substitute.For<AllBombs>(_random, new IBomb[0], _deviceInfo);
 
             _newDefuseAttemptSetListener = Substitute.For<INewDefuseAttemptSetListener>();
             
