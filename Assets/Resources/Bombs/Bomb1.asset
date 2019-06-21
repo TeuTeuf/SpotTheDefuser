@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 101837eca0c35f84fb103b425e8a4df4, type: 3}
   m_Name: Bomb1
   m_EditorClassIdentifier: 
-  defuserSprite: {fileID: 21300000, guid: 1fd76dd09872d334dbe4d86765d10d52, type: 3}
-  explosiveSprite: {fileID: 21300000, guid: 021e66875dfca1e40aac6970a5c8d409, type: 3}
+  defuserSprite: {fileID: 21300000, guid: 9780764d6fe764fe68841fbcf2bae255, type: 3}
+  explosiveSprite: {fileID: 21300000, guid: 7df1dbfebfebe4bd093730252bca868e, type: 3}
+  language: 0

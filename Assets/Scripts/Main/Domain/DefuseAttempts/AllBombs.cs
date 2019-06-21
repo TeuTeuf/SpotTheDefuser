@@ -12,7 +12,7 @@ namespace Main.Domain.DefuseAttempts
         {
             _random = random;
             _bombs = bombs
-                .Where(bomb => bomb.Language == BombLanguage.NONE || bomb.Language == deviceInfo.GetDeviceBombLanguage())
+                .Where(bomb => bomb.Language == BombLanguage.None || bomb.Language == deviceInfo.GetDeviceBombLanguage())
                 .ToArray();
         }
         

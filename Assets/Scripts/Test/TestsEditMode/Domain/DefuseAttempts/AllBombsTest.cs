@@ -19,23 +19,23 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
         {
             var bomb1 = Substitute.For<IBomb>();
             bomb1.Id.Returns("bomb1");
-            bomb1.Language.Returns(BombLanguage.NONE);
+            bomb1.Language.Returns(BombLanguage.None);
             
             var bomb2 = Substitute.For<IBomb>();
             bomb2.Id.Returns("bomb2");
-            bomb2.Language.Returns(BombLanguage.NONE);
+            bomb2.Language.Returns(BombLanguage.None);
             
             var bomb3 = Substitute.For<IBomb>();
             bomb3.Id.Returns("bomb3");
-            bomb3.Language.Returns(BombLanguage.NONE);
+            bomb3.Language.Returns(BombLanguage.None);
             
             var bomb4_en = Substitute.For<IBomb>();
             bomb4_en.Id.Returns("bomb4_en");
-            bomb4_en.Language.Returns(BombLanguage.ENGLISH);
+            bomb4_en.Language.Returns(BombLanguage.English);
             
             var bomb4_fr = Substitute.For<IBomb>();
             bomb4_fr.Id.Returns("bomb4_fr");
-            bomb4_fr.Language.Returns(BombLanguage.FRENCH);
+            bomb4_fr.Language.Returns(BombLanguage.French);
             
             _bombs = new[] {bomb1, bomb2, bomb3, bomb4_en, bomb4_fr};
             _random = Substitute.For<IRandom>();
@@ -50,7 +50,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
                 .Returns(1);
 
             _deviceInfo.GetDeviceBombLanguage()
-                .Returns(BombLanguage.NONE);
+                .Returns(BombLanguage.None);
             
             _allBombs = new AllBombs(_random, _bombs, _deviceInfo);
 
@@ -69,7 +69,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
                 .Returns(3);
 
             _deviceInfo.GetDeviceBombLanguage()
-                .Returns(BombLanguage.FRENCH);
+                .Returns(BombLanguage.French);
             
             _allBombs = new AllBombs(_random, _bombs, _deviceInfo);
 

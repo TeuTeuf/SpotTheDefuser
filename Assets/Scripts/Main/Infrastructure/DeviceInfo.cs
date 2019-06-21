@@ -11,13 +11,13 @@ namespace Main.Infrastructure
             switch (Application.systemLanguage)
             {
                 case SystemLanguage.French:
-                    return BombLanguage.FRENCH;
+                    return BombLanguage.French;
                 
                 case SystemLanguage.English:
-                    return BombLanguage.ENGLISH;
+                    return BombLanguage.English;
                 
                 default:
-                    return BombLanguage.ENGLISH;
+                    return BombLanguage.English;
             }
         }
     }
