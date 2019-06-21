@@ -1,5 +1,6 @@
 using Main.Domain.UI;
 using Main.UseCases.Network;
+using Main.UseCases.UI;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -14,14 +15,17 @@ namespace Main.Infrastructure.UI
         
         private HostNewGame _hostNewGame;
         private StartWaitingForNewGame _startWaitingForNewGame;
+        private ChangeCurrentView _changeCurrentView;
 
         private string _playerName;
 
         [Inject]
-        public void Init(HostNewGame hostNewGame, StartWaitingForNewGame startWaitingForNewGame)
+        public void Init(ChangeCurrentView changeCurrentView, HostNewGame hostNewGame,
+            StartWaitingForNewGame startWaitingForNewGame)
         {
             _hostNewGame = hostNewGame;
             _startWaitingForNewGame = startWaitingForNewGame;
+            _changeCurrentView = changeCurrentView;
         }
 
         public void Start()
@@ -44,6 +48,11 @@ namespace Main.Infrastructure.UI
         public void OnClickOnJoin()
         {
             _startWaitingForNewGame.Start(_playerName);
+        }
+
+        public void OnClickOnHowToPlay()
+        {
+            _changeCurrentView.Change(View.HowToPlay);
         }
 
         public override View GetView()

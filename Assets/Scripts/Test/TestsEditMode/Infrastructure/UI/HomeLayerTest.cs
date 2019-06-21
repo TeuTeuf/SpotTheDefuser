@@ -3,6 +3,7 @@ using Main.Domain.Players;
 using Main.Domain.UI;
 using Main.Infrastructure.UI;
 using Main.UseCases.Network;
+using Main.UseCases.UI;
 using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace Test.TestsEditMode.Infrastructure.UI
         
         private HostNewGame _hostNewGame;
         private StartWaitingForNewGame _startWaitingForNewGame;
+        private ChangeCurrentView _changeCurrentView;
         private IViewManager _viewManager;
 
 
@@ -34,9 +36,10 @@ namespace Test.TestsEditMode.Infrastructure.UI
             
             _hostNewGame = Substitute.For<HostNewGame>(networkManager, networkDiscovery, _viewManager, allPlayers);
             _startWaitingForNewGame = Substitute.For<StartWaitingForNewGame>(networkDiscovery, _viewManager, allPlayers);
+            _changeCurrentView = Substitute.For<ChangeCurrentView>(_viewManager);
             
             _homeLayer = new GameObject().AddComponent<HomeLayer>();
-            _homeLayer.Init(_hostNewGame, _startWaitingForNewGame);
+            _homeLayer.Init(_changeCurrentView, _hostNewGame, _startWaitingForNewGame);
 
             _homeLayer.playerNameInputField = new GameObject().AddComponent<InputField>();
         }
@@ -113,6 +116,16 @@ namespace Test.TestsEditMode.Infrastructure.UI
 
             // Then
             Assert.That(PlayerPrefs.GetString(HomeLayer.PLAYER_NAME_KEY), Is.EqualTo(playerName));
+        }
+
+        [Test]
+        public void OnClickOnHowToPlay_ShouldDisplayHowToPlayScreen()
+        {
+            // When
+            _homeLayer.OnClickOnHowToPlay();
+            
+            // Then
+            _changeCurrentView.Received().Change(View.HowToPlay);
         }
 
         [Test]
