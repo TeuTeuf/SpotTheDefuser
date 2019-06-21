@@ -8,8 +8,10 @@ namespace Main.Infrastructure.Data
     {
         public Sprite defuserSprite;
         public Sprite explosiveSprite;
+        public BombLanguage language;
 
         public string Id => name;
+        public BombLanguage Language => language;
 
         public Sprite GetSprite(bool isDefuser)
         {
