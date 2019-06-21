@@ -31,6 +31,7 @@ namespace Main.Infrastructure
             Container.Bind<IRandom>().To<SpotTheDefuserRandom>().AsSingle();
             Container.Bind<IDefusingTime>().To<DefusingTime>().AsSingle();
             Container.Bind<IViewManager>().To<ViewManager>().AsSingle();
+            Container.Bind<IDeviceInfo>().To<DeviceInfo>().AsSingle();
         }
 
         private void InstallUseCases()
