@@ -5,6 +5,7 @@ namespace Main.Domain.UI
         Home,
         HowToPlay,
         Lobby,
+        Countdown,
         Defusing,
         End,
     }

@@ -225,7 +225,7 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             // Then
             _changeCurrentView
                 .Received()
-                .Change(View.Defusing);
+                .Change(View.Countdown);
         }
 
         [Test]

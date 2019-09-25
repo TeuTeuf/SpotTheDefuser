@@ -95,7 +95,7 @@ namespace Main.Infrastructure.Controllers.Network
         {
             if (_networkBehaviourChecker.IsLocalPlayer(this))
             {
-                _changeCurrentView.Change(View.Defusing);
+                _changeCurrentView.Change(View.Countdown);
             }
 
             if (_networkBehaviourChecker.IsHostingLocalPlayer(this))
