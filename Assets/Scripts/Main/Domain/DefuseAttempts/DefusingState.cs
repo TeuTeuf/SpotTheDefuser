@@ -7,7 +7,7 @@ namespace Main.Domain.DefuseAttempts
 {
     public class DefusingState : ITickable
     {
-        public const float STARTING_DEFUSING_TIME = 10f;
+        public const float STARTING_DEFUSING_TIME = 50f;
 
         public DefuseAttempt CurrentDefuseAttempt { get; private set; }
         public virtual int NbBombsDefused { get; private set; }

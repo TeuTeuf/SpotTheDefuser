@@ -6,7 +6,7 @@ namespace Main.Domain.DefuseAttempts
 {
     public class DefuseAttempt
     {
-        private const int DEFAULT_TIME_TO_DEFUSE = 30;
+        private const int DEFAULT_TIME_TO_DEFUSE = 10;
         
         public string BombId { get; }
         public virtual int TimeToDefuse { get; } = DEFAULT_TIME_TO_DEFUSE;
