@@ -15,11 +15,11 @@ namespace Main.Domain.DefuseAttempts
         private readonly IList<Player> _defuserPlayers;
 
         public DefuseAttempt(IRandom random, DefuserCounter defuserCounter, AllBombs allBombs,
-            ReadOnlyCollection<Player> allPlayers)
+            ReadOnlyCollection<Player> allPlayers, int nbBombsDefused)
         {
             _defuserCounter = defuserCounter;
             _defuserPlayers = GetDefuserPlayers(random, allPlayers);
-            BombId = allBombs.PickRandomBombId();
+            BombId = allBombs.PickRandomBombId(nbBombsDefused);
         }
 
         public virtual bool IsDefuser(Player player)

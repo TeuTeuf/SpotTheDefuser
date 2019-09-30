@@ -16,10 +16,11 @@ namespace Main.Domain.DefuseAttempts
                 .ToArray();
         }
         
-        public virtual string PickRandomBombId()
+        public virtual string PickRandomBombId(int nbBombsDefused)
         {
-            var bombIndex = _random.Range(0, _bombs.Length);
-            return _bombs[bombIndex].Id;
+            var filteredBombs = _bombs.Where((bomb) => bomb.MinBombsAlreadyDefused <= nbBombsDefused).ToArray();
+            var bombIndex = _random.Range(0, filteredBombs.Length);
+            return filteredBombs[bombIndex].Id;
         }
         
         public virtual IBomb GetByBombId(string bombId)

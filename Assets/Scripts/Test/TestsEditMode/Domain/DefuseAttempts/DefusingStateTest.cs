@@ -32,7 +32,8 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
                     Substitute.For<IRandom>(), 
                     new IBomb[0],
                     Substitute.For<IDeviceInfo>()),
-                new List<Player>().AsReadOnly()
+                new List<Player>().AsReadOnly(),
+                0
             );
             
             _defusingState = new DefusingState(_defusingTime, _defusingTimerUpdatedListener, _defuseFailedListener);

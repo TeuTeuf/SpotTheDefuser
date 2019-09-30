@@ -6,7 +6,7 @@ namespace Main.Domain.DefuseAttempts
     {
         string Id { get; }
         BombLanguage Language { get; }
-        
+        int MinBombsAlreadyDefused { get; }
         
         Sprite GetSprite(bool isDefuser);
     }

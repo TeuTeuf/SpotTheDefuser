@@ -9,9 +9,11 @@ namespace Main.Infrastructure.Data
         public Sprite defuserSprite;
         public Sprite explosiveSprite;
         public BombLanguage language;
-
+        public int minBombsAlreadyDefused;
+        
         public string Id => name;
         public BombLanguage Language => language;
+        public int MinBombsAlreadyDefused => minBombsAlreadyDefused;
 
         public Sprite GetSprite(bool isDefuser)
         {
