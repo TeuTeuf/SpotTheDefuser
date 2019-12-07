@@ -15,3 +15,4 @@ MonoBehaviour:
   defuserSprite: {fileID: 21300000, guid: 9780764d6fe764fe68841fbcf2bae255, type: 3}
   explosiveSprite: {fileID: 21300000, guid: 7df1dbfebfebe4bd093730252bca868e, type: 3}
   language: 0
+  minBombsAlreadyDefused: 3

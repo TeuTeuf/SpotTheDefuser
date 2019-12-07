@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 101837eca0c35f84fb103b425e8a4df4, type: 3}
-  m_Name: Bomb4_en
+  m_Name: SimpleBomb1
   m_EditorClassIdentifier: 
-  defuserSprite: {fileID: 21300000, guid: f09841324b51e483a933266e9c28c34f, type: 3}
-  explosiveSprite: {fileID: 21300000, guid: fa34dd8c482ab4a4ca034a972071cc25, type: 3}
-  language: 1
-  minBombsAlreadyDefused: 3
+  defuserSprite: {fileID: 21300000, guid: bf80786b9b85cb94ca6f582d3f1f0010, type: 3}
+  explosiveSprite: {fileID: 21300000, guid: 85b065fa3c810fb46a8bfab0ad59ea7e, type: 3}
+  language: 0
+  minBombsAlreadyDefused: 0
