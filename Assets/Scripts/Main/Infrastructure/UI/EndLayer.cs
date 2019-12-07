@@ -1,6 +1,7 @@
 using Main.Domain.UI;
 using Main.Domain.UI.Layers;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Main.Infrastructure.UI
@@ -14,9 +15,9 @@ namespace Main.Infrastructure.UI
             nbBombsDefusedText.text = nbBombsDefused.ToString();
         }
 
-        public void OnClickOnExit()
+        public void OnClickOnBackHome()
         {
-            Application.Quit();
+            SceneManager.LoadScene(0);
         }
 
         public override View GetView()
