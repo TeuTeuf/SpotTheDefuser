@@ -1,3 +1,4 @@
+using System.Threading;
 using Main.Domain;
 using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
@@ -33,6 +34,7 @@ namespace Test.TestsEditMode.Infrastructure.UI
 
             _defusingLayer = new GameObject().AddComponent<DefusingLayer>();
             _defusingLayer.bombImage = new GameObject().AddComponent<Image>();
+            _defusingLayer.defuseButton = new GameObject().AddComponent<Button>();
             _defusingLayer.Init(_allBombs, _allPlayerControllers, _defusingTime);
         }
 
@@ -48,6 +50,8 @@ namespace Test.TestsEditMode.Infrastructure.UI
             aBomb.GetSprite(isDefuser).Returns(aSprite);
 
             _allBombs.GetByBombId(bombId).Returns(aBomb);
+            
+            _defusingLayer.gameObject.SetActive(false);
 
             // When
             _defusingLayer.UpdateDisplayedBomb(bombId, isDefuser);
