@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Main.Domain.UI.Layers;
+using UnityEngine.Analytics;
 
 namespace Main.Domain.UI
 {
@@ -34,6 +35,7 @@ namespace Main.Domain.UI
 
         public void ReplaceCurrentLayers(View view)
         {
+            AnalyticsEvent.ScreenVisit(view.ToString());
             DisableActiveLayers();
             EnableLayers(view);
         }

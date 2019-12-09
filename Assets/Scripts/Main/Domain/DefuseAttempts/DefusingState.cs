@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Main.Domain.Players;
 using UnityEngine;
+using UnityEngine.Analytics;
 using Zenject;
 
 namespace Main.Domain.DefuseAttempts
@@ -17,11 +19,13 @@ namespace Main.Domain.DefuseAttempts
         private readonly IDefusingTime _defusingTime;
         private readonly IDefusingTimerUpdatedListener _defusingTimerUpdatedListener;
         private readonly IDefuseFailedListener _defuseFailedListener;
+        private readonly AllPlayers _allPlayers;
 
         public DefusingState(IDefusingTime defusingTime, IDefusingTimerUpdatedListener defusingTimerUpdatedListener,
-            IDefuseFailedListener defuseFailedListener)
+            IDefuseFailedListener defuseFailedListener, AllPlayers allPlayers)
         {
             _defuseFailedListener = defuseFailedListener;
+            _allPlayers = allPlayers;
             _defusingTimerUpdatedListener = defusingTimerUpdatedListener;
             _defusingTime = defusingTime;
             NbBombsDefused = 0;
@@ -63,8 +67,21 @@ namespace Main.Domain.DefuseAttempts
         {
             if (RemainingTime > 0) return;
 
+            TrackGameOver();
             _defuseFailedListener.OnDefuseFailed(NbBombsDefused);
             TimerEnabled = false;
+        }
+
+        private void TrackGameOver()
+        {
+            AnalyticsEvent.GameOver(
+                CurrentDefuseAttempt.BombId,
+                new Dictionary<string, object>
+                {
+                    {"currentNbBomb", NbBombsDefused},
+                    {"nbPlayers", _allPlayers.GetAll().Count}
+                }
+            );
         }
     }
 }
