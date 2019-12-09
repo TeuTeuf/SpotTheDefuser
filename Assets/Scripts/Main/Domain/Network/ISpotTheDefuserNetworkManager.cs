@@ -4,5 +4,6 @@ namespace Main.Domain.Network
     {
         void Host();
         void Join(string hostAddress);
+        void Stop();
     }
 }

@@ -47,6 +47,7 @@ namespace Main.Infrastructure
             Container.Bind<HostNewGame>().AsSingle();
             Container.Bind<StartWaitingForNewGame>().AsSingle();
             Container.Bind<ConnectToNewGame>().AsSingle();
+            Container.Bind<StopNetwork>().AsSingle();
         }
 
         private void InstallOtherSingletons()
