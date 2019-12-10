@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Main.Domain;
 using Main.Domain.UI;
 using Main.Domain.UI.Layers;
 using NSubstitute;
@@ -26,7 +27,7 @@ namespace Test.TestsEditMode.Domain.UI
             _aLobbyViewLayer.GetView().Returns(View.Lobby);
 
             var allViewLayers = new List<IViewLayer> {_aHomeViewLayer, _anotherHomeViewLayer, _aLobbyViewLayer};
-            _viewManager = new ViewManager(allViewLayers);
+            _viewManager = new ViewManager(allViewLayers, Substitute.For<IAnalyticsSubmitter>());
         }
 
         [Test]

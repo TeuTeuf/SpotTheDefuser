@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using Main.Domain;
 using Main.Domain.DefuseAttempts;
 using Main.Domain.Players;
 using Main.UseCases.DefuseAttempts;
@@ -9,7 +8,6 @@ using NUnit.Framework;
 namespace Test.TestsEditMode.UseCases.DefuseAttempts
 {
     [TestFixture]
-    [Ignore("Tracking make test failing...")]
     public class TryToDefuseTest
     {
         private IDefuseSucceededListener _defuseSucceededListener;
@@ -27,11 +25,9 @@ namespace Test.TestsEditMode.UseCases.DefuseAttempts
                 Substitute.For<IDefusingTimerUpdatedListener>(),
                 Substitute.For<IDefuseFailedListener>()
             );
-            
-            var allPlayers = Substitute.For<AllPlayers>();
-            allPlayers.GetAll().Returns(new ReadOnlyCollection<Player>(new List<Player>()));
 
-            _tryToDefuse = new TryToDefuse(_defusingState, _defuseSucceededListener, _defuseFailedListener, allPlayers); 
+            _tryToDefuse = new TryToDefuse(_defusingState, _defuseSucceededListener, _defuseFailedListener,
+                Substitute.For<IAnalyticsSubmitter>()); 
         }
 
         [Test]

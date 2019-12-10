@@ -9,7 +9,6 @@ using NUnit.Framework;
 namespace Test.TestsEditMode.Domain.DefuseAttempts
 {
     [TestFixture]
-    [Ignore("Tracking make test failing...")]
     public class DefusingStateTest
     {
         private DefuseAttempt _currentDefuseAttempt;
@@ -41,8 +40,7 @@ namespace Test.TestsEditMode.Domain.DefuseAttempts
             var allPlayers = Substitute.For<AllPlayers>();
             allPlayers.GetAll().Returns(new ReadOnlyCollection<Player>(new List<Player>()));
 
-            _defusingState = new DefusingState(_defusingTime, _defusingTimerUpdatedListener, _defuseFailedListener,
-                allPlayers);
+            _defusingState = new DefusingState(_defusingTime, _defusingTimerUpdatedListener, _defuseFailedListener);
         }
 
         [Test]

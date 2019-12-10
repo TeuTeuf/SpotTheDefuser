@@ -1,3 +1,4 @@
+using Main.Domain;
 using Main.Domain.DefuseAttempts;
 using Main.UseCases.DefuseAttempts;
 using NSubstitute;
@@ -6,7 +7,6 @@ using NUnit.Framework;
 namespace Test.TestsEditMode.UseCases.DefuseAttempts
 {
     [TestFixture]
-    [Ignore("Tracking make test failing...")]
     public class InitDefusingTest
     {
         private DefusingState _defusingState;

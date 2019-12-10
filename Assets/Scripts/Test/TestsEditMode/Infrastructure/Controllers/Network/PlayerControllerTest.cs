@@ -17,7 +17,6 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
 {
     
     [TestFixture]
-    [Ignore("Tracking make test failing...")]
     public class PlayerControllerTest
     {
         private AddNewPlayer _addNewPlayer;
@@ -43,7 +42,9 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
             var defusingTimerUpdatedListener = Substitute.For<IDefusingTimerUpdatedListener>();
             var defuseFailedListener = Substitute.For<IDefuseFailedListener>();
             var defuseSucceededListener = Substitute.For<IDefuseSucceededListener>();
-            var defusingState = Substitute.For<DefusingState>(defusingTime, defusingTimerUpdatedListener, defuseFailedListener);
+            var defusingState = Substitute.For<DefusingState>(
+                defusingTime, defusingTimerUpdatedListener, defuseFailedListener
+            );
             var stdRandom = Substitute.For<IRandom>();
             var deviceInfo = Substitute.For<IDeviceInfo>();
 
@@ -56,7 +57,10 @@ namespace Test.TestsEditMode.Infrastructure.Controllers.Network
                 Substitute.For<INewDefuseAttemptSetListener>());
             _initDefusing = Substitute.For<InitDefusing>(defusingState);
             _startNewGame = Substitute.For<StartNewGame>(Substitute.For<INewGameStartedListener>());
-            _tryToDefuse = Substitute.For<TryToDefuse>(defusingState, defuseSucceededListener, defuseFailedListener);
+            _tryToDefuse = Substitute.For<TryToDefuse>(
+                defusingState, defuseSucceededListener, defuseFailedListener,
+                Substitute.For<IAnalyticsSubmitter>()
+            );
             _changeCurrentView = Substitute.For<ChangeCurrentView>(Substitute.For<IViewManager>());
 
             _networkBehaviourChecker = Substitute.For<NetworkBehaviourChecker>();

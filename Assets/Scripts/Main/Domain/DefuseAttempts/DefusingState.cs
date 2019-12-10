@@ -19,13 +19,11 @@ namespace Main.Domain.DefuseAttempts
         private readonly IDefusingTime _defusingTime;
         private readonly IDefusingTimerUpdatedListener _defusingTimerUpdatedListener;
         private readonly IDefuseFailedListener _defuseFailedListener;
-        private readonly AllPlayers _allPlayers;
 
         public DefusingState(IDefusingTime defusingTime, IDefusingTimerUpdatedListener defusingTimerUpdatedListener,
-            IDefuseFailedListener defuseFailedListener, AllPlayers allPlayers)
+            IDefuseFailedListener defuseFailedListener)
         {
             _defuseFailedListener = defuseFailedListener;
-            _allPlayers = allPlayers;
             _defusingTimerUpdatedListener = defusingTimerUpdatedListener;
             _defusingTime = defusingTime;
             NbBombsDefused = 0;
@@ -66,22 +64,9 @@ namespace Main.Domain.DefuseAttempts
         private void CheckTimerBelowZero()
         {
             if (RemainingTime > 0) return;
-
-            TrackGameOver();
+            
             _defuseFailedListener.OnDefuseFailed(NbBombsDefused);
             TimerEnabled = false;
-        }
-
-        private void TrackGameOver()
-        {
-            AnalyticsEvent.GameOver(
-                CurrentDefuseAttempt.BombId,
-                new Dictionary<string, object>
-                {
-                    {"currentNbBomb", NbBombsDefused},
-                    {"nbPlayers", _allPlayers.GetAll().Count}
-                }
-            );
         }
     }
 }

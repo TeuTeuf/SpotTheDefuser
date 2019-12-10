@@ -32,6 +32,7 @@ namespace Main.Infrastructure
             Container.Bind<IDefusingTime>().To<DefusingTime>().AsSingle();
             Container.Bind<IViewManager>().To<ViewManager>().AsSingle();
             Container.Bind<IDeviceInfo>().To<DeviceInfo>().AsSingle();
+            Container.Bind<IAnalyticsSubmitter>().To<AnalyticsSubmitter>().AsSingle();
         }
 
         private void InstallUseCases()

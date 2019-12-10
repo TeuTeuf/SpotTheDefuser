@@ -6,12 +6,14 @@ namespace Main.Domain.UI
 {
     public class ViewManager : IViewManager
     {
+        private readonly IAnalyticsSubmitter _analyticsSubmitter;
         private readonly IDictionary<View, List<IViewLayer>> _viewLayersByView;
         
         private List<IViewLayer> _activeViewLayers;
         
-        public ViewManager(IEnumerable<IViewLayer> allViewLayers)
+        public ViewManager(IEnumerable<IViewLayer> allViewLayers, IAnalyticsSubmitter analyticsSubmitter)
         {
+            _analyticsSubmitter = analyticsSubmitter;
             _viewLayersByView = new Dictionary<View, List<IViewLayer>>();
 
             foreach (var layer in allViewLayers)
@@ -35,7 +37,7 @@ namespace Main.Domain.UI
 
         public void ReplaceCurrentLayers(View view)
         {
-            AnalyticsEvent.ScreenVisit(view.ToString());
+            _analyticsSubmitter.TrackScreenVisit(view);
             DisableActiveLayers();
             EnableLayers(view);
         }
